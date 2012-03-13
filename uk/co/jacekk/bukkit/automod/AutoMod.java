@@ -15,6 +15,7 @@ import uk.co.jacekk.bukkit.automod.command.TrustedPlayerListExecutor;
 import uk.co.jacekk.bukkit.automod.command.VoteExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildDeniedListExecutor;
+import uk.co.jacekk.bukkit.automod.listener.BanListener;
 import uk.co.jacekk.bukkit.automod.listener.BlockListener;
 import uk.co.jacekk.bukkit.automod.listener.PlayerListener;
 import uk.co.jacekk.bukkit.automod.listener.InventoryListener;
@@ -81,6 +82,11 @@ public class AutoMod extends JavaPlugin {
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
 		
 		this.pluginManager.registerEvents(new PlayerListener(this), this);
+		
+		if (this.pluginManager.isPluginEnabled("MineBans")){
+			this.log.info("MineBans has been found, using the ban event.");
+			this.pluginManager.registerEvents(new BanListener(this), this);
+		}
 		
 		if (this.pluginManager.isPluginEnabled("Spout")){
 			this.pluginManager.registerEvents(new InventoryListener(this), this);
