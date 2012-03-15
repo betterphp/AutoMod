@@ -21,14 +21,14 @@ import de.diddiz.LogBlock.QueryParams;
 import de.diddiz.LogBlock.QueryParams.BlockChangeType;
 import de.diddiz.LogBlock.QueryParams.Order;
 
-public class BlockListener implements Listener {
+public class BlockViolationListener implements Listener {
 	
 	private AutoMod plugin;
 	
 	private ArrayList<Material> naturalBlocksNormal;
 	private ArrayList<Material> naturalBlocksNether;
 	
-	public BlockListener(AutoMod plugin){
+	public BlockViolationListener(AutoMod plugin){
 		this.plugin = plugin;
 		
 		this.naturalBlocksNormal = new ArrayList<Material>();
@@ -86,10 +86,8 @@ public class BlockListener implements Listener {
 		return this.isNaturalBlock(block, false);
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event){
-		if (event.isCancelled()) return;
-		
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
@@ -141,7 +139,7 @@ public class BlockListener implements Listener {
 						e.printStackTrace();
 					}
 					
-					if (plugin.violationTracker.getLogBlockViolation(playerName) > 8){
+					if (plugin.violationTracker.getLogBlockViolation(playerName) > 4){
 						plugin.removeBuildFor(player, "Breaking blocks not placed by you");
 						return;
 					}
@@ -183,10 +181,8 @@ public class BlockListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onblockBreak(BlockBreakEvent event){
-		if (event.isCancelled()) return;
-		
 		Player player = event.getPlayer();
 		
 		if (player.hasPermission("automod.watch.all") || player.hasPermission("automod.watch.build")){

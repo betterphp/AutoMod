@@ -7,15 +7,18 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.getspout.spoutapi.event.inventory.InventoryCloseEvent;
-import org.getspout.spoutapi.event.inventory.InventoryOpenEvent;
 
 import de.diddiz.LogBlock.BlockChange;
 import de.diddiz.LogBlock.QueryParams;
@@ -24,13 +27,13 @@ import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 
-public class InventoryListener implements Listener {
+public class InventoryViolationListener implements Listener {
 	
 	private AutoMod plugin;
 	
 	private HashMap<Player, ArrayList<ItemStack>> inventories;
 	
-	public InventoryListener(AutoMod plugin){
+	public InventoryViolationListener(AutoMod plugin){
 		this.plugin = plugin;
 		
 		this.inventories = new HashMap<Player, ArrayList<ItemStack>>();
@@ -96,59 +99,74 @@ public class InventoryListener implements Listener {
 		return combined;
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onInventoryOpen(InventoryOpenEvent event){
-		if (event.isCancelled()) return;
+		HumanEntity human = event.getPlayer();
 		
-		Player player = event.getPlayer();
+		if (human instanceof Player == false){
+			return;
+		}
 		
-		if (plugin.playersPassedChecks.contains(player) == false && plugin.buildDeniedList.contains(player) == false){
-			if (player.hasPermission("automod.watch.all") || player.hasPermission("automod.watch.chests")){
-				Location location = event.getLocation();
+		Player player = (Player) human;
+		
+		if (plugin.playersPassedChecks.contains(player) || plugin.buildDeniedList.contains(player)){
+			return;
+		}
+		
+		if (player.hasPermission("automod.watch.all") == false && player.hasPermission("automod.watch.chests") == false){
+			return;
+		}
+		
+		InventoryView inventory = player.getOpenInventory();
+		InventoryType type = inventory.getType();
+		
+		if (type == InventoryType.CHEST || type == InventoryType.FURNACE || type == InventoryType.DISPENSER){
+			Block container = player.getTargetBlock(null, 10);
+			
+			try{
+				QueryParams params = new QueryParams(plugin.logblock);
 				
-				if (location != null && location.getBlock().getTypeId() == Material.CHEST.getId()){
-					try{
-						QueryParams params = new QueryParams(plugin.logblock);
-						
-						params.loc = location;
-						params.world = params.loc.getWorld();
-						params.types = Arrays.asList(Material.CHEST.getId());
-						params.bct = BlockChangeType.CREATED;
-						params.order = Order.DESC;
-						params.limit = 1;
-						
-						params.needType = true;
-						params.needPlayer = true;
-						
-						List<BlockChange> changes = plugin.logblock.getBlockChanges(params);
-						
-						if (changes.size() > 0){
-							BlockChange change = changes.get(0);
-							
-							if (change.playerName == player.getName()){
-								return;
-							}
-						}
-					}catch (Exception e){
-						plugin.log.warn("LogBlock lookup failed.");
-						e.printStackTrace();
-					}
+				params.loc = container.getLocation();
+				params.world = params.loc.getWorld();
+				params.types = Arrays.asList(Material.CHEST.getId(), Material.FURNACE.getId(), Material.DISPENSER.getId());
+				params.bct = BlockChangeType.CREATED;
+				params.order = Order.DESC;
+				params.limit = 1;
+				
+				params.needType = true;
+				params.needPlayer = true;
+				
+				List<BlockChange> changes = plugin.logblock.getBlockChanges(params);
+				
+				if (changes.size() > 0){
+					BlockChange change = changes.get(0);
 					
-					this.inventories.put(event.getPlayer(), this.combineItemStacks(event.getInventory().getContents()));
+					if (change.playerName == player.getName()){
+						return;
+					}
 				}
+			}catch (Exception e){
+				plugin.log.warn("LogBlock lookup failed.");
+				e.printStackTrace();
 			}
+			
+			this.inventories.put(player, this.combineItemStacks(inventory.getTopInventory().getContents()));
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onInventoryClose(InventoryCloseEvent event){
-		if (event.isCancelled()) return;
+		HumanEntity human = event.getPlayer();
 		
-		Player player = event.getPlayer();
+		if (human instanceof Player == false){
+			return;
+		}
+		
+		Player player = (Player) human;
 		
 		if (this.inventories.containsKey(player)){
 			ArrayList<ItemStack> before = this.inventories.get(player);
-			ArrayList<ItemStack> after = this.combineItemStacks(event.getInventory().getContents());
+			ArrayList<ItemStack> after = this.combineItemStacks(player.getOpenInventory().getTopInventory().getContents());
 			
 			if (before.size() > after.size()){
 				plugin.removeBuildFor(player, "Stealing from a chest");

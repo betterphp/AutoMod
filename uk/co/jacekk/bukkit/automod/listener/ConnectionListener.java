@@ -7,20 +7,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 
-public class PlayerListener implements Listener {
+public class ConnectionListener implements Listener {
 	
 	private AutoMod plugin;
 	
-	public PlayerListener(AutoMod plugin){
+	public ConnectionListener(AutoMod plugin){
 		this.plugin = plugin;
 	}
 	
@@ -64,52 +60,6 @@ public class PlayerListener implements Listener {
 		
 		if (plugin.voteTracker.voteExistsFor(player)){
 			plugin.voteTracker.removePlayer(player);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerInteract(PlayerInteractEvent event){
-		if (event.isCancelled()) return;
-		
-		Player player = event.getPlayer();
-		
-		if (plugin.buildDeniedList.contains(player)){
-			plugin.messagePlayer(player, ChatColor.RED + "You do not have build permissions, try /build");
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerIntereactEntityEvent(PlayerInteractEntityEvent event){
-		if (event.isCancelled()) return;
-		
-		Player player = event.getPlayer();
-		
-		if (plugin.buildDeniedList.contains(player)){
-			plugin.messagePlayer(player, ChatColor.RED + "You do not have build permissions, try /build");
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerDropItem(PlayerDropItemEvent event){
-		if (event.isCancelled()) return;
-		
-		Player player = event.getPlayer();
-		
-		if (plugin.buildDeniedList.contains(player)){
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerPickupItem(PlayerPickupItemEvent event){
-		if (event.isCancelled()) return;
-		
-		Player player = event.getPlayer();
-		
-		if (plugin.buildDeniedList.contains(player)){
-			event.setCancelled(true);
 		}
 	}
 	
