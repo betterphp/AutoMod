@@ -17,38 +17,31 @@ public class SetBuildExecutor implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (sender instanceof Player == false){
-			sender.sendMessage("Sorry the /setbuild command can only be used in game.");
-			return true;
-		}
-		
-		Player player = (Player) sender;
-		
 		if (sender.hasPermission("automod.admin.setbuild") == false){
-			plugin.messagePlayer(player, ChatColor.RED + "You do not have permissions to use this command.");
+			plugin.messagePlayer(sender, ChatColor.RED + "You do not have permissions to use this command.");
 			return true;
 		}
 		
 		if (args.length != 2){
-			plugin.messagePlayer(player, ChatColor.AQUA + "Usage: /setbuild [player_name] [yes / no]");
-			plugin.messagePlayer(player, ChatColor.AQUA + "Example: /setbuild wide_load yes");
+			plugin.messagePlayer(sender, ChatColor.AQUA + "Usage: /setbuild [player_name] [yes / no]");
+			plugin.messagePlayer(sender, ChatColor.AQUA + "Example: /setbuild wide_load yes");
 			return true;
 		}
 		
 		if (args[1].equalsIgnoreCase("yes") == false && args[1].equalsIgnoreCase("no") == false){
-			plugin.messagePlayer(player, ChatColor.RED + "Argument #2 must be either yes or no.");
+			plugin.messagePlayer(sender, ChatColor.RED + "Argument #2 must be either yes or no.");
 			return true;
 		}
 		
 		if (plugin.getServer().getPlayer(args[0]) == null && plugin.getServer().getOfflinePlayer(args[0]) == null){
-			plugin.messagePlayer(player, ChatColor.RED + "That player has never connected to the server.");
+			plugin.messagePlayer(sender, ChatColor.RED + "That player has never connected to the server.");
 			return true;
 		}
 		
 		if (plugin.voteTracker.voteExistsFor(args[0])){
 			for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()){
 				if (onlinePlayer.hasPermission("automod.vote.build")){
-					plugin.messagePlayer(onlinePlayer, ChatColor.AQUA + player.getName() + " just ended the vote for " + args[0]);
+					plugin.messagePlayer(onlinePlayer, ChatColor.AQUA + sender.getName() + " just ended the vote for " + args[0]);
 				}
 			}
 			
@@ -67,7 +60,7 @@ public class SetBuildExecutor implements CommandExecutor {
 			}
 		}
 		
-		plugin.messagePlayer(player, ChatColor.GREEN + "Permissions set for " + args[0]);
+		plugin.messagePlayer(sender, ChatColor.GREEN + "Permissions set for " + args[0]);
 		
 		return true;
 	}

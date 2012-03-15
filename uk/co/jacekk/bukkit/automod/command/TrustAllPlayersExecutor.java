@@ -5,7 +5,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 
@@ -18,15 +17,8 @@ public class TrustAllPlayersExecutor implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (sender instanceof Player == false){
-			sender.sendMessage("Sorry the /trustallplayers command can only be used in game.");
-			return true;
-		}
-		
-		Player player = (Player) sender;
-		
 		if (sender.hasPermission("automod.admin.trustallplayers") == false){
-			plugin.messagePlayer(player, ChatColor.RED + "You do not have permissions to use this command.");
+			plugin.messagePlayer(sender, ChatColor.RED + "You do not have permissions to use this command.");
 			return true;
 		}
 		
@@ -45,7 +37,7 @@ public class TrustAllPlayersExecutor implements CommandExecutor {
 			}
 		}
 		
-		plugin.messagePlayer(player, ChatColor.GREEN + (new Integer(playerList.length)).toString() + " players have been added to the trusted list.");
+		plugin.messagePlayer(sender, ChatColor.GREEN + (new Integer(playerList.length)).toString() + " players have been added to the trusted list.");
 		
 		return true;
 	}

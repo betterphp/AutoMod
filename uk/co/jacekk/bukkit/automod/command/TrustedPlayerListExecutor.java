@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 
@@ -19,15 +18,8 @@ public class TrustedPlayerListExecutor implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (sender instanceof Player == false){
-			sender.sendMessage("Sorry the /trustedplayerlist command can only be used in game.");
-			return true;
-		}
-		
-		Player player = (Player) sender;
-		
 		if (sender.hasPermission("automod.admin.trustedplayerlist") == false){
-			plugin.messagePlayer(player, ChatColor.RED + "You do not have permissions to use this command.");
+			plugin.messagePlayer(sender, ChatColor.RED + "You do not have permissions to use this command.");
 			return true;
 		}
 		
@@ -35,13 +27,13 @@ public class TrustedPlayerListExecutor implements CommandExecutor {
 		String totalNames = (new Integer(playerList.size())).toString();
 		
 		if (playerList.size() == 1){
-			plugin.messagePlayer(player, ChatColor.BLUE + totalNames + " player is trusted:");
+			plugin.messagePlayer(sender, ChatColor.BLUE + totalNames + " player is trusted:");
 		}else{
-			plugin.messagePlayer(player, ChatColor.BLUE + totalNames + " players are trusted:");
+			plugin.messagePlayer(sender, ChatColor.BLUE + totalNames + " players are trusted:");
 		}
 		
 		for (String line : plugin.chatFormat.listToColumns(playerList)){
-			player.sendMessage(ChatColor.AQUA + line);
+			sender.sendMessage(ChatColor.AQUA + line);
 		}
 		
 		return true;

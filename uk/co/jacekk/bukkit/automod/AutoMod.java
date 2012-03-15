@@ -3,6 +3,7 @@ package uk.co.jacekk.bukkit.automod;
 import java.io.File;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -16,9 +17,10 @@ import uk.co.jacekk.bukkit.automod.command.VoteExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildDeniedListExecutor;
 import uk.co.jacekk.bukkit.automod.listener.BanListener;
-import uk.co.jacekk.bukkit.automod.listener.BlockListener;
-import uk.co.jacekk.bukkit.automod.listener.PlayerListener;
-import uk.co.jacekk.bukkit.automod.listener.InventoryListener;
+import uk.co.jacekk.bukkit.automod.listener.BlockViolationListener;
+import uk.co.jacekk.bukkit.automod.listener.BuildDeniedListener;
+import uk.co.jacekk.bukkit.automod.listener.ConnectionListener;
+import uk.co.jacekk.bukkit.automod.listener.InventoryViolationListener;
 import uk.co.jacekk.bukkit.automod.tracker.PlayerViolationTracker;
 import uk.co.jacekk.bukkit.automod.tracker.PlayerVoteTracker;
 import uk.co.jacekk.bukkit.automod.util.ChatFormatHelper;
@@ -81,27 +83,23 @@ public class AutoMod extends JavaPlugin {
 		this.getCommand("trustplayer").setExecutor(new TrustPlayerExecutor(this));
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
 		
-		this.pluginManager.registerEvents(new PlayerListener(this), this);
+		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
+		this.pluginManager.registerEvents(new ConnectionListener(this), this);
+		
+		this.pluginManager.registerEvents(new InventoryViolationListener(this), this);
+		this.pluginManager.registerEvents(new BlockViolationListener(this), this);
 		
 		if (this.pluginManager.isPluginEnabled("MineBans")){
 			this.log.info("MineBans has been found, using the ban event.");
 			this.pluginManager.registerEvents(new BanListener(this), this);
 		}
 		
-		if (this.pluginManager.isPluginEnabled("Spout")){
-			this.pluginManager.registerEvents(new InventoryListener(this), this);
-		}else{
-			this.log.info("Spout is not available, some checks will be skipped.");
-		}
-		
-		this.pluginManager.registerEvents(new BlockListener(this), this);
-				
 		if (this.logblock == null){
-			this.log.info("LogBlock is not available, some checks will not be skipped.");
+			this.log.info("LogBlock is not available, some checks will be skipped.");
 		}
 		
 		if (this.nocheat == null){
-			this.log.info("NoCheat is not available, some checks will not be skipped.");
+			this.log.info("NoCheat is not available, some checks will be skipped.");
 		}
 		
 		this.log.info("Enabled");
@@ -128,8 +126,8 @@ public class AutoMod extends JavaPlugin {
 		this.buildDeniedList = null;
 	}
 	
-	public void messagePlayer(Player player, String message){
-		player.sendMessage(ChatColor.BLUE + "[AutoMod] " + message);
+	public void messagePlayer(CommandSender sender, String message){
+		sender.sendMessage(ChatColor.BLUE + "[AutoMod] " + message);
 	}
 	
 	public void notifyPlayer(Player player, String reason){
