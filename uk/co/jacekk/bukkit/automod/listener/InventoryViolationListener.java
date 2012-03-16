@@ -140,7 +140,6 @@ public class InventoryViolationListener implements Listener {
 					BlockChange change = changes.get(0);
 					
 					if (change.playerName.equalsIgnoreCase(player.getName())){
-						System.out.println("yup");
 						return;
 					}
 				}
