@@ -120,6 +120,8 @@ public class InventoryViolationListener implements Listener {
 		InventoryView inventory = event.getView();
 		InventoryType type = inventory.getType();
 		
+		System.out.println(inventory.getTopInventory().getSize());
+		
 		if (Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
 			try{
 				QueryParams params = new QueryParams(plugin.logblock);
@@ -163,8 +165,10 @@ public class InventoryViolationListener implements Listener {
 		Player player = (Player) human;
 		
 		if (this.inventories.containsKey(player)){
-			ArrayList<ItemStack> before = this.inventories.get(player);
+			ArrayList<ItemStack> before = new ArrayList<ItemStack>(this.inventories.get(player));
 			ArrayList<ItemStack> after = this.combineItemStacks(event.getView().getTopInventory().getContents());
+			
+			this.inventories.remove(player);
 			
 			if (before.size() > after.size()){
 				plugin.removeBuildFor(player, "Stealing from a chest");
@@ -185,8 +189,6 @@ public class InventoryViolationListener implements Listener {
 					}
 				}
 			}
-			
-			this.inventories.remove(player);
 		}
 	}
 	
