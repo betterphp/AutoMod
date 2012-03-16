@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -117,16 +116,14 @@ public class InventoryViolationListener implements Listener {
 			return;
 		}
 		
-		InventoryView inventory = player.getOpenInventory();
+		InventoryView inventory = event.getView();
 		InventoryType type = inventory.getType();
 		
-		if (type == InventoryType.CHEST || type == InventoryType.FURNACE || type == InventoryType.DISPENSER){
-			Block container = player.getTargetBlock(null, 10);
-			
+		if (Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
 			try{
 				QueryParams params = new QueryParams(plugin.logblock);
 				
-				params.loc = container.getLocation();
+				params.loc = player.getTargetBlock(null, 10).getLocation();
 				params.world = params.loc.getWorld();
 				params.types = Arrays.asList(Material.CHEST.getId(), Material.FURNACE.getId(), Material.DISPENSER.getId());
 				params.bct = BlockChangeType.CREATED;
@@ -141,7 +138,8 @@ public class InventoryViolationListener implements Listener {
 				if (changes.size() > 0){
 					BlockChange change = changes.get(0);
 					
-					if (change.playerName == player.getName()){
+					if (change.playerName.equalsIgnoreCase(player.getName())){
+						System.out.println("yup");
 						return;
 					}
 				}
@@ -166,7 +164,7 @@ public class InventoryViolationListener implements Listener {
 		
 		if (this.inventories.containsKey(player)){
 			ArrayList<ItemStack> before = this.inventories.get(player);
-			ArrayList<ItemStack> after = this.combineItemStacks(player.getOpenInventory().getTopInventory().getContents());
+			ArrayList<ItemStack> after = this.combineItemStacks(event.getView().getTopInventory().getContents());
 			
 			if (before.size() > after.size()){
 				plugin.removeBuildFor(player, "Stealing from a chest");
