@@ -63,7 +63,7 @@ public class VoteExecutor implements CommandExecutor {
 		
 		if (plugin.voteTracker.getOutstandingVotersFor(args[0]).size() == 0){
 			if (plugin.voteTracker.getYesVotesFor(args[0]) > 0 && plugin.voteTracker.getNoVotesFor(args[0]) == 0){
-				plugin.buildDeniedList.removePlayer(args[0]);
+				plugin.blockedPlayers.remove(args[0]);
 				plugin.violationTracker.resetPlayer(args[0]);
 				
 				plugin.messagePlayer(plugin.getServer().getPlayer(args[0]), ChatColor.GREEN + "Your request has been approved :)");

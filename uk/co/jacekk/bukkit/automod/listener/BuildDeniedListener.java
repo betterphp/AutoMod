@@ -23,8 +23,9 @@ public class BuildDeniedListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event){
 		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
-		if (plugin.buildDeniedList.contains(player)){
+		if (plugin.blockedPlayers.contains(playerName)){
 			plugin.messagePlayer(player, ChatColor.RED + "You do not have build permissions, try /build");
 			event.setCancelled(true);
 		}
@@ -33,8 +34,9 @@ public class BuildDeniedListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onPlayerIntereactEntityEvent(PlayerInteractEntityEvent event){
 		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
-		if (plugin.buildDeniedList.contains(player)){
+		if (plugin.blockedPlayers.contains(playerName)){
 			plugin.messagePlayer(player, ChatColor.RED + "You do not have build permissions, try /build");
 			event.setCancelled(true);
 		}
@@ -43,8 +45,9 @@ public class BuildDeniedListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onPlayerDropItem(PlayerDropItemEvent event){
 		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
-		if (plugin.buildDeniedList.contains(player)){
+		if (plugin.blockedPlayers.contains(playerName)){
 			event.setCancelled(true);
 		}
 	}
@@ -52,8 +55,9 @@ public class BuildDeniedListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onPlayerPickupItem(PlayerPickupItemEvent event){
 		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
-		if (plugin.buildDeniedList.contains(player)){
+		if (plugin.blockedPlayers.contains(playerName)){
 			event.setCancelled(true);
 		}
 	}

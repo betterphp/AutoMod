@@ -20,8 +20,8 @@ public class BanListener implements Listener {
 	public void onPlayerBan(PlayerBanEvent event){
 		String playerName = event.getPlayerName();
 		
-		plugin.buildDeniedList.removePlayer(playerName);
-		plugin.playersPassedChecks.removePlayer(playerName);
+		plugin.blockedPlayers.remove(playerName);
+		plugin.trustedPlayers.remove(playerName);
 	}
 	
 }

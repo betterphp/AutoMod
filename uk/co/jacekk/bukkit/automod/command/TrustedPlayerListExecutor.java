@@ -23,7 +23,7 @@ public class TrustedPlayerListExecutor implements CommandExecutor {
 			return true;
 		}
 		
-		List<String> playerList = plugin.playersPassedChecks.getPlayerNames();
+		List<String> playerList = plugin.trustedPlayers.getAll();
 		String totalNames = (new Integer(playerList.size())).toString();
 		
 		if (playerList.size() == 1){

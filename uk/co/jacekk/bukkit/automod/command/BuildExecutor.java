@@ -30,7 +30,7 @@ public class BuildExecutor implements CommandExecutor {
 			return true;
 		}
 		
-		if (plugin.buildDeniedList.contains(playerName) == false){
+		if (plugin.blockedPlayers.contains(playerName) == false){
 			plugin.messagePlayer(player, ChatColor.RED + "You already have build permission.");
 			return true;
 		}

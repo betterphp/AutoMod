@@ -23,7 +23,7 @@ public class BuildDeniedListExecutor implements CommandExecutor {
 			return true;
 		}
 		
-		List<String> playerList = plugin.buildDeniedList.getPlayerNames();
+		List<String> playerList = plugin.blockedPlayers.getAll();
 		String totalNames = (new Integer(playerList.size())).toString();
 		
 		if (playerList.size() == 1){

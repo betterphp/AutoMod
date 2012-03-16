@@ -29,11 +29,11 @@ public class TrustAllPlayersExecutor implements CommandExecutor {
 		for (OfflinePlayer trustedPlayer : playerList){
 			trustedName = trustedPlayer.getName();
 			
-			plugin.buildDeniedList.removePlayer(trustedName);
+			plugin.blockedPlayers.remove(trustedName);
 			plugin.voteTracker.removePlayer(trustedName);
 			
-			if (plugin.playersPassedChecks.contains(trustedName) == false){
-				plugin.playersPassedChecks.addPlayer(trustedName);
+			if (plugin.trustedPlayers.contains(trustedName) == false){
+				plugin.trustedPlayers.add(trustedName);
 			}
 		}
 		

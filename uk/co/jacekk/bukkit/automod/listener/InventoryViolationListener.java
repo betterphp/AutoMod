@@ -107,8 +107,9 @@ public class InventoryViolationListener implements Listener {
 		}
 		
 		Player player = (Player) human;
+		String playerName = player.getName();
 		
-		if (plugin.playersPassedChecks.contains(player) || plugin.buildDeniedList.contains(player)){
+		if (plugin.trustedPlayers.contains(playerName) || plugin.blockedPlayers.contains(playerName)){
 			return;
 		}
 		

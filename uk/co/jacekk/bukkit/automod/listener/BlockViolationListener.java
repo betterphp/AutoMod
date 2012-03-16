@@ -91,11 +91,11 @@ public class BlockViolationListener implements Listener {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (plugin.playersPassedChecks.contains(player) == false){
+		if (plugin.trustedPlayers.contains(playerName) == false){
 			Block block = event.getBlock();
 			int blockId = block.getTypeId();
 			
-			if (plugin.buildDeniedList.contains(player) == false && (player.hasPermission("automod.watch.all") || player.hasPermission("automod.watch.build"))){
+			if (plugin.blockedPlayers.contains(playerName) == false && (player.hasPermission("automod.watch.all") || player.hasPermission("automod.watch.build"))){
 				plugin.violationTracker.addBlockEvent(player);
 				
 				if (this.isNaturalBlock(block) == false){
@@ -103,7 +103,7 @@ public class BlockViolationListener implements Listener {
 				}
 				
 				if (plugin.violationTracker.getBlockEvents(player) >= 40){
-					plugin.playersPassedChecks.addPlayer(player);
+					plugin.trustedPlayers.add(playerName);
 					return;
 				}else if (plugin.violationTracker.getBlockBreakViolations(player) > 8){
 					plugin.removeBuildFor(player, "Breaking something that looks like a building");

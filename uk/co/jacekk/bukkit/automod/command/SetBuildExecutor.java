@@ -49,14 +49,14 @@ public class SetBuildExecutor implements CommandExecutor {
 		}
 		
 		if (args[1].equalsIgnoreCase("yes")){
-			if (plugin.buildDeniedList.contains(args[0])){
-				plugin.buildDeniedList.removePlayer(args[0]);
+			if (plugin.blockedPlayers.contains(args[0])){
+				plugin.blockedPlayers.remove(args[0]);
 				plugin.violationTracker.resetPlayer(args[0]);
 			}
 		}else{
-			if (plugin.buildDeniedList.contains(args[0]) == false){
-				plugin.buildDeniedList.addPlayer(args[0]);
-				plugin.playersPassedChecks.removePlayer(args[0]);
+			if (plugin.blockedPlayers.contains(args[0]) == false){
+				plugin.blockedPlayers.add(args[0]);
+				plugin.trustedPlayers.remove(args[0]);
 			}
 		}
 		

@@ -25,6 +25,7 @@ import uk.co.jacekk.bukkit.automod.tracker.PlayerViolationTracker;
 import uk.co.jacekk.bukkit.automod.tracker.PlayerVoteTracker;
 import uk.co.jacekk.bukkit.automod.util.ChatFormatHelper;
 import uk.co.jacekk.bukkit.automod.util.PlayerListStore;
+import uk.co.jacekk.bukkit.automod.util.StringListStore;
 
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 
@@ -43,15 +44,13 @@ public class AutoMod extends JavaPlugin {
 	public PlayerVoteTracker voteTracker;
 	public PlayerViolationTracker violationTracker;
 	
-	public PlayerListStore playersPassedChecks;
-	public PlayerListStore buildDeniedList;
+	public StringListStore trustedPlayers;
+	public StringListStore blockedPlayers;
 	
 	public void onEnable(){
-		File pluginDir = new File(this.getDataFolder().getAbsolutePath());
+		String pluginDirPath = this.getDataFolder().getAbsolutePath();
 		
-		if (pluginDir.exists() == false){
-			pluginDir.mkdirs();
-		}
+		(new File(pluginDirPath)).mkdirs();
 		
 		this.pluginManager = this.getServer().getPluginManager();
 		
@@ -69,11 +68,41 @@ public class AutoMod extends JavaPlugin {
 		this.voteTracker = new PlayerVoteTracker(this);
 		this.violationTracker = new PlayerViolationTracker(this);
 		
-		this.playersPassedChecks = new PlayerListStore(this, "passedChecksPlayerList.bin");
-		this.buildDeniedList = new PlayerListStore(this, "buildDeniedPlayerList.bin");
+		this.blockedPlayers = new StringListStore(new File(pluginDirPath + File.separator + "blocked-players.txt"));
+		this.trustedPlayers = new StringListStore(new File(pluginDirPath + File.separator + "trusted-players.txt"));
 		
-		this.playersPassedChecks.loadPlayersFromFile();
-		this.buildDeniedList.loadPlayersFromFile();
+		this.blockedPlayers.load();
+		this.trustedPlayers.load();
+		
+		// TODO: Remove this with the next major version.
+		File oldTrustedFile = new File(pluginDirPath + File.separator + "passedChecksPlayerList.bin");
+		File oldBlockedFile = new File(pluginDirPath + File.separator + "buildDeniedPlayerList.bin");
+		
+		if (oldTrustedFile.exists() || oldBlockedFile.exists()){
+			this.log.info("Converting list file format...");
+			
+			PlayerListStore playersPassedChecks = new PlayerListStore(this, "passedChecksPlayerList.bin");
+			PlayerListStore buildDeniedList = new PlayerListStore(this, "buildDeniedPlayerList.bin");
+			
+			playersPassedChecks.loadPlayersFromFile();
+			buildDeniedList.loadPlayersFromFile();
+			
+			for (String playerName : buildDeniedList.getPlayerNames()){
+				this.blockedPlayers.add(playerName);
+			}
+			
+			for (String playerName : playersPassedChecks.getPlayerNames()){
+				this.trustedPlayers.add(playerName);
+			}
+			
+			this.blockedPlayers.save();
+			this.trustedPlayers.save();
+			
+			this.log.info("Done, " + (this.blockedPlayers.getSize() + this.trustedPlayers.getSize()) + " entries written.");
+			
+			oldTrustedFile.delete();
+			oldBlockedFile.delete();
+		}
 		
 		this.getCommand("vote").setExecutor(new VoteExecutor(this));
 		this.getCommand("build").setExecutor(new BuildExecutor(this));
@@ -85,7 +114,6 @@ public class AutoMod extends JavaPlugin {
 		
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
 		this.pluginManager.registerEvents(new ConnectionListener(this), this);
-		
 		this.pluginManager.registerEvents(new InventoryViolationListener(this), this);
 		this.pluginManager.registerEvents(new BlockViolationListener(this), this);
 		
@@ -106,24 +134,10 @@ public class AutoMod extends JavaPlugin {
 	}
 	
 	public void onDisable(){
-		this.playersPassedChecks.writePlayersToFile();
-		this.buildDeniedList.writePlayersToFile();
+		this.blockedPlayers.save();
+		this.trustedPlayers.save();
 		
 		this.log.info("Disabled");
-		
-		this.logblock = null;
-		this.nocheat = null;
-		
-		this.pluginManager = null;
-		
-		this.log = null;
-		this.chatFormat = null;
-		
-		this.voteTracker = null;
-		this.violationTracker = null;
-		
-		this.playersPassedChecks = null;
-		this.buildDeniedList = null;
 	}
 	
 	public void messagePlayer(CommandSender sender, String message){
@@ -149,7 +163,7 @@ public class AutoMod extends JavaPlugin {
 	}
 	
 	public void removeBuildFor(Player player, String reason){
-		this.buildDeniedList.addPlayer(player);
+		this.blockedPlayers.add(player.getName());
 		this.notifyPlayer(player, reason);
 	}
 	

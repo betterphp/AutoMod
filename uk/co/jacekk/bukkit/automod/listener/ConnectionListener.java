@@ -38,7 +38,7 @@ public class ConnectionListener implements Listener {
 			
 			ArrayList<String> approvedPlayers = new ArrayList<String>();
 			
-			for (String badPlayer : plugin.buildDeniedList.getPlayerNames()){
+			for (String badPlayer : plugin.blockedPlayers.getAll()){
 				if (plugin.voteTracker.voteExistsFor(badPlayer) && plugin.voteTracker.getOutstandingVotersFor(badPlayer).size() == 0){
 					if (plugin.voteTracker.getYesVotesFor(badPlayer) > 0 && plugin.voteTracker.getNoVotesFor(badPlayer) == 0){
 						approvedPlayers.add(badPlayer);
@@ -53,7 +53,7 @@ public class ConnectionListener implements Listener {
 			}
 			
 			for (String badPlayer : approvedPlayers){
-				plugin.buildDeniedList.removePlayer(badPlayer);
+				plugin.blockedPlayers.remove(badPlayer);
 				plugin.violationTracker.resetPlayer(badPlayer);
 			}
 		}
