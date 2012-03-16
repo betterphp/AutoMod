@@ -3,8 +3,6 @@ package uk.co.jacekk.bukkit.automod.tracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.entity.Player;
-
 import uk.co.jacekk.bukkit.automod.AutoMod;
 
 public class PlayerViolationTracker {
@@ -33,16 +31,14 @@ public class PlayerViolationTracker {
 		this.logBlockViolations.put(playerName, 0);
 	}
 	
-	public void addNewPlayer(Player player){
-		this.addNewPlayer(player.getName());
+	public void removePlayer(String playerName){
+		this.blockEvents.remove(playerName);
+		this.blockBreakViolations.remove(playerName);
+		this.logBlockViolations.remove(playerName);
 	}
 	
 	public void resetPlayer(String playerName){
 		this.addNewPlayer(playerName);
-	}
-	
-	public void resetPlayer(Player player){
-		this.resetPlayer(player.getName());
 	}
 	
 	public void addBlockEvent(String playerName){
@@ -53,16 +49,8 @@ public class PlayerViolationTracker {
 		this.blockEvents.put(playerName, this.blockEvents.get(playerName) + 1);
 	}
 	
-	public void addBlockEvent(Player player){
-		this.addBlockEvent(player.getName());
-	}
-	
 	public int getBlockEvents(String playerName){
 		return this.blockEvents.get(playerName);
-	}
-	
-	public int getBlockEvents(Player player){
-		return this.getBlockEvents(player.getName());
 	}
 	
 	public void addBlockBreakViolation(String playerName){
@@ -73,16 +61,8 @@ public class PlayerViolationTracker {
 		this.blockBreakViolations.put(playerName, this.blockBreakViolations.get(playerName) + 1);
 	}
 	
-	public void addBlockBreakViolation(Player player){
-		this.addBlockBreakViolation(player.getName());
-	}
-	
 	public int getBlockBreakViolations(String playerName){
 		return this.blockBreakViolations.get(playerName);
-	}
-	
-	public int getBlockBreakViolations(Player player){
-		return this.getBlockBreakViolations(player.getName());
 	}
 	
 	public void addLogBlockViolation(String playerName){
@@ -93,16 +73,8 @@ public class PlayerViolationTracker {
 		this.blockBreakViolations.put(playerName, this.blockBreakViolations.get(playerName) + 1);
 	}
 	
-	public void addLogBlockViolation(Player player){
-		this.addLogBlockViolation(player.getName());
-	}
-	
 	public int getLogBlockViolation(String playerName){
 		return this.blockBreakViolations.get(playerName);
-	}
-	
-	public int getLogBlockViolation(Player player){
-		return this.getLogBlockViolation(player.getName());
 	}
 	
 	public int getTotalViolations(String playerName){
@@ -112,10 +84,6 @@ public class PlayerViolationTracker {
 		total += this.getBlockBreakViolations(playerName);
 		
 		return total;
-	}
-	
-	public int getTotalViolations(Player player){
-		return this.getTotalViolations(player.getName());
 	}
 	
 }

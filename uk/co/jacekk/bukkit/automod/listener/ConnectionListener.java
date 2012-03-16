@@ -25,7 +25,7 @@ public class ConnectionListener implements Listener {
 		Player player = event.getPlayer();
 		
 		if (player.hasPermission("automod.watch.all")){
-			plugin.violationTracker.addNewPlayer(event.getPlayer());
+			plugin.violationTracker.addNewPlayer(player.getName());
 		}
 	}
 	

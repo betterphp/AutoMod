@@ -103,6 +103,7 @@ public class AutoMod extends JavaPlugin {
 			oldTrustedFile.delete();
 			oldBlockedFile.delete();
 		}
+		// Stop removing here.
 		
 		this.getCommand("vote").setExecutor(new VoteExecutor(this));
 		this.getCommand("build").setExecutor(new BuildExecutor(this));

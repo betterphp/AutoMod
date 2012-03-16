@@ -96,17 +96,18 @@ public class BlockViolationListener implements Listener {
 			int blockId = block.getTypeId();
 			
 			if (plugin.blockedPlayers.contains(playerName) == false && (player.hasPermission("automod.watch.all") || player.hasPermission("automod.watch.build"))){
-				plugin.violationTracker.addBlockEvent(player);
+				plugin.violationTracker.addBlockEvent(playerName);
 				
 				if (this.isNaturalBlock(block) == false){
-					plugin.violationTracker.addBlockBreakViolation(player);
+					plugin.violationTracker.addBlockBreakViolation(playerName);
 				}
 				
-				if (plugin.violationTracker.getBlockEvents(player) >= 40){
+				if (plugin.violationTracker.getBlockEvents(playerName) >= 40){
 					plugin.trustedPlayers.add(playerName);
 					return;
-				}else if (plugin.violationTracker.getBlockBreakViolations(player) > 8){
+				}else if (plugin.violationTracker.getBlockBreakViolations(playerName) > 8){
 					plugin.removeBuildFor(player, "Breaking something that looks like a building");
+					plugin.violationTracker.removePlayer(playerName);
 					return;
 				}
 			}
@@ -186,7 +187,7 @@ public class BlockViolationListener implements Listener {
 		Player player = event.getPlayer();
 		
 		if (player.hasPermission("automod.watch.all") || player.hasPermission("automod.watch.build")){
-			plugin.violationTracker.addBlockEvent(player);
+			plugin.violationTracker.addBlockEvent(player.getName());
 		}
 	}
 	
