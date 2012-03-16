@@ -104,10 +104,10 @@ public class BlockViolationListener implements Listener {
 				
 				if (plugin.violationTracker.getBlockEvents(playerName) >= 40){
 					plugin.trustedPlayers.add(playerName);
+					plugin.violationTracker.removePlayer(playerName);
 					return;
 				}else if (plugin.violationTracker.getBlockBreakViolations(playerName) > 8){
 					plugin.removeBuildFor(player, "Breaking something that looks like a building");
-					plugin.violationTracker.removePlayer(playerName);
 					return;
 				}
 			}
@@ -175,7 +175,7 @@ public class BlockViolationListener implements Listener {
 				);
 				
 				if (unlikelyTools.contains(player.getItemInHand().getType())){
-					plugin.removeBuildFor(player, "Using a tool that you didn't make.");
+					plugin.removeBuildFor(player, "Using a tool that you didn't make");
 					return;
 				}
 			}
