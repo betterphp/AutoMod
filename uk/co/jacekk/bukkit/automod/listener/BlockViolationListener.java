@@ -185,9 +185,12 @@ public class BlockViolationListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onblockBreak(BlockBreakEvent event){
 		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
 		if (player.hasPermission("automod.watch.all") || player.hasPermission("automod.watch.build")){
-			plugin.violationTracker.addBlockEvent(player.getName());
+			if (plugin.trustedPlayers.contains(playerName) == false){
+				plugin.violationTracker.addBlockEvent(playerName);
+			}
 		}
 	}
 	
