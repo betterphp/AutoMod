@@ -22,9 +22,9 @@ public class StringListStore {
 		this.data = new ArrayList<String>();
 		
 		if (this.storageFile.exists() == false){
-			try {
+			try{
 				this.storageFile.createNewFile();
-			} catch (Exception e){
+			}catch (Exception e){
 				e.printStackTrace();
 			}
 		}
@@ -82,15 +82,30 @@ public class StringListStore {
 		
 		if (this.data.contains(entry) == false){
 			this.data.add(entry);
+			
+			try{
+				FileWriter stream = new FileWriter(this.storageFile, true);
+				BufferedWriter out = new BufferedWriter(stream);
+				
+				out.write(entry);
+				out.newLine();
+				
+				out.close();
+				stream.close();
+			}catch (Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public void remove(String entry){
 		this.data.remove(entry.toLowerCase());
+		this.save();
 	}
 	
 	public void removeAll(){
 		this.data.clear();
+		this.save();
 	}
 	
 	public boolean contains(String entry){
