@@ -15,23 +15,19 @@ public class PlayerDataManager {
 	}
 	
 	public void registerPlayer(String playerName){
-		if (this.playerData.containsKey(playerName) == false){
-			this.playerData.put(playerName, new PlayerData());
-		}
+		this.playerData.put(playerName.toLowerCase(), new PlayerData());
 	}
 	
 	public void unregisterPlayer(String playerName){
-		if (this.playerData.containsKey(playerName)){
-			this.playerData.remove(playerName);
-		}
+		this.playerData.remove(playerName.toLowerCase());
 	}
 	
 	public boolean gotDataFor(String playerName){
-		return this.playerData.containsKey(playerName);
+		return this.playerData.containsKey(playerName.toLowerCase());
 	}
 	
 	public PlayerData getPlayerData(String playerName){
-		return this.playerData.get(playerName);
+		return this.playerData.get(playerName.toLowerCase());
 	}
 	
 	@SuppressWarnings("unchecked")
