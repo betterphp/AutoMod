@@ -6,9 +6,6 @@ commands:
     build:
         description: Requests build permissions to be restored.
         usage: /build
-    vote:
-        description: Allows the player to vote on a permissions request.
-        usage: /vote [yes / no]
     setbuild:
         description: Set the build permissions for the given player.
         useage: /setbuild [player_name] [yes / no]
@@ -43,9 +40,6 @@ permissions:
     automod.watch.chests:
         description: The chest transactions that the player makes are watched, if they steal their permissions are removed.
         default: false
-    automod.vote.build:
-        description: Players with this permissions will be allowed to vote to give people back build permissions.
-        default: op
     automod.admin.setbuild:
         description: Allows the use of the /setbuild command
         default: op

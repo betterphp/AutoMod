@@ -14,15 +14,12 @@ import uk.co.jacekk.bukkit.automod.command.SetBuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustPlayerExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustedPlayerListExecutor;
-import uk.co.jacekk.bukkit.automod.command.VoteExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildDeniedListExecutor;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
 import uk.co.jacekk.bukkit.automod.listener.BanListener;
 import uk.co.jacekk.bukkit.automod.listener.BuildDeniedListener;
-import uk.co.jacekk.bukkit.automod.listener.ConnectionListener;
 import uk.co.jacekk.bukkit.automod.listener.InventoryViolationListener;
-import uk.co.jacekk.bukkit.automod.tracker.PlayerVoteTracker;
 import uk.co.jacekk.bukkit.automod.util.ChatFormatHelper;
 import uk.co.jacekk.bukkit.automod.util.PlayerListStore;
 import uk.co.jacekk.bukkit.automod.util.StringListStore;
@@ -41,7 +38,6 @@ public class AutoMod extends JavaPlugin {
 	public LogBlock logblock;
 	public NoCheat nocheat;
 	
-	public PlayerVoteTracker voteTracker;
 	public PlayerDataManager playerDataManager;
 	
 	public StringListStore trustedPlayers;
@@ -65,7 +61,6 @@ public class AutoMod extends JavaPlugin {
 		plugin = this.getServer().getPluginManager().getPlugin("NoCheat");
 		this.nocheat = (plugin != null) ? (NoCheat) plugin : null;
 		
-		this.voteTracker = new PlayerVoteTracker(this);
 		this.playerDataManager = new PlayerDataManager();
 		
 		this.blockedPlayers = new StringListStore(new File(pluginDirPath + File.separator + "blocked-players.txt"));
@@ -105,7 +100,6 @@ public class AutoMod extends JavaPlugin {
 		}
 		// Stop removing here.
 		
-		this.getCommand("vote").setExecutor(new VoteExecutor(this));
 		this.getCommand("build").setExecutor(new BuildExecutor(this));
 		this.getCommand("setbuild").setExecutor(new SetBuildExecutor(this));
 		this.getCommand("builddeniedlist").setExecutor(new BuildDeniedListExecutor(this));
@@ -114,7 +108,6 @@ public class AutoMod extends JavaPlugin {
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
 		
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
-		this.pluginManager.registerEvents(new ConnectionListener(this), this);
 		this.pluginManager.registerEvents(new InventoryViolationListener(this), this);
 		this.pluginManager.registerEvents(new PlayerDataListener(this), this);
 		this.pluginManager.registerEvents(new BlockChecksListener(this), this);

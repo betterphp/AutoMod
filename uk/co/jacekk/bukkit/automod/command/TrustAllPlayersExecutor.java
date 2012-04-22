@@ -30,7 +30,6 @@ public class TrustAllPlayersExecutor implements CommandExecutor {
 			trustedName = trustedPlayer.getName();
 			
 			plugin.blockedPlayers.remove(trustedName);
-			plugin.voteTracker.removePlayer(trustedName);
 			
 			if (plugin.trustedPlayers.contains(trustedName) == false){
 				plugin.trustedPlayers.add(trustedName);

@@ -25,11 +25,6 @@ public class BuildExecutor implements CommandExecutor {
 		Player player = (Player) sender;
 		String playerName = player.getName();
 		
-		if (plugin.voteTracker.voteExistsFor(playerName)){
-			plugin.messagePlayer(player, ChatColor.RED + "Your last request is still being considered.");
-			return true;
-		}
-		
 		if (plugin.blockedPlayers.contains(playerName) == false){
 			plugin.messagePlayer(player, ChatColor.RED + "You already have build permission.");
 			return true;
@@ -51,8 +46,6 @@ public class BuildExecutor implements CommandExecutor {
 			plugin.messagePlayer(player, ChatColor.RED + "Sorry, at least 1 other player needs to be online.");
 			return true;
 		}
-		
-		plugin.voteTracker.resetVotesFor(playerName);
 		
 		plugin.messagePlayer(player, ChatColor.GREEN + "Your request has been sent.");
 		

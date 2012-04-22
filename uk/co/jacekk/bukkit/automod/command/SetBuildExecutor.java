@@ -38,20 +38,13 @@ public class SetBuildExecutor implements CommandExecutor {
 			return true;
 		}
 		
-		if (plugin.voteTracker.voteExistsFor(args[0])){
-			for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()){
-				if (onlinePlayer.hasPermission("automod.vote.build")){
-					plugin.messagePlayer(onlinePlayer, ChatColor.AQUA + sender.getName() + " just ended the vote for " + args[0]);
-				}
-			}
-			
-			plugin.voteTracker.removePlayer(args[0]);
-		}
-		
 		if (args[1].equalsIgnoreCase("yes")){
 			if (plugin.blockedPlayers.contains(args[0])){
 				plugin.blockedPlayers.remove(args[0]);
-				plugin.violationTracker.resetPlayer(args[0]);
+				
+				if (plugin.playerDataManager.gotDataFor(args[0])){
+					plugin.playerDataManager.getPlayerData(args[0]).resetAll();
+				}
 			}
 		}else{
 			if (plugin.blockedPlayers.contains(args[0]) == false){

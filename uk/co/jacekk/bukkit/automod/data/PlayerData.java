@@ -18,6 +18,10 @@ public class PlayerData {
 	public long lastQuitTime;
 	
 	public PlayerData(){
+		this.resetAll();
+	}
+	
+	public void resetAll(){
 		this.naturalBlocksBroken = 0;
 		this.unnaturalBlocksBroken = 0;
 		this.ownedBlocksBroken = 0;

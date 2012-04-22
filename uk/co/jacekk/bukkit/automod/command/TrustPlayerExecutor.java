@@ -35,10 +35,10 @@ public class TrustPlayerExecutor implements CommandExecutor {
 		}
 		
 		plugin.blockedPlayers.remove(trustedName);
-		plugin.voteTracker.removePlayer(trustedName);
 		
 		if (plugin.trustedPlayers.contains(trustedName) == false){
 			plugin.trustedPlayers.add(trustedName);
+			plugin.playerDataManager.unregisterPlayer(trustedName);
 		}
 		
 		plugin.messagePlayer(sender, ChatColor.GREEN + trustedName + " has been added to the trusted list.");
