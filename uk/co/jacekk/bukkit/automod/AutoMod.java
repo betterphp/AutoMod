@@ -19,9 +19,9 @@ import uk.co.jacekk.bukkit.automod.command.TrustPlayerExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustedPlayerListExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildDeniedListExecutor;
+import uk.co.jacekk.bukkit.automod.data.BanListener;
 import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
-import uk.co.jacekk.bukkit.automod.listener.BanListener;
 import uk.co.jacekk.bukkit.automod.util.ChatFormatHelper;
 import uk.co.jacekk.bukkit.automod.util.StringListStore;
 

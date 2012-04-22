@@ -1,4 +1,4 @@
-package uk.co.jacekk.bukkit.automod.listener;
+package uk.co.jacekk.bukkit.automod.data;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
