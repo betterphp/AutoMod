@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import uk.co.jacekk.bukkit.automod.checks.BlockChecksListener;
 import uk.co.jacekk.bukkit.automod.command.SetBuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustPlayerExecutor;
@@ -16,12 +17,11 @@ import uk.co.jacekk.bukkit.automod.command.TrustedPlayerListExecutor;
 import uk.co.jacekk.bukkit.automod.command.VoteExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildDeniedListExecutor;
+import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
 import uk.co.jacekk.bukkit.automod.listener.BanListener;
-import uk.co.jacekk.bukkit.automod.listener.BlockViolationListener;
 import uk.co.jacekk.bukkit.automod.listener.BuildDeniedListener;
 import uk.co.jacekk.bukkit.automod.listener.ConnectionListener;
 import uk.co.jacekk.bukkit.automod.listener.InventoryViolationListener;
-import uk.co.jacekk.bukkit.automod.tracker.PlayerViolationTracker;
 import uk.co.jacekk.bukkit.automod.tracker.PlayerVoteTracker;
 import uk.co.jacekk.bukkit.automod.util.ChatFormatHelper;
 import uk.co.jacekk.bukkit.automod.util.PlayerListStore;
@@ -42,7 +42,7 @@ public class AutoMod extends JavaPlugin {
 	public NoCheat nocheat;
 	
 	public PlayerVoteTracker voteTracker;
-	public PlayerViolationTracker violationTracker;
+	public PlayerDataManager playerDataManager;
 	
 	public StringListStore trustedPlayers;
 	public StringListStore blockedPlayers;
@@ -66,7 +66,7 @@ public class AutoMod extends JavaPlugin {
 		this.nocheat = (plugin != null) ? (NoCheat) plugin : null;
 		
 		this.voteTracker = new PlayerVoteTracker(this);
-		this.violationTracker = new PlayerViolationTracker(this);
+		this.playerDataManager = new PlayerDataManager();
 		
 		this.blockedPlayers = new StringListStore(new File(pluginDirPath + File.separator + "blocked-players.txt"));
 		this.trustedPlayers = new StringListStore(new File(pluginDirPath + File.separator + "trusted-players.txt"));
@@ -116,7 +116,8 @@ public class AutoMod extends JavaPlugin {
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
 		this.pluginManager.registerEvents(new ConnectionListener(this), this);
 		this.pluginManager.registerEvents(new InventoryViolationListener(this), this);
-		this.pluginManager.registerEvents(new BlockViolationListener(this), this);
+		this.pluginManager.registerEvents(new PlayerDataListener(this), this);
+		this.pluginManager.registerEvents(new BlockChecksListener(this), this);
 		
 		if (this.pluginManager.isPluginEnabled("MineBans")){
 			this.log.info("MineBans has been found, using the ban event.");
