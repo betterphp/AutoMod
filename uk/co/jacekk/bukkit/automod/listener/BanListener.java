@@ -22,6 +22,7 @@ public class BanListener implements Listener {
 		
 		plugin.blockedPlayers.remove(playerName);
 		plugin.trustedPlayers.remove(playerName);
+		plugin.playerDataManager.unregisterPlayer(playerName);
 	}
 	
 }
