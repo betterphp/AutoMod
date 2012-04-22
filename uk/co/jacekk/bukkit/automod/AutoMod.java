@@ -3,23 +3,26 @@ package uk.co.jacekk.bukkit.automod;
 import java.io.File;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import uk.co.jacekk.bukkit.automod.checks.BlockChecksListener;
+import uk.co.jacekk.bukkit.automod.checks.BuildDeniedListener;
+import uk.co.jacekk.bukkit.automod.checks.InventoryChecksListener;
 import uk.co.jacekk.bukkit.automod.command.SetBuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustPlayerExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustedPlayerListExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildDeniedListExecutor;
+import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
 import uk.co.jacekk.bukkit.automod.listener.BanListener;
-import uk.co.jacekk.bukkit.automod.listener.BuildDeniedListener;
-import uk.co.jacekk.bukkit.automod.listener.InventoryViolationListener;
 import uk.co.jacekk.bukkit.automod.util.ChatFormatHelper;
 import uk.co.jacekk.bukkit.automod.util.StringListStore;
 
@@ -29,7 +32,9 @@ import de.diddiz.LogBlock.LogBlock;
 
 public class AutoMod extends JavaPlugin {
 	
-	private PluginManager pluginManager;
+	public Server server;
+	public PluginManager pluginManager;
+	public BukkitScheduler scheduler;
 	
 	public AutoModLogger log;
 	public ChatFormatHelper chatFormat;
@@ -47,7 +52,9 @@ public class AutoMod extends JavaPlugin {
 		
 		(new File(pluginDirPath)).mkdirs();
 		
-		this.pluginManager = this.getServer().getPluginManager();
+		this.server = this.getServer();
+		this.pluginManager = this.server.getPluginManager();
+		this.scheduler = this.server.getScheduler();
 		
 		this.log = new AutoModLogger("Minecraft", this);
 		this.chatFormat = new ChatFormatHelper();
@@ -76,9 +83,11 @@ public class AutoMod extends JavaPlugin {
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
 		
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
-		this.pluginManager.registerEvents(new InventoryViolationListener(this), this);
+		this.pluginManager.registerEvents(new InventoryChecksListener(this), this);
 		this.pluginManager.registerEvents(new PlayerDataListener(this), this);
 		this.pluginManager.registerEvents(new BlockChecksListener(this), this);
+		
+		this.scheduler.scheduleSyncRepeatingTask(this, new DataCleanupTask(this), 36000, 36000); // 30 minutes
 		
 		if (this.pluginManager.isPluginEnabled("MineBans")){
 			this.log.info("MineBans has been found, using the ban event.");

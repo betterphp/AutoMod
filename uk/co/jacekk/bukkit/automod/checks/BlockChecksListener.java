@@ -1,10 +1,7 @@
 package uk.co.jacekk.bukkit.automod.checks;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -64,12 +61,23 @@ public class BlockChecksListener extends AutoModListener {
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent event){
-		String playerName = event.getPlayer().getName();
+		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
 		if (plugin.playerDataManager.gotDataFor(playerName)){
-			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
-			
-			
+			if (plugin.nocheat != null){
+				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
+				
+				if ((Integer) noCheatData.get("blockplace.direction.vl") > 200){
+					plugin.removeBuildFor(player, "Placing a block out of sight");
+					return;
+				}
+				
+				if ((Integer) noCheatData.get("blockplace.reach.vl") > 200){
+					plugin.removeBuildFor(player, "Placing a block out of the normal reach");
+					return;
+				}
+			}
 		}
 	}
 	
