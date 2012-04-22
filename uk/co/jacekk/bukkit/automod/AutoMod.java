@@ -21,7 +21,6 @@ import uk.co.jacekk.bukkit.automod.listener.BanListener;
 import uk.co.jacekk.bukkit.automod.listener.BuildDeniedListener;
 import uk.co.jacekk.bukkit.automod.listener.InventoryViolationListener;
 import uk.co.jacekk.bukkit.automod.util.ChatFormatHelper;
-import uk.co.jacekk.bukkit.automod.util.PlayerListStore;
 import uk.co.jacekk.bukkit.automod.util.StringListStore;
 
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
@@ -68,37 +67,6 @@ public class AutoMod extends JavaPlugin {
 		
 		this.blockedPlayers.load();
 		this.trustedPlayers.load();
-		
-		// TODO: Remove this with the next major version.
-		File oldTrustedFile = new File(pluginDirPath + File.separator + "passedChecksPlayerList.bin");
-		File oldBlockedFile = new File(pluginDirPath + File.separator + "buildDeniedPlayerList.bin");
-		
-		if (oldTrustedFile.exists() || oldBlockedFile.exists()){
-			this.log.info("Converting list file format...");
-			
-			PlayerListStore playersPassedChecks = new PlayerListStore(this, "passedChecksPlayerList.bin");
-			PlayerListStore buildDeniedList = new PlayerListStore(this, "buildDeniedPlayerList.bin");
-			
-			playersPassedChecks.loadPlayersFromFile();
-			buildDeniedList.loadPlayersFromFile();
-			
-			for (String playerName : buildDeniedList.getPlayerNames()){
-				this.blockedPlayers.add(playerName);
-			}
-			
-			for (String playerName : playersPassedChecks.getPlayerNames()){
-				this.trustedPlayers.add(playerName);
-			}
-			
-			this.blockedPlayers.save();
-			this.trustedPlayers.save();
-			
-			this.log.info("Done, " + (this.blockedPlayers.getSize() + this.trustedPlayers.getSize()) + " entries written.");
-			
-			oldTrustedFile.delete();
-			oldBlockedFile.delete();
-		}
-		// Stop removing here.
 		
 		this.getCommand("build").setExecutor(new BuildExecutor(this));
 		this.getCommand("setbuild").setExecutor(new SetBuildExecutor(this));
