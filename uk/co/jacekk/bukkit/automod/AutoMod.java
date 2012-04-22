@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -59,13 +58,13 @@ public class AutoMod extends JavaPlugin {
 		this.log = new AutoModLogger("Minecraft", this);
 		this.chatFormat = new ChatFormatHelper();
 		
-		Plugin plugin;
+		if (this.pluginManager.isPluginEnabled("LogBlock")){
+			this.logblock = (LogBlock) this.pluginManager.getPlugin("LogBlock");
+		}
 		
-		plugin = this.getServer().getPluginManager().getPlugin("LogBlock");
-		this.logblock = (plugin != null) ? (LogBlock) plugin : null;
-		
-		plugin = this.getServer().getPluginManager().getPlugin("NoCheat");
-		this.nocheat = (plugin != null) ? (NoCheat) plugin : null;
+		if (this.pluginManager.isPluginEnabled("NoCheat")){
+			this.nocheat = (NoCheat) this.pluginManager.getPlugin("NoCheat");
+		}
 		
 		this.playerDataManager = new PlayerDataManager();
 		
