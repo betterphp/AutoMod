@@ -59,18 +59,6 @@ public class BlockChecksListener extends AutoModListener {
 					return;
 				}
 			}
-			
-			List<Material> unlikelyTools = Arrays.asList(
-				Material.DIAMOND_AXE,
-				Material.DIAMOND_HOE,
-				Material.DIAMOND_PICKAXE,
-				Material.DIAMOND_SPADE
-			);
-			
-			if (unlikelyTools.contains(player.getItemInHand().getType())){
-				plugin.removeBuildFor(player, "Using a tool that you didn't make");
-				return;
-			}
 		}
 	}
 	

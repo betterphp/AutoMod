@@ -34,9 +34,6 @@ permissions:
     automod.watch.nocheat:
         description: Data from NoCheat is looked to see if the player is hacking.
         default: false
-    automod.watch.tools:
-        description: The tools that the player uses are watched, the should not have diamond tools straight away.
-        default: false
     automod.watch.chests:
         description: The chest transactions that the player makes are watched, if they steal their permissions are removed.
         default: false
