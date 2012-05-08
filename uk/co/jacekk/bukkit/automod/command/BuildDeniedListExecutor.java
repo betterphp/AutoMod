@@ -32,8 +32,8 @@ public class BuildDeniedListExecutor implements CommandExecutor {
 			plugin.messagePlayer(sender, ChatColor.BLUE + totalNames + " players are blocked:");
 		}
 		
-		for (String line : plugin.chatFormat.listToColumns(playerList)){
-			sender.sendMessage(ChatColor.AQUA + line);
+		for (String playerName : playerList){
+			sender.sendMessage("  - " + playerName);
 		}
 		
 		return true;
