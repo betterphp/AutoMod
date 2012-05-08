@@ -25,6 +25,7 @@ import de.diddiz.LogBlock.QueryParams.BlockChangeType;
 import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Check;
 
 public class InventoryChecksListener implements Listener {
 	
@@ -171,7 +172,7 @@ public class InventoryChecksListener implements Listener {
 			this.inventories.remove(player);
 			
 			if (before.size() > after.size()){
-				plugin.removeBuildFor(player, "Stealing from a chest");
+				plugin.removeBuildFor(player, Check.INVENTORY_THEFT);
 				return;
 			}
 			
@@ -184,7 +185,7 @@ public class InventoryChecksListener implements Listener {
 				
 				for (ItemStack compare : after){
 					if (type == compare.getTypeId() && data == compare.getData().getData() && compare.getAmount() < item.getAmount()){
-						plugin.removeBuildFor(player, "Stealing from a chest");
+						plugin.removeBuildFor(player, Check.INVENTORY_THEFT);
 						return;
 					}
 				}

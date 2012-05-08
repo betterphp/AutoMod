@@ -118,24 +118,23 @@ public class AutoMod extends JavaPlugin {
 	public void notifyPlayer(Player player, String reason){
 		String playerName = player.getName();
 		
-		player.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.RED + " Your build permissions have just been removed.");
-		player.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.RED + " Reason: " + reason + ".");
-		player.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.RED + " Use the /build command to ask for them back.");
+		player.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.RED + " Your build permissions have just been removed");
+		player.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.RED + " Reason: " + reason);
 		
-		this.log.info(playerName + " just lost their build permissions.");
-		this.log.info("Reason: " + reason + ".");
+		this.log.info(playerName + " just lost their build permissions");
+		this.log.info("Reason: " + reason);
 		
 		for (Player onlinePlayer : this.getServer().getOnlinePlayers()){
 			if (onlinePlayer.hasPermission("automod.vote.build")){
-				onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " " + playerName + " just lost their build permissions.");
-				onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " Reason: " + reason + ".");
+				onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " " + playerName + " just lost their build permissions");
+				onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " Reason: " + reason);
 			}
 		}
 	}
 	
-	public void removeBuildFor(Player player, String reason){
+	public void removeBuildFor(Player player, Check checkFailed){
 		this.blockedPlayers.add(player.getName());
-		this.notifyPlayer(player, reason);
+		this.notifyPlayer(player, checkFailed.getDescription());
 	}
 	
 }

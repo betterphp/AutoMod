@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.AutoModListener;
+import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 
 public class BlockChecksListener extends AutoModListener {
@@ -27,32 +28,35 @@ public class BlockChecksListener extends AutoModListener {
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 			
 			if (playerData.unbreakableBlocksBroken > 2){
-				
+				plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNBREAKABLE);
+				return;
 			}
 			
-			if (playerData.unnaturalBlocksBroken > 8){
-				
+			if (playerData.unnaturalBlocksBroken > 10){
+				plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNNATURAL_BLOCKS);
+				return;
 			}
 			
-			if (playerData.ownedBlocksBroken > 6){
-				
+			if (playerData.ownedBlocksBroken > 5){
+				plugin.removeBuildFor(player, Check.BLOCK_BREAK_OWNED_BLOCKS);
+				return;
 			}
 			
 			if (plugin.nocheat != null){
 				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
 				
 				if ((Integer) noCheatData.get("blockbreak.direction.vl") > 200){
-					plugin.removeBuildFor(player, "Breaking a block out of sight");
+					plugin.removeBuildFor(player, Check.BLOCK_BREAK_DIRECTION);
 					return;
 				}
 				
 				if ((Integer) noCheatData.get("blockbreak.reach.vl") > 200){
-					plugin.removeBuildFor(player, "Breaking a block out of the normal reach");
+					plugin.removeBuildFor(player, Check.BLOCK_BREAK_REACH);
 					return;
 				}
 				
 				if ((Integer) noCheatData.get("blockbreak.noswing.vl") > 300){
-					plugin.removeBuildFor(player, "No-swing hacking");
+					plugin.removeBuildFor(player, Check.BLOCK_BREAK_NO_SWING);
 					return;
 				}
 			}
@@ -69,12 +73,12 @@ public class BlockChecksListener extends AutoModListener {
 				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
 				
 				if ((Integer) noCheatData.get("blockplace.direction.vl") > 200){
-					plugin.removeBuildFor(player, "Placing a block out of sight");
+					plugin.removeBuildFor(player, Check.BLOCK_PLACE_DIRECTION);
 					return;
 				}
 				
 				if ((Integer) noCheatData.get("blockplace.reach.vl") > 200){
-					plugin.removeBuildFor(player, "Placing a block out of the normal reach");
+					plugin.removeBuildFor(player, Check.BLOCK_PLACE_REACH);
 					return;
 				}
 			}
