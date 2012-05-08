@@ -29,11 +29,6 @@ public class TrustPlayerExecutor implements CommandExecutor {
 		
 		String trustedName = args[0];
 		
-		if (plugin.getServer().getOfflinePlayer(trustedName) == null){
-			plugin.messagePlayer(sender, ChatColor.RED + trustedName + " has never connected to this server.");
-			return true;
-		}
-		
 		plugin.blockedPlayers.remove(trustedName);
 		
 		if (plugin.trustedPlayers.contains(trustedName) == false){
