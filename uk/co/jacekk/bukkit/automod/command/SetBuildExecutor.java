@@ -2,17 +2,15 @@ package uk.co.jacekk.bukkit.automod.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
-public class SetBuildExecutor implements CommandExecutor {
-	
-	private AutoMod plugin;
+public class SetBuildExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public SetBuildExecutor(AutoMod plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){

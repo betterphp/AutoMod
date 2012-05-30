@@ -20,9 +20,9 @@ import de.diddiz.LogBlock.QueryParams.BlockChangeType;
 import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
-import uk.co.jacekk.bukkit.automod.AutoModListener;
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
-public class PlayerDataListener extends AutoModListener {
+public class PlayerDataListener extends BaseListener<AutoMod> {
 	
 	private HashMap<Environment, ArrayList<Material>> naturalBlocks;
 	private ArrayList<Material> unbreakableBlocks;

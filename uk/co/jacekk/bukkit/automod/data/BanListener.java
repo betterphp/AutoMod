@@ -2,18 +2,16 @@ package uk.co.jacekk.bukkit.automod.data;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import com.minebans.events.PlayerBanEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
-public class BanListener implements Listener {
-	
-	private AutoMod plugin;
+public class BanListener extends BaseListener<AutoMod> {
 	
 	public BanListener(AutoMod plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)

@@ -14,10 +14,10 @@ public enum Check {
 	
 	INVENTORY_THEFT(8,				"Taking items from a container");
 	
-	private Integer id;
+	private int id;
 	private String description;
 	
-	Check(Integer id, String description){
+	Check(int id, String description){
 		this.id = id;
 		this.description = description;
 	}

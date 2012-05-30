@@ -12,7 +12,6 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -26,15 +25,14 @@ import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
-public class InventoryChecksListener implements Listener {
-	
-	private AutoMod plugin;
+public class InventoryChecksListener extends BaseListener<AutoMod> {
 	
 	private HashMap<Player, ArrayList<ItemStack>> inventories;
 	
 	public InventoryChecksListener(AutoMod plugin){
-		this.plugin = plugin;
+		super(plugin);
 		
 		this.inventories = new HashMap<Player, ArrayList<ItemStack>>();
 	}

@@ -4,17 +4,15 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
-public class TrustedPlayerListExecutor implements CommandExecutor {
-	
-	private AutoMod plugin;
+public class TrustedPlayerListExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public TrustedPlayerListExecutor(AutoMod plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
@@ -32,7 +30,7 @@ public class TrustedPlayerListExecutor implements CommandExecutor {
 			plugin.messagePlayer(sender, ChatColor.BLUE + totalNames + " players are trusted:");
 		}
 		
-		for (String line : plugin.chatFormat.listToColumns(playerList)){
+		for (String line : playerList){
 			sender.sendMessage(ChatColor.AQUA + line);
 		}
 		

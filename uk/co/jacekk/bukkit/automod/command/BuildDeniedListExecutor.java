@@ -4,17 +4,15 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
-public class BuildDeniedListExecutor implements CommandExecutor {
-	
-	private AutoMod plugin;
+public class BuildDeniedListExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public BuildDeniedListExecutor(AutoMod plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){

@@ -4,20 +4,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
-public class BuildDeniedListener implements Listener {
-	
-	private AutoMod plugin;
+public class BuildDeniedListener extends BaseListener<AutoMod> {
 	
 	public BuildDeniedListener(AutoMod plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

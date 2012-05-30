@@ -9,11 +9,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
-import uk.co.jacekk.bukkit.automod.AutoModListener;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
-public class BlockChecksListener extends AutoModListener {
+public class BlockChecksListener extends BaseListener<AutoMod> {
 	
 	public BlockChecksListener(AutoMod plugin){
 		super(plugin);

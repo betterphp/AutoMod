@@ -3,13 +3,12 @@ package uk.co.jacekk.bukkit.automod.data;
 import java.util.Map.Entry;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.baseplugin.BaseTask;
 
-public class DataCleanupTask implements Runnable {
-	
-	private AutoMod plugin;
+public class DataCleanupTask extends BaseTask<AutoMod> {
 	
 	public DataCleanupTask(AutoMod plugin){
-		this.plugin = plugin;
+		super(plugin);
 	}
 	
 	public void run(){
