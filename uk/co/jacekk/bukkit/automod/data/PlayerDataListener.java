@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -20,6 +21,7 @@ import de.diddiz.LogBlock.QueryParams.BlockChangeType;
 import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 public class PlayerDataListener extends BaseListener<AutoMod> {
@@ -128,7 +130,8 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event){
-		String playerName = event.getPlayer().getName();
+		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
 		if (plugin.playerDataManager.gotDataFor(playerName)){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
@@ -141,7 +144,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 			}else{
 				++playerData.unnaturalBlocksBroken;
 				
-				if (plugin.logblock != null){
+				if (Permission.WATCH_LOGBLOCK.hasPermission(player) && plugin.logblock != null){
 					try{
 						QueryParams params = new QueryParams(plugin.logblock);
 						

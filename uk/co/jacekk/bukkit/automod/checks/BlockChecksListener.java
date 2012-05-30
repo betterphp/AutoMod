@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
@@ -27,22 +28,24 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 		if (plugin.playerDataManager.gotDataFor(playerName)){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 			
-			if (playerData.unbreakableBlocksBroken > 2){
-				plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNBREAKABLE);
-				return;
+			if (Permission.WATCH_ALL.hasPermission(player) || Permission.WATCH_BUILD.hasPermission(player)){
+				if (playerData.unbreakableBlocksBroken > 2){
+					plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNBREAKABLE);
+					return;
+				}
+				
+				if (playerData.unnaturalBlocksBroken > 10){
+					plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNNATURAL_BLOCKS);
+					return;
+				}
 			}
 			
-			if (playerData.unnaturalBlocksBroken > 10){
-				plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNNATURAL_BLOCKS);
-				return;
-			}
-			
-			if (playerData.ownedBlocksBroken > 5){
+			if (Permission.WATCH_LOGBLOCK.hasPermission(player) && playerData.ownedBlocksBroken > 5){
 				plugin.removeBuildFor(player, Check.BLOCK_BREAK_OWNED_BLOCKS);
 				return;
 			}
 			
-			if (plugin.nocheat != null){
+			if (Permission.WATCH_NOCHEAT.hasPermission(player) && plugin.nocheat != null){
 				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
 				
 				if ((Integer) noCheatData.get("blockbreak.direction.vl") > 200){

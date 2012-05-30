@@ -25,6 +25,7 @@ import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 public class InventoryChecksListener extends BaseListener<AutoMod> {
@@ -107,6 +108,10 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 		
 		Player player = (Player) human;
 		String playerName = player.getName();
+		
+		if (!Permission.WATCH_CHESTS.hasPermission(player)){
+			return;
+		}
 		
 		if (plugin.trustedPlayers.contains(playerName) || plugin.blockedPlayers.contains(playerName)){
 			return;

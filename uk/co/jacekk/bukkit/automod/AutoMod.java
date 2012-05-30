@@ -61,9 +61,9 @@ public class AutoMod extends BasePlugin {
 			this.log.warn("MineBans is not available, player will not be removed from the block list when banned.");
 		}
 		
+		this.pluginManager.registerEvents(new PlayerDataListener(this), this);
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
 		this.pluginManager.registerEvents(new InventoryChecksListener(this), this);
-		this.pluginManager.registerEvents(new PlayerDataListener(this), this);
 		this.pluginManager.registerEvents(new BlockChecksListener(this), this);
 		
 		this.scheduler.scheduleSyncRepeatingTask(this, new DataCleanupTask(this), 36000, 36000); // 30 minutes
