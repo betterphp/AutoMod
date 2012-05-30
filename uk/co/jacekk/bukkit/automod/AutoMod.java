@@ -10,7 +10,6 @@ import uk.co.jacekk.bukkit.automod.checks.BuildDeniedListener;
 import uk.co.jacekk.bukkit.automod.checks.InventoryChecksListener;
 import uk.co.jacekk.bukkit.automod.command.DataExecutor;
 import uk.co.jacekk.bukkit.automod.command.ListExecutor;
-import uk.co.jacekk.bukkit.automod.command.SetBuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.data.BanListener;
@@ -75,7 +74,6 @@ public class AutoMod extends BasePlugin {
 		}
 		
 		this.getCommand("build").setExecutor(new BuildExecutor(this));
-		this.getCommand("setbuild").setExecutor(new SetBuildExecutor(this));
 		this.getCommand("list").setExecutor(new ListExecutor(this));
 		this.getCommand("data").setExecutor(new DataExecutor(this));
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
