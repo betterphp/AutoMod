@@ -17,6 +17,7 @@ public enum Permission {
 	WATCH_CHESTS(		"automod.watch.chests",			PermissionDefault.FALSE,	"The chest transactions that the player makes are watched, if they steal their permissions are removed"),
 	
 	ADMIN_SETBUILD(		"automod.admin.setbuild",		PermissionDefault.OP,		"Allows the player to set the build permissions for other players"),
+	ADMIN_DATA(			"automod.admin.data",			PermissionDefault.OP,		"Allows the player access to the player data"),
 	ADMIN_LIST_ALL(		"automod.admin.lists.all",		PermissionDefault.OP,		"Allows the player to modify all lists"),
 	ADMIN_LIST_BLOCKED(	"automod.admin.lists.blocked",	PermissionDefault.FALSE,	"Allows the player to modift the build denied list"),
 	ADMIN_LIST_TRUSTED(	"automod.admin.lists.trusted",	PermissionDefault.FALSE,	"Allows the player to modify the trusted player list");

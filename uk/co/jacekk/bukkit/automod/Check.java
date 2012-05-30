@@ -1,5 +1,7 @@
 package uk.co.jacekk.bukkit.automod;
 
+import java.util.HashMap;
+
 public enum Check {
 	
 	BLOCK_BREAK_OWNED_BLOCKS(0,		"Breaking blocks placed by another player"),
@@ -12,14 +14,22 @@ public enum Check {
 	BLOCK_PLACE_DIRECTION(6,		"Placing a block out of sight"),
 	BLOCK_PLACE_REACH(7,			"Placing a block out of the normal reach"),
 	
-	INVENTORY_THEFT(8,				"Taking items from a container");
+	INVENTORY_THEFT(8,				"Taking items from a container"),
+	
+	CUSTOM_ADDITION(100,			"Added manually");
 	
 	private int id;
 	private String description;
 	
+	private static HashMap<Integer, Check> idLookupTable;
+	
 	Check(int id, String description){
 		this.id = id;
 		this.description = description;
+	}
+	
+	public int getId(){
+		return this.id;
 	}
 	
 	public String getDescription(){
@@ -28,6 +38,22 @@ public enum Check {
 	
 	public boolean equals(Check check){
 		return (check.id == this.id);
+	}
+	
+	static{
+		idLookupTable = new HashMap<Integer, Check>();
+		
+		for (Check check : values()){
+			idLookupTable.put(check.getId(), check);
+		}
+	}
+	
+	public static Check fromId(int id){
+		if (!idLookupTable.containsKey(id)){
+			return Check.CUSTOM_ADDITION;
+		}
+		
+		return idLookupTable.get(id);
 	}
 	
 }

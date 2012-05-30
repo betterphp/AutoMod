@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
@@ -39,7 +40,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 			
 			if (option.equalsIgnoreCase("add") || option.equalsIgnoreCase("a")){
 				plugin.trustedPlayers.remove(playerName);
-				plugin.blockedPlayers.add(playerName);
+				plugin.blockedPlayers.add(playerName, String.valueOf(Check.CUSTOM_ADDITION.getId()));
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the block list"));
 			}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
@@ -47,9 +48,9 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the block list"));
 			}else{
-				sender.sendMessage(plugin.formatMessage("There are " + plugin.blockedPlayers.getSize() + " players on the block list"));
+				sender.sendMessage(plugin.formatMessage("There are " + plugin.blockedPlayers.size() + " players on the block list"));
 				
-				for (String name : plugin.blockedPlayers.getAll()){
+				for (String name : plugin.blockedPlayers.getkeys()){
 					sender.sendMessage(ChatColor.GREEN + "  - " + name);
 				}
 			}
@@ -69,7 +70,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the trusted list"));
 			}else{
-				sender.sendMessage(plugin.formatMessage("There are " + plugin.trustedPlayers.getSize() + " players on the trusted list"));
+				sender.sendMessage(plugin.formatMessage("There are " + plugin.trustedPlayers.size() + " players on the trusted list"));
 				
 				for (String name : plugin.trustedPlayers.getAll()){
 					sender.sendMessage(ChatColor.GREEN + "  - " + name);

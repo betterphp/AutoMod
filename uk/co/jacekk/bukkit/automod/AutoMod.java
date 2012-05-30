@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import uk.co.jacekk.bukkit.automod.checks.BlockChecksListener;
 import uk.co.jacekk.bukkit.automod.checks.BuildDeniedListener;
 import uk.co.jacekk.bukkit.automod.checks.InventoryChecksListener;
+import uk.co.jacekk.bukkit.automod.command.DataExecutor;
 import uk.co.jacekk.bukkit.automod.command.ListExecutor;
 import uk.co.jacekk.bukkit.automod.command.SetBuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
@@ -15,8 +16,9 @@ import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.data.BanListener;
 import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
-import uk.co.jacekk.bukkit.automod.util.StringListStore;
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.storage.DataStore;
+import uk.co.jacekk.bukkit.baseplugin.storage.ListStore;
 
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 
@@ -29,8 +31,8 @@ public class AutoMod extends BasePlugin {
 	
 	public PlayerDataManager playerDataManager;
 	
-	public StringListStore trustedPlayers;
-	public StringListStore blockedPlayers;
+	public ListStore trustedPlayers;
+	public DataStore blockedPlayers;
 	
 	public void onEnable(){
 		super.onEnable(true);
@@ -49,11 +51,11 @@ public class AutoMod extends BasePlugin {
 		
 		this.playerDataManager = new PlayerDataManager();
 		
-		this.blockedPlayers = new StringListStore(new File(this.baseDirPath + File.separator + "blocked-players.txt"));
-		this.trustedPlayers = new StringListStore(new File(this.baseDirPath + File.separator + "trusted-players.txt"));
+		this.trustedPlayers = new ListStore(new File(this.baseDirPath + File.separator + "trusted-players.txt"), false);
+		this.blockedPlayers = new DataStore(new File(this.baseDirPath + File.separator + "blocked-players.txt"), false);
 		
-		this.blockedPlayers.load();
 		this.trustedPlayers.load();
+		this.blockedPlayers.load();
 		
 		if (this.pluginManager.isPluginEnabled("MineBans")){
 			this.pluginManager.registerEvents(new BanListener(this), this);
@@ -75,6 +77,7 @@ public class AutoMod extends BasePlugin {
 		this.getCommand("build").setExecutor(new BuildExecutor(this));
 		this.getCommand("setbuild").setExecutor(new SetBuildExecutor(this));
 		this.getCommand("list").setExecutor(new ListExecutor(this));
+		this.getCommand("data").setExecutor(new DataExecutor(this));
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
 	}
 	
@@ -101,7 +104,7 @@ public class AutoMod extends BasePlugin {
 	}
 	
 	public void removeBuildFor(Player player, Check checkFailed){
-		this.blockedPlayers.add(player.getName());
+		this.blockedPlayers.add(player.getName(), String.valueOf(checkFailed.getId()));
 		this.notifyPlayer(player, checkFailed.getDescription());
 	}
 	

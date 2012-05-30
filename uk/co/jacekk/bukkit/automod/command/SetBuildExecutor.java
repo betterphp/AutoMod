@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 public class SetBuildExecutor extends BaseCommandExecutor<AutoMod> {
@@ -45,7 +46,7 @@ public class SetBuildExecutor extends BaseCommandExecutor<AutoMod> {
 			}
 		}else{
 			if (plugin.blockedPlayers.contains(args[0]) == false){
-				plugin.blockedPlayers.add(args[0]);
+				plugin.blockedPlayers.add(args[0], String.valueOf(Check.CUSTOM_ADDITION.getId()));
 				plugin.trustedPlayers.remove(args[0]);
 			}
 		}
