@@ -18,7 +18,7 @@ public enum Permission {
 	
 	ADMIN_SETBUILD(		"automod.admin.setbuild",		PermissionDefault.OP,		"Allows the player to set the build permissions for other players"),
 	ADMIN_LIST_ALL(		"automod.admin.lists.all",		PermissionDefault.OP,		"Allows the player to modify all lists"),
-	ADMIN_LIST_BUILD(	"automod.admin.lists.build",	PermissionDefault.FALSE,	"Allows the player to modift the build denied list"),
+	ADMIN_LIST_BLOCKED(	"automod.admin.lists.blocked",	PermissionDefault.FALSE,	"Allows the player to modift the build denied list"),
 	ADMIN_LIST_TRUSTED(	"automod.admin.lists.trusted",	PermissionDefault.FALSE,	"Allows the player to modify the trusted player list");
 	
 	protected String node;
