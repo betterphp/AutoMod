@@ -1,5 +1,7 @@
 package uk.co.jacekk.bukkit.automod.command;
 
+import java.util.Map.Entry;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -50,8 +52,8 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 			}else{
 				sender.sendMessage(plugin.formatMessage("There are " + plugin.blockedPlayers.size() + " players on the block list"));
 				
-				for (String name : plugin.blockedPlayers.getkeys()){
-					sender.sendMessage(ChatColor.GREEN + "  - " + name);
+				for (Entry<String, String> entry : plugin.blockedPlayers.getAll()){
+					sender.sendMessage(ChatColor.GREEN + "  - " + entry.getKey() + " - " + Check.fromId(Integer.parseInt(entry.getValue())).getDescription());
 				}
 			}
 		}else if (listName.equalsIgnoreCase("trusted") || listName.equalsIgnoreCase("t")){
