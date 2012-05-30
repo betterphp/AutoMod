@@ -5,50 +5,16 @@ softdepend: [LogBlock, NoCheat, MineBans]
 commands:
     build:
         description: Requests build permissions to be restored.
-        usage: /build
+        usage: /<command>
     setbuild:
         description: Set the build permissions for the given player.
-        useage: /setbuild [player_name] [yes / no]
-    builddeniedlist:
-        description: Lists all of the players without build permissions.
-        usage: /builddeniedlist
+        useage: /<command> [player_name] [yes / no]
+    list:
+        description: Manage the block and trusted player lists.
+        usage: /<command>
     trustedplayerlist:
         description: Lists all of the players that are considered to be trusted and not watched.
-        usage: /trustedplayerlist
-    trustplayer:
-        description: Adds the given player to the trusted list.
-        usage: /trustplayer [player_name]
+        usage: /<command>
     trustallplayers:
         description: Adds all of the players that have ever been on the server to the trusted list.
-        usage: /trustallplayers
-permissions:
-    automod.watch.all:
-        description: All things that griefers love to do will be watched for players with this permission.
-        default: false
-    automod.watch.build:
-        description: The blocks that the player places are monitored.
-        default: false
-    automod.watch.logblock:
-        description: The ownership of broken blocks is monitored with data taken from LogBlock.
-        default: false
-    automod.watch.nocheat:
-        description: Data from NoCheat is looked to see if the player is hacking.
-        default: false
-    automod.watch.chests:
-        description: The chest transactions that the player makes are watched, if they steal their permissions are removed.
-        default: false
-    automod.admin.setbuild:
-        description: Allows the use of the /setbuild command
-        default: op
-    automod.admin.builddeniedlist:
-        description: Allows the use of the /builddeniedlist command
-        default: op
-    automod.admin.trustedplayerlist:
-        description: Allows the use of the /trustedplayerlist command
-        default: op
-    automod.admin.trustplayer:
-        description: Allows the use of the /trustplayer command
-        default: op
-    automod.admin.trustallplayers:
-        description: Allows the use of the /trustallplayers command
-        default: op
+        usage: /<command>

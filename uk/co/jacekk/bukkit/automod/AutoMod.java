@@ -8,12 +8,10 @@ import org.bukkit.entity.Player;
 import uk.co.jacekk.bukkit.automod.checks.BlockChecksListener;
 import uk.co.jacekk.bukkit.automod.checks.BuildDeniedListener;
 import uk.co.jacekk.bukkit.automod.checks.InventoryChecksListener;
+import uk.co.jacekk.bukkit.automod.command.ListExecutor;
 import uk.co.jacekk.bukkit.automod.command.SetBuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
-import uk.co.jacekk.bukkit.automod.command.TrustPlayerExecutor;
-import uk.co.jacekk.bukkit.automod.command.TrustedPlayerListExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
-import uk.co.jacekk.bukkit.automod.command.BuildDeniedListExecutor;
 import uk.co.jacekk.bukkit.automod.data.BanListener;
 import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
@@ -70,11 +68,13 @@ public class AutoMod extends BasePlugin {
 		
 		this.scheduler.scheduleSyncRepeatingTask(this, new DataCleanupTask(this), 36000, 36000); // 30 minutes
 		
+		for (Permission permission : Permission.values()){
+			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
+		}
+		
 		this.getCommand("build").setExecutor(new BuildExecutor(this));
 		this.getCommand("setbuild").setExecutor(new SetBuildExecutor(this));
-		this.getCommand("builddeniedlist").setExecutor(new BuildDeniedListExecutor(this));
-		this.getCommand("trustedplayerlist").setExecutor(new TrustedPlayerListExecutor(this));
-		this.getCommand("trustplayer").setExecutor(new TrustPlayerExecutor(this));
+		this.getCommand("list").setExecutor(new ListExecutor(this));
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
 	}
 	
