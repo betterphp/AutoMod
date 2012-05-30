@@ -40,10 +40,14 @@ public class AutoMod extends BasePlugin {
 		
 		if (this.pluginManager.isPluginEnabled("LogBlock")){
 			this.logblock = (LogBlock) this.pluginManager.getPlugin("LogBlock");
+		}else{
+			this.log.warn("LogBlock is not available, some checks will be skipped.");
 		}
 		
 		if (this.pluginManager.isPluginEnabled("NoCheat")){
 			this.nocheat = (NoCheat) this.pluginManager.getPlugin("NoCheat");
+		}else{
+			this.log.warn("NoCheat is not available, some checks will be skipped.");
 		}
 		
 		this.playerDataManager = new PlayerDataManager();
@@ -54,12 +58,11 @@ public class AutoMod extends BasePlugin {
 		this.blockedPlayers.load();
 		this.trustedPlayers.load();
 		
-		this.getCommand("build").setExecutor(new BuildExecutor(this));
-		this.getCommand("setbuild").setExecutor(new SetBuildExecutor(this));
-		this.getCommand("builddeniedlist").setExecutor(new BuildDeniedListExecutor(this));
-		this.getCommand("trustedplayerlist").setExecutor(new TrustedPlayerListExecutor(this));
-		this.getCommand("trustplayer").setExecutor(new TrustPlayerExecutor(this));
-		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
+		if (this.pluginManager.isPluginEnabled("MineBans")){
+			this.pluginManager.registerEvents(new BanListener(this), this);
+		}else{
+			this.log.warn("MineBans is not available, player will not be removed from the block list when banned.");
+		}
 		
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
 		this.pluginManager.registerEvents(new InventoryChecksListener(this), this);
@@ -68,27 +71,17 @@ public class AutoMod extends BasePlugin {
 		
 		this.scheduler.scheduleSyncRepeatingTask(this, new DataCleanupTask(this), 36000, 36000); // 30 minutes
 		
-		if (this.pluginManager.isPluginEnabled("MineBans")){
-			this.log.info("MineBans has been found, using the ban event.");
-			this.pluginManager.registerEvents(new BanListener(this), this);
-		}
-		
-		if (this.logblock == null){
-			this.log.info("LogBlock is not available, some checks will be skipped.");
-		}
-		
-		if (this.nocheat == null){
-			this.log.info("NoCheat is not available, some checks will be skipped.");
-		}
-		
-		this.log.info("Enabled");
+		this.getCommand("build").setExecutor(new BuildExecutor(this));
+		this.getCommand("setbuild").setExecutor(new SetBuildExecutor(this));
+		this.getCommand("builddeniedlist").setExecutor(new BuildDeniedListExecutor(this));
+		this.getCommand("trustedplayerlist").setExecutor(new TrustedPlayerListExecutor(this));
+		this.getCommand("trustplayer").setExecutor(new TrustPlayerExecutor(this));
+		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
 	}
 	
 	public void onDisable(){
 		this.blockedPlayers.save();
 		this.trustedPlayers.save();
-		
-		this.log.info("Disabled");
 	}
 	
 	public void messagePlayer(CommandSender sender, String message){
