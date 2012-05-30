@@ -15,13 +15,13 @@ public class TrustPlayerExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
 		if (sender.hasPermission("automod.admin.trustplayer") == false){
-			plugin.messagePlayer(sender, ChatColor.RED + "You do not have permissions to use this command.");
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permissions to use this command."));
 			return true;
 		}
 		
 		if (args.length != 1){
-			plugin.messagePlayer(sender, ChatColor.AQUA + "Usage: /trustplayer [player_name]");
-			plugin.messagePlayer(sender, ChatColor.AQUA + "Example: /trustplayer wide_load");
+			sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Usage: /trustplayer [player_name]"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Example: /trustplayer wide_load"));
 			return true;
 		}
 		
@@ -34,7 +34,7 @@ public class TrustPlayerExecutor extends BaseCommandExecutor<AutoMod> {
 			plugin.playerDataManager.unregisterPlayer(trustedName);
 		}
 		
-		plugin.messagePlayer(sender, ChatColor.GREEN + trustedName + " has been added to the trusted list.");
+		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + trustedName + " has been added to the trusted list."));
 		
 		return true;
 	}

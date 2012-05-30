@@ -24,7 +24,7 @@ public class BuildDeniedListener extends BaseListener<AutoMod> {
 		String playerName = player.getName();
 		
 		if (plugin.blockedPlayers.contains(playerName)){
-			plugin.messagePlayer(player, ChatColor.RED + "You do not have build permissions, try /build");
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have build permissions, try /build"));
 			event.setCancelled(true);
 		}
 	}
@@ -35,7 +35,7 @@ public class BuildDeniedListener extends BaseListener<AutoMod> {
 		String playerName = player.getName();
 		
 		if (plugin.blockedPlayers.contains(playerName)){
-			plugin.messagePlayer(player, ChatColor.RED + "You do not have build permissions, try /build");
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have build permissions, try /build"));
 			event.setCancelled(true);
 		}
 	}

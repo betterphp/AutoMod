@@ -16,7 +16,7 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
 		if (sender instanceof Player == false){
-			sender.sendMessage("Sorry the /build command can only be used in game.");
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Sorry the /build command can only be used in game."));
 			return true;
 		}
 		
@@ -24,7 +24,7 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		String playerName = player.getName();
 		
 		if (plugin.blockedPlayers.contains(playerName) == false){
-			plugin.messagePlayer(player, ChatColor.RED + "You already have build permission.");
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You already have build permission."));
 			return true;
 		}
 		
@@ -32,20 +32,20 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		
 		for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()){
 			if (onlinePlayer.hasPermission("automod.vote.build")){
-				plugin.messagePlayer(onlinePlayer, ChatColor.AQUA + playerName + " is requesting build permissions.");
-				plugin.messagePlayer(onlinePlayer, ChatColor.AQUA + "Should they be allowed to build again ?");
-				plugin.messagePlayer(onlinePlayer, ChatColor.AQUA + "Type /vote " + playerName + " yes or /vote " + playerName + " no");
+				onlinePlayer.sendMessage(plugin.formatMessage(ChatColor.AQUA + playerName + " is requesting build permissions."));
+				onlinePlayer.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Should they be allowed to build again ?"));
+				onlinePlayer.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Type /vote " + playerName + " yes or /vote " + playerName + " no"));
 				
 				++totalVotesNeeded;
 			}
 		}
 		
 		if (totalVotesNeeded == 0){
-			plugin.messagePlayer(player, ChatColor.RED + "Sorry, at least 1 other player needs to be online.");
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "Sorry, at least 1 other player needs to be online."));
 			return true;
 		}
 		
-		plugin.messagePlayer(player, ChatColor.GREEN + "Your request has been sent.");
+		player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Your request has been sent."));
 		
 		return true;
 	}

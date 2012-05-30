@@ -3,7 +3,6 @@ package uk.co.jacekk.bukkit.automod;
 import java.io.File;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.checks.BlockChecksListener;
@@ -82,10 +81,6 @@ public class AutoMod extends BasePlugin {
 	public void onDisable(){
 		this.blockedPlayers.save();
 		this.trustedPlayers.save();
-	}
-	
-	public void messagePlayer(CommandSender sender, String message){
-		sender.sendMessage(ChatColor.BLUE + "[AutoMod] " + message);
 	}
 	
 	public void notifyPlayer(Player player, String reason){

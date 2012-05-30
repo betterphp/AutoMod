@@ -15,23 +15,23 @@ public class SetBuildExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
 		if (sender.hasPermission("automod.admin.setbuild") == false){
-			plugin.messagePlayer(sender, ChatColor.RED + "You do not have permissions to use this command.");
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permissions to use this command."));
 			return true;
 		}
 		
 		if (args.length != 2){
-			plugin.messagePlayer(sender, ChatColor.AQUA + "Usage: /setbuild [player_name] [yes / no]");
-			plugin.messagePlayer(sender, ChatColor.AQUA + "Example: /setbuild wide_load yes");
+			sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Usage: /setbuild [player_name] [yes / no]"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Example: /setbuild wide_load yes"));
 			return true;
 		}
 		
 		if (args[1].equalsIgnoreCase("yes") == false && args[1].equalsIgnoreCase("no") == false){
-			plugin.messagePlayer(sender, ChatColor.RED + "Argument #2 must be either yes or no.");
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Argument #2 must be either yes or no."));
 			return true;
 		}
 		
 		if (plugin.getServer().getPlayer(args[0]) == null && plugin.getServer().getOfflinePlayer(args[0]) == null){
-			plugin.messagePlayer(sender, ChatColor.RED + "That player has never connected to the server.");
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "That player has never connected to the server."));
 			return true;
 		}
 		
@@ -50,7 +50,7 @@ public class SetBuildExecutor extends BaseCommandExecutor<AutoMod> {
 			}
 		}
 		
-		plugin.messagePlayer(sender, ChatColor.GREEN + "Permissions set for " + args[0]);
+		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Permissions set for " + args[0]));
 		
 		return true;
 	}

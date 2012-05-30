@@ -17,7 +17,7 @@ public class BuildDeniedListExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
 		if (sender.hasPermission("automod.admin.builddeniedlist") == false){
-			plugin.messagePlayer(sender, ChatColor.RED + "You do not have permissions to use this command.");
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permissions to use this command."));
 			return true;
 		}
 		
@@ -25,9 +25,9 @@ public class BuildDeniedListExecutor extends BaseCommandExecutor<AutoMod> {
 		String totalNames = (new Integer(playerList.size())).toString();
 		
 		if (playerList.size() == 1){
-			plugin.messagePlayer(sender, ChatColor.BLUE + totalNames + " player is blocked:");
+			sender.sendMessage(plugin.formatMessage(ChatColor.BLUE + totalNames + " player is blocked:"));
 		}else{
-			plugin.messagePlayer(sender, ChatColor.BLUE + totalNames + " players are blocked:");
+			sender.sendMessage(plugin.formatMessage(ChatColor.BLUE + totalNames + " players are blocked:"));
 		}
 		
 		for (String playerName : playerList){
