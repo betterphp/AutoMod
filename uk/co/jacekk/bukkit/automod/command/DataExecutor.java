@@ -5,7 +5,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
+import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 public class DataExecutor extends BaseCommandExecutor<AutoMod> {
@@ -33,7 +35,14 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 			return true;
 		}
 		
+		Check checkFailed = Check.fromId(Integer.parseInt(plugin.blockedPlayers.getData(playerName)));
+		PlayerData data = plugin.playerDataManager.getPlayerData(playerName);
 		
+		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Reason: " + checkFailed.getDescription()));
+		
+		if (data != null && checkFailed != Check.CUSTOM_ADDITION){
+			
+		}
 		
 		return true;
 	}
