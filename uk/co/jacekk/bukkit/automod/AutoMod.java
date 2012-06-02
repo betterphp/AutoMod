@@ -12,6 +12,7 @@ import uk.co.jacekk.bukkit.automod.command.DataExecutor;
 import uk.co.jacekk.bukkit.automod.command.ListExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
+import uk.co.jacekk.bukkit.automod.command.VoteExecutor;
 import uk.co.jacekk.bukkit.automod.data.BanListener;
 import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
@@ -79,6 +80,7 @@ public class AutoMod extends BasePlugin {
 		}
 		
 		this.getCommand("build").setExecutor(new BuildExecutor(this));
+		this.getCommand("vote").setExecutor(new VoteExecutor(this));
 		this.getCommand("list").setExecutor(new ListExecutor(this));
 		this.getCommand("data").setExecutor(new DataExecutor(this));
 		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
