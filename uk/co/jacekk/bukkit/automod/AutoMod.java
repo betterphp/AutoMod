@@ -120,15 +120,23 @@ public class AutoMod extends BasePlugin {
 			voteData.resetAll();
 			
 			if (player != null){
-				player.sendMessage(this.formatMessage(ChatColor.RED + "Your request for build permissions has been denied"));
+				player.sendMessage(this.formatMessage(ChatColor.RED + "The only player that could vote just left, your request has been reset"));
 			}
-		}else if (voteData.totalVotes >= voteData.totalNeeded && voteData.totalYesVotes / voteData.totalVotes >= voteData.percentageNeeded){
-			this.blockedPlayers.remove(playerName);
-			this.playerDataManager.resetPlayer(playerName);
-			voteData.resetAll();
-			
-			if (player != null){
-				player.sendMessage(this.formatMessage(ChatColor.GREEN + "Your build permissions have been restored"));
+		}else if (voteData.totalVotes >= voteData.totalNeeded){
+			if (voteData.totalYesVotes / voteData.totalVotes >= voteData.percentageNeeded){
+				this.blockedPlayers.remove(playerName);
+				this.playerDataManager.resetPlayer(playerName);
+				voteData.resetAll();
+				
+				if (player != null){
+					player.sendMessage(this.formatMessage(ChatColor.GREEN + "Your build permissions have been restored"));
+				}
+			}else{
+				voteData.resetAll();
+				
+				if (player != null){
+					player.sendMessage(this.formatMessage(ChatColor.RED + "Your request for build permissions has been denied"));
+				}
 			}
 		}
 	}
