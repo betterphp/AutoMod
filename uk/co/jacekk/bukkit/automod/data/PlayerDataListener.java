@@ -135,14 +135,16 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 		
 		if (plugin.playerDataManager.gotDataFor(playerName)){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
-			Block block = event.getBlock();
 			
-			if (this.unbreakableBlocks.contains(block.getType())){
-				++playerData.unbreakableBlocksBroken;
+			Block block = event.getBlock();
+			Material type = block.getType();
+			
+			if (this.unbreakableBlocks.contains(type)){
+				playerData.addUnbreakableBlockBreak(type);
 			}else if (this.isNaturalBlock(block)){
-				++playerData.naturalBlocksBroken;
+				playerData.addNaturalBlockBreak(type);
 			}else{
-				++playerData.unnaturalBlocksBroken;
+				playerData.addUnnaturalBlockBreak(type);
 				
 				if (Permission.WATCH_LOGBLOCK.hasPermission(player) && plugin.logblock != null){
 					try{
@@ -163,7 +165,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 							BlockChange change = changes.get(0);
 							
 							if (change.type == block.getTypeId() && !change.playerName.equalsIgnoreCase(playerName)){
-								++playerData.ownedBlocksBroken;
+								playerData.addOwnedBlockBreak(type);
 							}
 						}
 					}catch (Exception e){

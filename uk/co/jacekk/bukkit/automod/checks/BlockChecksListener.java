@@ -58,7 +58,7 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 					return;
 				}
 				
-				if ((Integer) noCheatData.get("blockbreak.noswing.vl") > 300){
+				if ((Integer) noCheatData.get("blockbreak.noswing.vl") > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_NO_SWING);
 					return;
 				}

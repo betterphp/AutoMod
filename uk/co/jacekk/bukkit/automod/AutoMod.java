@@ -59,7 +59,7 @@ public class AutoMod extends BasePlugin {
 		if (this.pluginManager.isPluginEnabled("MineBans")){
 			this.pluginManager.registerEvents(new BanListener(this), this);
 		}else{
-			this.log.warn("MineBans is not available, player will not be removed from the block list when banned.");
+			this.log.warn("MineBans is not available, players will not be removed from the block list when banned.");
 		}
 		
 		this.pluginManager.registerEvents(new PlayerDataListener(this), this);

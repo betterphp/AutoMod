@@ -1,11 +1,9 @@
 package uk.co.jacekk.bukkit.automod.checks;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -30,70 +28,30 @@ import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 public class InventoryChecksListener extends BaseListener<AutoMod> {
 	
-	private HashMap<Player, ArrayList<ItemStack>> inventories;
+	private HashMap<String, HashMap<Material, Integer>> inventories;
 	
 	public InventoryChecksListener(AutoMod plugin){
 		super(plugin);
 		
-		this.inventories = new HashMap<Player, ArrayList<ItemStack>>();
+		this.inventories = new HashMap<String, HashMap<Material, Integer>>();
 	}
 	
-	private ArrayList<ItemStack> combineItemStacks(ItemStack[] items){
-		ArrayList<ItemStack> combined = new ArrayList<ItemStack>();
+	private HashMap<Material, Integer> combineItemStacks(ItemStack[] items){
+		HashMap<Material, Integer> combined = new HashMap<Material, Integer>();
 		
-		int type;
-		byte data;
-		boolean found;
+		Material type;
+		int amount;
 		
 		for (ItemStack item : items){
 			if (item != null){
-				type = item.getTypeId();
-				data = item.getData().getData();
-				found = false;
+				type = item.getType();
+				amount = item.getAmount();
 				
-				for (ItemStack smallItem : combined){
-					if (smallItem.getTypeId() == type && smallItem.getData().getData() == data){
-						smallItem.setAmount(smallItem.getAmount() + item.getAmount());
-						found = true;
-						break;
-					}
-				}
-				
-				if (found == false){
-					combined.add(new ItemStack(type, item.getAmount(), (short) 0, data));
+				if (type != Material.AIR){
+					combined.put(type, (combined.containsKey(type)) ? combined.get(type) + amount : amount);
 				}
 			}
 		}
-		
-		Collections.sort(combined, new Comparator<ItemStack>(){
-			
-			public int compare(ItemStack a, ItemStack b){
-				int aType = a.getTypeId();
-				int bType = b.getTypeId();
-				
-				if (aType < bType){
-					return -1;
-				}
-				
-				if (aType > bType){
-					return 1;
-				}
-				
-				byte aData = a.getData().getData();
-				byte bData = b.getData().getData();
-				
-				if (aData < bData){
-					return -1;
-				}
-				
-				if (aData > bData){
-					return 1;
-				}
-				
-				return 0;
-			}
-			
-		});
 		
 		return combined;
 	}
@@ -117,14 +75,12 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 			return;
 		}
 		
-		if (player.hasPermission("automod.watch.all") == false && player.hasPermission("automod.watch.chests") == false){
+		if (!Permission.WATCH_ALL.hasPermission(player) && !Permission.WATCH_CHESTS.hasPermission(player)){
 			return;
 		}
 		
 		InventoryView inventory = event.getView();
 		InventoryType type = inventory.getType();
-		
-		System.out.println(inventory.getTopInventory().getSize());
 		
 		if (Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
 			try{
@@ -154,8 +110,23 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 				e.printStackTrace();
 			}
 			
-			this.inventories.put(player, this.combineItemStacks(inventory.getTopInventory().getContents()));
+			this.inventories.put(playerName, this.combineItemStacks(inventory.getTopInventory().getContents()));
 		}
+	}
+	
+	private HashMap<Material, Integer> getInventoryDiff(HashMap<Material, Integer> before, HashMap<Material, Integer> after){
+		HashMap<Material, Integer> items = new HashMap<Material, Integer>();
+		
+		for (Entry<Material, Integer> item : before.entrySet()){
+			Material type = item.getKey();
+			int amount = item.getValue();
+			
+			int change = (after.containsKey(type)) ? after.get(type) - amount : -amount;
+			
+			items.put(type, change);
+		}
+		
+		return items;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -167,30 +138,22 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 		}
 		
 		Player player = (Player) human;
+		String playerName = player.getName();
 		
-		if (this.inventories.containsKey(player)){
-			ArrayList<ItemStack> before = new ArrayList<ItemStack>(this.inventories.get(player));
-			ArrayList<ItemStack> after = this.combineItemStacks(event.getView().getTopInventory().getContents());
+		if (this.inventories.containsKey(playerName)){
+			HashMap<Material, Integer> before = this.inventories.get(playerName);
+			HashMap<Material, Integer> after = this.combineItemStacks(event.getView().getTopInventory().getContents());
 			
-			this.inventories.remove(player);
+			HashMap<Material, Integer> diff = this.getInventoryDiff(before, after);
 			
-			if (before.size() > after.size()){
-				plugin.removeBuildFor(player, Check.INVENTORY_THEFT);
-				return;
-			}
+			this.inventories.remove(playerName);
 			
-			int type;
-			byte data;
-			
-			for (ItemStack item : before){
-				type = item.getTypeId();
-				data = item.getData().getData();
-				
-				for (ItemStack compare : after){
-					if (type == compare.getTypeId() && data == compare.getData().getData() && compare.getAmount() < item.getAmount()){
-						plugin.removeBuildFor(player, Check.INVENTORY_THEFT);
-						return;
-					}
+			for (Entry<Material, Integer> item : diff.entrySet()){
+				if (item.getValue() < 0){
+					plugin.removeBuildFor(player, Check.INVENTORY_THEFT);
+					plugin.playerDataManager.getPlayerData(playerName).setInventoryTheftItems(diff);
+					
+					return;
 				}
 			}
 		}
