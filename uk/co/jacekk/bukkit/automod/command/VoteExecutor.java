@@ -3,6 +3,7 @@ package uk.co.jacekk.bukkit.automod.command;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Permission;
@@ -49,9 +50,12 @@ public class VoteExecutor extends BaseCommandExecutor<AutoMod> {
 			++voteData.totalNoVotes;
 		}
 		
+		++voteData.totalVotes;
 		voteData.voted.add(voterName);
 		
 		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Your vote has been cast"));
+		
+		plugin.processVoteData(playerName, voteData);
 		
 		return true;
 	}

@@ -16,6 +16,7 @@ import uk.co.jacekk.bukkit.automod.data.BanListener;
 import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataManager;
+import uk.co.jacekk.bukkit.automod.vote.VoteData;
 import uk.co.jacekk.bukkit.automod.vote.VoteDataManager;
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.storage.DataStore;
@@ -108,6 +109,23 @@ public class AutoMod extends BasePlugin {
 	public void removeBuildFor(Player player, Check checkFailed){
 		this.blockedPlayers.add(player.getName(), String.valueOf(checkFailed.getId()));
 		this.notifyPlayer(player, checkFailed.getDescription());
+	}
+	
+	public void processVoteData(String playerName, VoteData voteData){
+		Player player = this.server.getPlayer(playerName);
+		
+		if (voteData.totalNeeded == 0){
+			if (player != null){
+				player.sendMessage(this.formatMessage(ChatColor.RED + "Your request for build permissions has been denied"));
+			}
+		}else if (voteData.totalVotes >= voteData.totalNeeded && voteData.totalYesVotes / voteData.totalVotes >= voteData.percentageNeeded){
+			this.blockedPlayers.remove(playerName);
+			this.playerDataManager.resetPlayer(playerName);
+			
+			if (player != null){
+				player.sendMessage(this.formatMessage(ChatColor.GREEN + "Your build permissions have been restored"));
+			}
+		}
 	}
 	
 }

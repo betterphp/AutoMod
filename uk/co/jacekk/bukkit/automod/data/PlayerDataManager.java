@@ -16,6 +16,10 @@ public class PlayerDataManager {
 		this.playerData.put(playerName.toLowerCase(), new PlayerData());
 	}
 	
+	public void resetPlayer(String playerName){
+		this.registerPlayer(playerName);
+	}
+	
 	public void unregisterPlayer(String playerName){
 		this.playerData.remove(playerName.toLowerCase());
 	}
