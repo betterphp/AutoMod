@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 
 public class TrustAllPlayersExecutor extends BaseCommandExecutor<AutoMod> {
@@ -15,12 +16,12 @@ public class TrustAllPlayersExecutor extends BaseCommandExecutor<AutoMod> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (sender.hasPermission("automod.admin.trustallplayers") == false){
+		if (!Permission.ADMIN_LIST_TRUSTED.hasPermission(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permissions to use this command."));
 			return true;
 		}
 		
-		OfflinePlayer[] playerList = plugin.getServer().getOfflinePlayers();
+		OfflinePlayer[] playerList = plugin.server.getOfflinePlayers();
 		
 		String trustedName;
 		
