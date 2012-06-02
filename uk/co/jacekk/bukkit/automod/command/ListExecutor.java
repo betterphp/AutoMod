@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
@@ -48,6 +49,14 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 			}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
 				plugin.blockedPlayers.remove(playerName);
 				
+				if (plugin.voteDataManager.gotDataFor(playerName)){
+					plugin.voteDataManager.unregisterPlayer(playerName);
+					
+					for (Player player : Permission.ADMIN_VOTE.getPlayersWith()){
+						player.sendMessage(plugin.formatMessage(ChatColor.AQUA + "The vote for " + playerName + " has been ended"));
+					}
+				}
+				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the block list"));
 			}else{
 				sender.sendMessage(plugin.formatMessage("There are " + plugin.blockedPlayers.size() + " players on the block list"));
@@ -65,6 +74,14 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 			if (option.equalsIgnoreCase("add") || option.equalsIgnoreCase("a")){
 				plugin.blockedPlayers.remove(playerName);
 				plugin.trustedPlayers.add(playerName);
+				
+				if (plugin.voteDataManager.gotDataFor(playerName)){
+					plugin.voteDataManager.unregisterPlayer(playerName);
+					
+					for (Player player : Permission.ADMIN_VOTE.getPlayersWith()){
+						player.sendMessage(plugin.formatMessage(ChatColor.AQUA + "The vote for " + playerName + " has been ended"));
+					}
+				}
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the trusted list"));
 			}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
