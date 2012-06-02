@@ -38,7 +38,7 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		int totalVotesNeeded = 0;
 		
 		for (Player voter : Permission.ADMIN_VOTE.getPlayersWith()){
-			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + playerName + " is requesting to be removed from the block list"));
+			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + playerName + " is requesting build permissions"));
 			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Should they be allowed to build again ?"));
 			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Type /vote " + playerName + " yes or /vote " + playerName + " no"));
 			
