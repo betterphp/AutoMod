@@ -43,7 +43,7 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Type /vote " + playerName + " yes or /vote " + playerName + " no"));
 			
 			if (Permission.ADMIN_DATA.hasPermission(voter)){
-				voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "You can use /data to see theit data"));
+				voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "You can use /data to see their data"));
 			}
 			
 			++totalVotesNeeded;
