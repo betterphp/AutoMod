@@ -21,6 +21,9 @@ public class PlayerData {
 	// The items a player removed from a container.
 	public HashMap<Material, Integer> inventoryTheftTypes;
 	
+	// The NoCheat violation level for the last block offence
+	public int violationLevel;
+	
 	// Some useful totals, avoid doing lots of adding.
 	public int totalBlocksBroken;
 	public int totalBlocksPlaced;
@@ -45,6 +48,8 @@ public class PlayerData {
 		this.unbreakableTypesBroken = new HashMap<Material, Integer>();
 		
 		this.inventoryTheftTypes = new HashMap<Material, Integer>();
+		
+		this.violationLevel = 0;
 		
 		this.totalBlocksBroken = 0;
 		this.totalBlocksPlaced = 0;

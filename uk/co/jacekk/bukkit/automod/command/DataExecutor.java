@@ -74,7 +74,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 				case BLOCK_BREAK_NO_SWING:
 				case BLOCK_PLACE_DIRECTION:
 				case BLOCK_PLACE_REACH:
-					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Detected by NoCheat with a violation level above 200"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "NoCheat violation level of " + data.violationLevel));
 				break;
 				
 				case INVENTORY_THEFT:

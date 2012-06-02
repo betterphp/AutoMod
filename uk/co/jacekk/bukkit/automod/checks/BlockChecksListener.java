@@ -48,18 +48,23 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 			if (Permission.WATCH_NOCHEAT.hasPermission(player) && plugin.nocheat != null){
 				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
 				
-				if ((Integer) noCheatData.get("blockbreak.direction.vl") > 200){
+				int violationLevel;
+				
+				if ((violationLevel = (Integer) noCheatData.get("blockbreak.direction.vl")) > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_DIRECTION);
+					playerData.violationLevel = violationLevel;
 					return;
 				}
 				
-				if ((Integer) noCheatData.get("blockbreak.reach.vl") > 200){
+				if ((violationLevel = (Integer) noCheatData.get("blockbreak.reach.vl")) > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_REACH);
+					playerData.violationLevel = violationLevel;
 					return;
 				}
 				
-				if ((Integer) noCheatData.get("blockbreak.noswing.vl") > 200){
+				if ((violationLevel = (Integer) noCheatData.get("blockbreak.noswing.vl")) > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_NO_SWING);
+					playerData.violationLevel = violationLevel;
 					return;
 				}
 			}
@@ -73,15 +78,20 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 		
 		if (plugin.playerDataManager.gotDataFor(playerName)){
 			if (plugin.nocheat != null){
+				PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
 				
-				if ((Integer) noCheatData.get("blockplace.direction.vl") > 200){
+				int violationLevel;
+				
+				if ((violationLevel = (Integer) noCheatData.get("blockplace.direction.vl")) > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_PLACE_DIRECTION);
+					playerData.violationLevel = violationLevel;
 					return;
 				}
 				
-				if ((Integer) noCheatData.get("blockplace.reach.vl") > 200){
+				if ((violationLevel = (Integer) noCheatData.get("blockplace.reach.vl")) > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_PLACE_REACH);
+					playerData.violationLevel = violationLevel;
 					return;
 				}
 			}
