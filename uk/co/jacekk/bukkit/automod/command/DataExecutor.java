@@ -46,26 +46,26 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 		if (data != null && checkFailed != Check.CUSTOM_ADDITION){
 			switch (checkFailed){
 				case BLOCK_BREAK_OWNED_BLOCKS:
-					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + String.valueOf(data.ownedBlocksBroken) + " of another player's blocks were broken"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + String.valueOf(data.ownedBlocksBroken) + " of another player's blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.ownedTypesBroken.entrySet()){
-						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
+						sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 				
 				case BLOCK_BREAK_UNNATURAL_BLOCKS:
-					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + String.valueOf(data.unnaturalBlocksBroken) + " unnatural blocks were broken"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + String.valueOf(data.unnaturalBlocksBroken) + " unnatural blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.unnaturalTypesBroken.entrySet()){
-						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
+						sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 				
 				case BLOCK_BREAK_UNBREAKABLE:
-					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + String.valueOf(data.unbreakableBlocksBroken) + " unbreakable blocks were broken"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + String.valueOf(data.unbreakableBlocksBroken) + " unbreakable blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.unnaturalTypesBroken.entrySet()){
-						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
+						sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 				
@@ -74,14 +74,14 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 				case BLOCK_BREAK_NO_SWING:
 				case BLOCK_PLACE_DIRECTION:
 				case BLOCK_PLACE_REACH:
-					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Detected by NoCheat with a violation level above 200"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Detected by NoCheat with a violation level above 200"));
 				break;
 				
 				case INVENTORY_THEFT:
-					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The following items were removed from a container"));
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "The following items were removed from a container"));
 					
 					for (Entry<Material, Integer> entry : data.inventoryTheftTypes.entrySet()){
-						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
+						sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 			}
