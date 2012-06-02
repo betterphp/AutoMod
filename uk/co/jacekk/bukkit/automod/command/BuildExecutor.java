@@ -30,6 +30,11 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 			return true;
 		}
 		
+		if (plugin.voteDataManager.gotDataFor(playerName)){
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You already have an open request"));
+			return true;
+		}
+		
 		int totalVotesNeeded = 0;
 		
 		for (Player voter : Permission.ADMIN_VOTE.getPlayersWith()){
