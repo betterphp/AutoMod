@@ -49,7 +49,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + String.valueOf(data.ownedBlocksBroken) + " of another player's blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.ownedTypesBroken.entrySet()){
-						sender.sendMessage(ChatColor.GREEN + "  - " + entry.getKey().name() + " - " + entry.getValue());
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 				
@@ -57,7 +57,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + String.valueOf(data.unnaturalBlocksBroken) + " unnatural blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.unnaturalTypesBroken.entrySet()){
-						sender.sendMessage(ChatColor.GREEN + "  - " + entry.getKey().name() + " - " + entry.getValue());
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 				
@@ -65,7 +65,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + String.valueOf(data.unbreakableBlocksBroken) + " unbreakable blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.unnaturalTypesBroken.entrySet()){
-						sender.sendMessage(ChatColor.GREEN + "  - " + entry.getKey().name() + " - " + entry.getValue());
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 				
@@ -81,7 +81,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 					sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The following items were removed from a container"));
 					
 					for (Entry<Material, Integer> entry : data.inventoryTheftTypes.entrySet()){
-						sender.sendMessage(ChatColor.GREEN + "  - " + entry.getKey().name() + " - " + entry.getValue());
+						sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + entry.getKey().name() + ": " + entry.getValue()));
 					}
 				break;
 			}
