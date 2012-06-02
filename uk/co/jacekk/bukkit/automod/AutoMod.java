@@ -100,11 +100,9 @@ public class AutoMod extends BasePlugin {
 		this.log.info(playerName + " just lost their build permissions");
 		this.log.info("Reason: " + reason);
 		
-		for (Player onlinePlayer : this.getServer().getOnlinePlayers()){
-			if (onlinePlayer.hasPermission("automod.vote.build")){
-				onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " " + playerName + " just lost their build permissions");
-				onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " Reason: " + reason);
-			}
+		for (Player onlinePlayer : Permission.ADMIN_VOTE.getPlayersWith()){
+			onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " " + playerName + " just lost their build permissions");
+			onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " Reason: " + reason);
 		}
 	}
 	
