@@ -53,7 +53,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				sender.sendMessage(plugin.formatMessage("There are " + plugin.blockedPlayers.size() + " players on the block list"));
 				
 				for (Entry<String, String> entry : plugin.blockedPlayers.getAll()){
-					sender.sendMessage(ChatColor.GREEN + "  - " + entry.getKey() + " - " + Check.fromId(Integer.parseInt(entry.getValue())).getDescription());
+					sender.sendMessage(ChatColor.GREEN + " " + entry.getKey() + " - " + Check.fromId(Integer.parseInt(entry.getValue())).getDescription());
 				}
 			}
 		}else if (listName.equalsIgnoreCase("trusted") || listName.equalsIgnoreCase("t")){
@@ -75,7 +75,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				sender.sendMessage(plugin.formatMessage("There are " + plugin.trustedPlayers.size() + " players on the trusted list"));
 				
 				for (String name : plugin.trustedPlayers.getAll()){
-					sender.sendMessage(ChatColor.GREEN + "  - " + name);
+					sender.sendMessage(ChatColor.GREEN + " " + name);
 				}
 			}
 		}else{
