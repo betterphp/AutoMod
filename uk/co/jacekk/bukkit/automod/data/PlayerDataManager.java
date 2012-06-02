@@ -1,10 +1,8 @@
-package uk.co.jacekk.bukkit.automod;
+package uk.co.jacekk.bukkit.automod.data;
 
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
-
-import uk.co.jacekk.bukkit.automod.data.PlayerData;
 
 public class PlayerDataManager {
 	

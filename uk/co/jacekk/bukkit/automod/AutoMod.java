@@ -15,6 +15,8 @@ import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.data.BanListener;
 import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
+import uk.co.jacekk.bukkit.automod.data.PlayerDataManager;
+import uk.co.jacekk.bukkit.automod.vote.VoteDataManager;
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.storage.DataStore;
 import uk.co.jacekk.bukkit.baseplugin.storage.ListStore;
@@ -29,6 +31,7 @@ public class AutoMod extends BasePlugin {
 	public NoCheat nocheat;
 	
 	public PlayerDataManager playerDataManager;
+	public VoteDataManager voteDataManager;
 	
 	public ListStore trustedPlayers;
 	public DataStore blockedPlayers;
@@ -49,6 +52,7 @@ public class AutoMod extends BasePlugin {
 		}
 		
 		this.playerDataManager = new PlayerDataManager();
+		this.voteDataManager = new VoteDataManager();
 		
 		this.trustedPlayers = new ListStore(new File(this.baseDirPath + File.separator + "trusted-players.txt"), false);
 		this.blockedPlayers = new DataStore(new File(this.baseDirPath + File.separator + "blocked-players.txt"), false);
