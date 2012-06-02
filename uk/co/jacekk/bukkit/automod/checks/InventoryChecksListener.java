@@ -67,7 +67,7 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 		Player player = (Player) human;
 		String playerName = player.getName();
 		
-		if (!Permission.WATCH_CHESTS.hasPermission(player)){
+		if (!Permission.WATCH_ALL.hasPermission(player) && !Permission.WATCH_CHESTS.hasPermission(player)){
 			return;
 		}
 		
@@ -75,39 +75,37 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 			return;
 		}
 		
-		if (!Permission.WATCH_ALL.hasPermission(player) && !Permission.WATCH_CHESTS.hasPermission(player)){
-			return;
-		}
-		
 		InventoryView inventory = event.getView();
 		InventoryType type = inventory.getType();
 		
 		if (Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
-			try{
-				QueryParams params = new QueryParams(plugin.logblock);
-				
-				params.loc = player.getTargetBlock(null, 10).getLocation();
-				params.world = params.loc.getWorld();
-				params.types = Arrays.asList(Material.CHEST.getId(), Material.FURNACE.getId(), Material.DISPENSER.getId());
-				params.bct = BlockChangeType.CREATED;
-				params.order = Order.DESC;
-				params.limit = 1;
-				
-				params.needType = true;
-				params.needPlayer = true;
-				
-				List<BlockChange> changes = plugin.logblock.getBlockChanges(params);
-				
-				if (changes.size() > 0){
-					BlockChange change = changes.get(0);
+			if (plugin.logblock != null){
+				try{
+					QueryParams params = new QueryParams(plugin.logblock);
 					
-					if (change.playerName.equalsIgnoreCase(player.getName())){
-						return;
+					params.loc = player.getTargetBlock(null, 10).getLocation();
+					params.world = params.loc.getWorld();
+					params.types = Arrays.asList(Material.CHEST.getId(), Material.FURNACE.getId(), Material.DISPENSER.getId());
+					params.bct = BlockChangeType.CREATED;
+					params.order = Order.DESC;
+					params.limit = 1;
+					
+					params.needType = true;
+					params.needPlayer = true;
+					
+					List<BlockChange> changes = plugin.logblock.getBlockChanges(params);
+					
+					if (changes.size() > 0){
+						BlockChange change = changes.get(0);
+						
+						if (change.playerName.equalsIgnoreCase(player.getName())){
+							return;
+						}
 					}
+				}catch (Exception e){
+					plugin.log.warn("LogBlock lookup failed.");
+					e.printStackTrace();
 				}
-			}catch (Exception e){
-				plugin.log.warn("LogBlock lookup failed.");
-				e.printStackTrace();
 			}
 			
 			this.inventories.put(playerName, this.combineItemStacks(inventory.getTopInventory().getContents()));
