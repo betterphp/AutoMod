@@ -17,10 +17,13 @@ public class DataCleanupTask extends BaseTask<AutoMod> {
 		
 		for (Entry<String, PlayerData> entry : plugin.playerDataManager.getAll()){
 			playerName = entry.getKey();
-			playerData = entry.getValue();
 			
-			if (playerData.lastQuitTime > playerData.lastJoinTime && System.currentTimeMillis() - playerData.lastQuitTime > 3600000){
-				plugin.playerDataManager.unregisterPlayer(playerName);
+			if (!plugin.blockedPlayers.contains(playerName)){
+				playerData = entry.getValue();
+				
+				if (playerData.lastQuitTime > playerData.lastJoinTime && System.currentTimeMillis() - playerData.lastQuitTime > 3600000){
+					plugin.playerDataManager.unregisterPlayer(playerName);
+				}
 			}
 		}
 	}
