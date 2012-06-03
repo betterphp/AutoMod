@@ -25,7 +25,7 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (plugin.playerDataManager.gotDataFor(playerName)){
+		if (!plugin.trustedPlayers.contains(playerName) && !plugin.blockedPlayers.contains(playerName) && plugin.playerDataManager.gotDataFor(playerName)){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 			
 			if (Permission.WATCH_ALL.hasPermission(player) || Permission.WATCH_BUILD.hasPermission(player)){
@@ -76,7 +76,7 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (plugin.playerDataManager.gotDataFor(playerName)){
+		if (!plugin.trustedPlayers.contains(playerName) && !plugin.blockedPlayers.contains(playerName) && plugin.playerDataManager.gotDataFor(playerName)){
 			if (plugin.nocheat != null){
 				PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
