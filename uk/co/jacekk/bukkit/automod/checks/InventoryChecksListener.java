@@ -56,6 +56,21 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 		return combined;
 	}
 	
+	private HashMap<Material, Integer> getInventoryDiff(HashMap<Material, Integer> before, HashMap<Material, Integer> after){
+		HashMap<Material, Integer> items = new HashMap<Material, Integer>();
+		
+		for (Entry<Material, Integer> item : before.entrySet()){
+			Material type = item.getKey();
+			int amount = item.getValue();
+			
+			int change = (after.containsKey(type)) ? after.get(type) - amount : -amount;
+			
+			items.put(type, change);
+		}
+		
+		return items;
+	}
+	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onInventoryOpen(InventoryOpenEvent event){
 		HumanEntity human = event.getPlayer();
@@ -110,21 +125,6 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 			
 			this.inventories.put(playerName, this.combineItemStacks(inventory.getTopInventory().getContents()));
 		}
-	}
-	
-	private HashMap<Material, Integer> getInventoryDiff(HashMap<Material, Integer> before, HashMap<Material, Integer> after){
-		HashMap<Material, Integer> items = new HashMap<Material, Integer>();
-		
-		for (Entry<Material, Integer> item : before.entrySet()){
-			Material type = item.getKey();
-			int amount = item.getValue();
-			
-			int change = (after.containsKey(type)) ? after.get(type) - amount : -amount;
-			
-			items.put(type, change);
-		}
-		
-		return items;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
