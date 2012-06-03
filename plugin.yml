@@ -1,5 +1,5 @@
 name: AutoMod
-version: 0.12
+version: 0.11.7
 main: uk.co.jacekk.bukkit.automod.AutoMod
 softdepend: [LogBlock, NoCheat, MineBans]
 commands:
