@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -143,7 +144,9 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 			if (this.unbreakableBlocks.contains(type)){
 				playerData.addUnbreakableBlockBreak(type);
 			}else if (this.isNaturalBlock(block)){
-				playerData.addNaturalBlockBreak(type);
+				if ((type == Material.MELON_BLOCK || type == Material.PUMPKIN) && block.getRelative(BlockFace.DOWN).getType() == Material.DIRT){
+					playerData.addNaturalBlockBreak(type);
+				}
 			}else{
 				playerData.addUnnaturalBlockBreak(type);
 				
