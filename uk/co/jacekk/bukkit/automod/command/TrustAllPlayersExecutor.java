@@ -17,7 +17,7 @@ public class TrustAllPlayersExecutor extends BaseCommandExecutor<AutoMod> {
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
 		if (!Permission.ADMIN_LIST_ALL.hasPermission(sender) && !Permission.ADMIN_LIST_TRUSTED.hasPermission(sender)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permissions to use this command."));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
 			return true;
 		}
 		
