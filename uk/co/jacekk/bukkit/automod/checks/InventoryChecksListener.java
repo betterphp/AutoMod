@@ -2,9 +2,9 @@ package uk.co.jacekk.bukkit.automod.checks;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -16,14 +16,11 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
-import de.diddiz.LogBlock.BlockChange;
-import de.diddiz.LogBlock.QueryParams;
-import de.diddiz.LogBlock.QueryParams.BlockChangeType;
-import de.diddiz.LogBlock.QueryParams.Order;
-
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
+import uk.co.jacekk.bukkit.automod.data.BlockLocation;
+import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
 public class InventoryChecksListener extends BaseListener<AutoMod> {
@@ -82,6 +79,10 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 		Player player = (Player) human;
 		String playerName = player.getName();
 		
+		if (!plugin.playerDataManager.gotDataFor(playerName)){
+			return;
+		}
+		
 		if (!Permission.WATCH_ALL.hasPermission(player) && !Permission.WATCH_CHESTS.hasPermission(player)){
 			return;
 		}
@@ -90,41 +91,22 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 			return;
 		}
 		
+		PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
+		
 		InventoryView inventory = event.getView();
 		InventoryType type = inventory.getType();
 		
-		if (Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
-			if (plugin.logblock != null){
-				try{
-					QueryParams params = new QueryParams(plugin.logblock);
-					
-					params.loc = player.getTargetBlock(null, 10).getLocation();
-					params.world = params.loc.getWorld();
-					params.types = Arrays.asList(Material.CHEST.getId(), Material.FURNACE.getId(), Material.DISPENSER.getId());
-					params.bct = BlockChangeType.CREATED;
-					params.order = Order.DESC;
-					params.limit = 1;
-					
-					params.needType = true;
-					params.needPlayer = true;
-					
-					List<BlockChange> changes = plugin.logblock.getBlockChanges(params);
-					
-					if (changes.size() > 0){
-						BlockChange change = changes.get(0);
-						
-						if (change.playerName.equalsIgnoreCase(player.getName())){
-							return;
-						}
-					}
-				}catch (Exception e){
-					plugin.log.warn("LogBlock lookup failed.");
-					e.printStackTrace();
-				}
-			}
-			
-			this.inventories.put(playerName, this.combineItemStacks(inventory.getTopInventory().getContents()));
+		if (!Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
+			return;
 		}
+		
+		Location blockLocation = player.getTargetBlock(null, 10).getLocation();
+		
+		if (playerData.containerCoords.contains(new BlockLocation(blockLocation))){
+			return;
+		}
+		
+		this.inventories.put(playerName, this.combineItemStacks(inventory.getTopInventory().getContents()));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

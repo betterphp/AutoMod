@@ -29,6 +29,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 	
 	private HashMap<Environment, ArrayList<Material>> naturalBlocks;
 	private ArrayList<Material> unbreakableBlocks;
+	private ArrayList<Material> containerBlocks;
 	
 	public PlayerDataListener(AutoMod plugin){
 		super(plugin);
@@ -90,6 +91,12 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 		this.unbreakableBlocks.add(Material.STATIONARY_WATER);
 		this.unbreakableBlocks.add(Material.LAVA);
 		this.unbreakableBlocks.add(Material.STATIONARY_LAVA);
+		
+		this.containerBlocks = new ArrayList<Material>();
+		
+		this.containerBlocks.add(Material.CHEST);
+		this.containerBlocks.add(Material.FURNACE);
+		this.containerBlocks.add(Material.DISPENSER);
 	}
 	
 	private boolean isNaturalBlock(Block block){
@@ -190,9 +197,14 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 		
 		if (plugin.playerDataManager.gotDataFor(playerName)){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
+			Block block = event.getBlock();
 			
 			++playerData.totalBlocksPlaced;
 			++playerData.totalBlockEvents;
+			
+			if (this.containerBlocks.contains(block.getType())){
+				playerData.containerCoords.add(new BlockLocation(block.getX(), block.getY(), block.getZ()));
+			}
 		}
 	}
 	

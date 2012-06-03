@@ -1,5 +1,6 @@
 package uk.co.jacekk.bukkit.automod.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -33,6 +34,9 @@ public class PlayerData {
 	public long lastJoinTime;
 	public long lastQuitTime;
 	
+	// A list of coordinates where the player has placed a container
+	public ArrayList<BlockLocation> containerCoords;
+	
 	public PlayerData(){
 		this.resetAll();
 	}
@@ -57,6 +61,8 @@ public class PlayerData {
 		
 		this.lastJoinTime = 0L;
 		this.lastQuitTime = 0L;
+		
+		this.containerCoords = new ArrayList<BlockLocation>();
 	}
 	
 	public void addNaturalBlockBreak(Material type){
