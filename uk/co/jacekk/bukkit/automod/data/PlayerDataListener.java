@@ -40,6 +40,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 		naturalBlocksNormal.add(Material.DIRT);
 		naturalBlocksNormal.add(Material.LOG);
 		naturalBlocksNormal.add(Material.LEAVES);
+		naturalBlocksNormal.add(Material.VINE);
 		naturalBlocksNormal.add(Material.LONG_GRASS);
 		naturalBlocksNormal.add(Material.RED_ROSE);
 		naturalBlocksNormal.add(Material.YELLOW_FLOWER);
