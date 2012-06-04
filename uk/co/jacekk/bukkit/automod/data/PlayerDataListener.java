@@ -188,6 +188,10 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 			
 			++playerData.totalBlocksBroken;
 			++playerData.totalBlockEvents;
+			
+			if (playerData.totalBlockEvents >= 40){
+				plugin.trustedPlayers.add(playerName);
+			}
 		}
 	}
 	
@@ -204,6 +208,10 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 			
 			if (this.containerBlocks.contains(block.getType())){
 				playerData.containerCoords.add(new BlockLocation(block.getX(), block.getY(), block.getZ()));
+			}
+			
+			if (playerData.totalBlockEvents >= 40){
+				plugin.trustedPlayers.add(playerName);
 			}
 		}
 	}
