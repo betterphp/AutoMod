@@ -34,8 +34,8 @@ public class PlayerData {
 	public long lastJoinTime;
 	public long lastQuitTime;
 	
-	// A list of coordinates where the player has placed a container
-	public ArrayList<BlockLocation> containerCoords;
+	// A list of coordinates where the player has placed blocks
+	public ArrayList<BlockLocation> placedBlocks;
 	
 	public PlayerData(){
 		this.resetAll();
@@ -62,7 +62,7 @@ public class PlayerData {
 		this.lastJoinTime = 0L;
 		this.lastQuitTime = 0L;
 		
-		this.containerCoords = new ArrayList<BlockLocation>();
+		this.placedBlocks = new ArrayList<BlockLocation>();
 	}
 	
 	public void addNaturalBlockBreak(Material type){

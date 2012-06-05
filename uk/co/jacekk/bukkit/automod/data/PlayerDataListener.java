@@ -148,49 +148,51 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 			Block block = event.getBlock();
 			Material type = block.getType();
 			
-			if (this.unbreakableBlocks.contains(type)){
-				playerData.addUnbreakableBlockBreak(type);
-			}else if (this.isNaturalBlock(block)){
-				if ((type == Material.MELON_BLOCK || type == Material.PUMPKIN) && block.getRelative(BlockFace.DOWN).getType() == Material.DIRT){
-					playerData.addNaturalBlockBreak(type);
-				}
-			}else{
-				playerData.addUnnaturalBlockBreak(type);
-				
-				if (Permission.WATCH_LOGBLOCK.hasPermission(player) && plugin.logblock != null){
-					try{
-						QueryParams params = new QueryParams(plugin.logblock);
-						
-						params.loc = block.getLocation();
-						params.world = params.loc.getWorld();
-						params.bct = BlockChangeType.CREATED;
-						params.order = Order.DESC;
-						params.limit = 1;
-						
-						params.needType = true;
-						params.needPlayer = true;
-						
-						List<BlockChange> changes = plugin.logblock.getBlockChanges(params);
-						
-						if (changes.size() > 0){
-							BlockChange change = changes.get(0);
+			if (!playerData.placedBlocks.contains(new BlockLocation(block.getX(), block.getY(), block.getZ()))){
+				if (this.unbreakableBlocks.contains(type)){
+					playerData.addUnbreakableBlockBreak(type);
+				}else if (this.isNaturalBlock(block)){
+					if ((type == Material.MELON_BLOCK || type == Material.PUMPKIN) && block.getRelative(BlockFace.DOWN).getType() == Material.DIRT){
+						playerData.addNaturalBlockBreak(type);
+					}
+				}else{
+					playerData.addUnnaturalBlockBreak(type);
+					
+					if (Permission.WATCH_LOGBLOCK.hasPermission(player) && plugin.logblock != null){
+						try{
+							QueryParams params = new QueryParams(plugin.logblock);
 							
-							if (change.type == block.getTypeId() && !change.playerName.equalsIgnoreCase(playerName)){
-								playerData.addOwnedBlockBreak(type);
+							params.loc = block.getLocation();
+							params.world = params.loc.getWorld();
+							params.bct = BlockChangeType.CREATED;
+							params.order = Order.DESC;
+							params.limit = 1;
+							
+							params.needType = true;
+							params.needPlayer = true;
+							
+							List<BlockChange> changes = plugin.logblock.getBlockChanges(params);
+							
+							if (changes.size() > 0){
+								BlockChange change = changes.get(0);
+								
+								if (change.type == block.getTypeId() && !change.playerName.equalsIgnoreCase(playerName)){
+									playerData.addOwnedBlockBreak(type);
+								}
 							}
+						}catch (Exception e){
+							plugin.log.warn("LogBlock lookup failed.");
+							e.printStackTrace();
 						}
-					}catch (Exception e){
-						plugin.log.warn("LogBlock lookup failed.");
-						e.printStackTrace();
 					}
 				}
-			}
-			
-			++playerData.totalBlocksBroken;
-			++playerData.totalBlockEvents;
-			
-			if (playerData.totalBlockEvents >= 40){
-				plugin.trustedPlayers.add(playerName);
+				
+				++playerData.totalBlocksBroken;
+				++playerData.totalBlockEvents;
+				
+				if (playerData.totalBlockEvents >= 40){
+					plugin.trustedPlayers.add(playerName);
+				}
 			}
 		}
 	}
@@ -206,9 +208,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 			++playerData.totalBlocksPlaced;
 			++playerData.totalBlockEvents;
 			
-			if (this.containerBlocks.contains(block.getType())){
-				playerData.containerCoords.add(new BlockLocation(block.getX(), block.getY(), block.getZ()));
-			}
+			playerData.placedBlocks.add(new BlockLocation(block.getX(), block.getY(), block.getZ()));
 			
 			if (playerData.totalBlockEvents >= 40){
 				plugin.trustedPlayers.add(playerName);

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -100,9 +99,7 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 			return;
 		}
 		
-		Location blockLocation = player.getTargetBlock(null, 10).getLocation();
-		
-		if (playerData.containerCoords.contains(new BlockLocation(blockLocation))){
+		if (playerData.placedBlocks.contains(new BlockLocation(player.getTargetBlock(null, 10).getLocation()))){
 			return;
 		}
 		
