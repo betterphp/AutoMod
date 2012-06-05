@@ -152,11 +152,11 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 				if (this.unbreakableBlocks.contains(type)){
 					playerData.addUnbreakableBlockBreak(type);
 				}else if (this.isNaturalBlock(block)){
-					if ((type == Material.MELON_BLOCK || type == Material.PUMPKIN) && block.getRelative(BlockFace.DOWN).getType() == Material.DIRT){
-						playerData.addNaturalBlockBreak(type);
-					}
+					playerData.addNaturalBlockBreak(type);
 				}else{
-					playerData.addUnnaturalBlockBreak(type);
+					if ((type == Material.MELON_BLOCK || type == Material.PUMPKIN) && block.getRelative(BlockFace.DOWN).getType() != Material.DIRT){
+						playerData.addUnnaturalBlockBreak(type);
+					}
 					
 					if (Permission.WATCH_LOGBLOCK.hasPermission(player) && plugin.logblock != null){
 						try{
