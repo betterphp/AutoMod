@@ -154,7 +154,11 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 				}else if (this.isNaturalBlock(block)){
 					playerData.addNaturalBlockBreak(type);
 				}else{
-					if ((type == Material.MELON_BLOCK || type == Material.PUMPKIN) && block.getRelative(BlockFace.DOWN).getType() != Material.DIRT){
+					if (type == Material.MELON_BLOCK || type == Material.PUMPKIN){
+						if (block.getRelative(BlockFace.DOWN).getType() != Material.DIRT){
+							playerData.addUnnaturalBlockBreak(type);
+						}
+					}else{
 						playerData.addUnnaturalBlockBreak(type);
 					}
 					
