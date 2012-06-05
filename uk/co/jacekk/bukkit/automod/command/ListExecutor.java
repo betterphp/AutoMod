@@ -87,7 +87,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the trusted list"));
 			}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
-				plugin.blockedPlayers.remove(playerName);
+				plugin.trustedPlayers.remove(playerName);
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the trusted list"));
 			}else{
