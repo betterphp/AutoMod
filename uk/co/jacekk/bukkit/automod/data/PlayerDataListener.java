@@ -57,6 +57,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 		naturalBlocksNormal.add(Material.CLAY);
 		naturalBlocksNormal.add(Material.STONE);
 		naturalBlocksNormal.add(Material.ICE);
+		naturalBlocksNormal.add(Material.SNOW);
 		naturalBlocksNormal.add(Material.COAL_ORE);
 		naturalBlocksNormal.add(Material.IRON_ORE);
 		naturalBlocksNormal.add(Material.GOLD_ORE);
