@@ -23,6 +23,8 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <list_name> [action] [player_name]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " trusted"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " blocked"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " trusted clear"));
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " blocked clear"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " trusted add wide_load"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " trusted removed wide_load"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " blocked add wide_load"));
