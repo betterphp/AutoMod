@@ -59,6 +59,9 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				}
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the block list"));
+			}else if (option.equalsIgnoreCase("clear") || option.equalsIgnoreCase("c")){
+				plugin.blockedPlayers.removeAll();
+				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The blocked player list has been cleared"));
 			}else{
 				sender.sendMessage(plugin.formatMessage("There are " + plugin.blockedPlayers.size() + " players on the block list"));
 				
@@ -90,6 +93,9 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				plugin.trustedPlayers.remove(playerName);
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the trusted list"));
+			}else if (option.equalsIgnoreCase("clear") || option.equalsIgnoreCase("c")){
+				plugin.trustedPlayers.removeAll();
+				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "The trusted player list has been cleared"));
 			}else{
 				sender.sendMessage(plugin.formatMessage("There are " + plugin.trustedPlayers.size() + " players on the trusted list"));
 				
