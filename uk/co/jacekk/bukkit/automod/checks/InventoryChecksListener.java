@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.BlockLocation;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
@@ -77,6 +78,10 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 		
 		Player player = (Player) human;
 		String playerName = player.getName();
+		
+		if (plugin.config.getStringList(Config.IGNORE_WORLDS).contains(player.getWorld().getName())){
+			return;
+		}
 		
 		if (!plugin.playerDataManager.gotDataFor(playerName)){
 			return;

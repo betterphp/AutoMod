@@ -22,6 +22,7 @@ import de.diddiz.LogBlock.QueryParams.BlockChangeType;
 import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 
@@ -143,7 +144,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (plugin.playerDataManager.gotDataFor(playerName)){
+		if (plugin.playerDataManager.gotDataFor(playerName) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(player.getWorld().getName())){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 			
 			Block block = event.getBlock();
@@ -204,9 +205,10 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent event){
-		String playerName = event.getPlayer().getName();
+		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
-		if (plugin.playerDataManager.gotDataFor(playerName)){
+		if (plugin.playerDataManager.gotDataFor(playerName) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(player.getWorld().getName())){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 			Block block = event.getBlock();
 			

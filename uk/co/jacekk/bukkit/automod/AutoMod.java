@@ -20,6 +20,7 @@ import uk.co.jacekk.bukkit.automod.data.PlayerDataManager;
 import uk.co.jacekk.bukkit.automod.vote.VoteData;
 import uk.co.jacekk.bukkit.automod.vote.VoteDataManager;
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.baseplugin.storage.DataStore;
 import uk.co.jacekk.bukkit.baseplugin.storage.ListStore;
 
@@ -52,6 +53,8 @@ public class AutoMod extends BasePlugin {
 		}else{
 			this.log.warn("NoCheat is not available, some checks will be skipped.");
 		}
+		
+		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.values(), this.log);
 		
 		this.playerDataManager = new PlayerDataManager();
 		this.voteDataManager = new VoteDataManager();
