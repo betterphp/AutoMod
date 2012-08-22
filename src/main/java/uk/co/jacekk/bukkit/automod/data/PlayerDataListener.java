@@ -164,7 +164,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 						playerData.addUnnaturalBlockBreak(type);
 					}
 					
-					if (Permission.WATCH_LOGBLOCK.hasPermission(player) && plugin.logblock != null){
+					if (Permission.WATCH_LOGBLOCK.has(player) && plugin.logblock != null){
 						try{
 							QueryParams params = new QueryParams(plugin.logblock);
 							

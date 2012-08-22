@@ -20,7 +20,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-		if (!Permission.ADMIN_DATA.hasPermission(sender)){
+		if (!Permission.ADMIN_DATA.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
 			return true;
 		}

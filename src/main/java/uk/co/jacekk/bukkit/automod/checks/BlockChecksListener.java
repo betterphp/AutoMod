@@ -1,7 +1,5 @@
 package uk.co.jacekk.bukkit.automod.checks;
 
-import java.util.Map;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,7 +29,7 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 		if (!plugin.trustedPlayers.contains(playerName) && !plugin.blockedPlayers.contains(playerName) && plugin.playerDataManager.gotDataFor(playerName)){
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
 			
-			if (Permission.WATCH_ALL.hasPermission(player) || Permission.WATCH_BUILD.hasPermission(player)){
+			if (Permission.WATCH_ALL.has(player) || Permission.WATCH_BUILD.has(player)){
 				if (playerData.unbreakableBlocksBroken > 2){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNBREAKABLE);
 					return;
@@ -43,12 +41,12 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 				}
 			}
 			
-			if (Permission.WATCH_LOGBLOCK.hasPermission(player) && playerData.ownedBlocksBroken > 5){
+			if (Permission.WATCH_LOGBLOCK.has(player) && playerData.ownedBlocksBroken > 5){
 				plugin.removeBuildFor(player, Check.BLOCK_BREAK_OWNED_BLOCKS);
 				return;
 			}
 			
-			if (Permission.WATCH_NOCHEAT.hasPermission(player) && plugin.nocheat != null){
+			if (Permission.WATCH_NOCHEAT.has(player) && plugin.nocheat != null){
 				BlockBreakData blockBreakData = BlockBreakData.getData(player);
 				
 				if (blockBreakData.directionVL > 200){

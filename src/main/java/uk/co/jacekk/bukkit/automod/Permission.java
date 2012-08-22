@@ -8,7 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-public enum Permission {
+import uk.co.jacekk.bukkit.baseplugin.permissions.PluginPermission;
+
+public enum Permission implements PluginPermission {
 	
 	WATCH_ALL(			"automod.watch.all",			PermissionDefault.FALSE,	"All things that griefers love to do will be watched for players with this permission"),
 	WATCH_BUILD(		"automod.watch.build",			PermissionDefault.FALSE,	"The blocks that the player places are monitored"),
@@ -36,7 +38,7 @@ public enum Permission {
 		ArrayList<Player> players = new ArrayList<Player>();
 		
 		for (Player player : Bukkit.getServer().getOnlinePlayers()){
-			if (this.hasPermission(player)){
+			if (this.has(player)){
 				players.add(player);
 			}
 		}
@@ -44,7 +46,7 @@ public enum Permission {
 		return players;
 	}
 	
-	public Boolean hasPermission(CommandSender sender){
+	public boolean has(CommandSender sender){
 		return sender.hasPermission(this.node);
 	}
 	

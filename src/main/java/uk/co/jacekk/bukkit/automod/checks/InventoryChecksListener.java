@@ -87,7 +87,7 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 			return;
 		}
 		
-		if (!Permission.WATCH_ALL.hasPermission(player) && !Permission.WATCH_CHESTS.hasPermission(player)){
+		if (!Permission.WATCH_ALL.has(player) && !Permission.WATCH_CHESTS.has(player)){
 			return;
 		}
 		

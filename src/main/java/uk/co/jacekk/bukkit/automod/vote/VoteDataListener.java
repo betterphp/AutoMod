@@ -21,7 +21,7 @@ public class VoteDataListener extends BaseListener<AutoMod> {
 	public void onPlayerQuit(PlayerQuitEvent event){
 		Player player = event.getPlayer();
 		
-		if (Permission.ADMIN_VOTE.hasPermission(player)){
+		if (Permission.ADMIN_VOTE.has(player)){
 			String playerName = player.getName();
 			
 			for (Entry<String, VoteData> entry : plugin.voteDataManager.getAll()){

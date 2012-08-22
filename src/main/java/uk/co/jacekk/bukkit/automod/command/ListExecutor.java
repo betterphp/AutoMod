@@ -38,7 +38,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 		String playerName = (args.length > 2) ? args[2] : sender.getName();
 		
 		if (listName.equalsIgnoreCase("blocked") || listName.equalsIgnoreCase("b")){
-			if (!Permission.ADMIN_LIST_ALL.hasPermission(sender) && !Permission.ADMIN_LIST_BLOCKED.hasPermission(sender)){
+			if (!Permission.ADMIN_LIST_ALL.has(sender) && !Permission.ADMIN_LIST_BLOCKED.has(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
 				return true;
 			}
@@ -72,7 +72,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				}
 			}
 		}else if (listName.equalsIgnoreCase("trusted") || listName.equalsIgnoreCase("t")){
-			if (!Permission.ADMIN_LIST_ALL.hasPermission(sender) && !Permission.ADMIN_LIST_TRUSTED.hasPermission(sender)){
+			if (!Permission.ADMIN_LIST_ALL.has(sender) && !Permission.ADMIN_LIST_TRUSTED.has(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
 				return true;
 			}
