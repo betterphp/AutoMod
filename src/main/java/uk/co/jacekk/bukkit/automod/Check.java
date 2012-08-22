@@ -10,6 +10,7 @@ public enum Check {
 	BLOCK_BREAK_DIRECTION(3,		"Breaking a block out of sight"),
 	BLOCK_BREAK_REACH(4,			"Breaking a block out of the normal reach"),
 	BLOCK_BREAK_NO_SWING(5,			"Breaking a block without arm swing"),
+	BLOCK_BREAK_FAST_BREAK(10,		"Breaking a block faster than should be possible"),
 	
 	BLOCK_PLACE_DIRECTION(6,		"Placing a block out of sight"),
 	BLOCK_PLACE_REACH(7,			"Placing a block out of the normal reach"),

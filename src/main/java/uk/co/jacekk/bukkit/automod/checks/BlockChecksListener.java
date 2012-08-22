@@ -69,6 +69,11 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 					return;
 				}
 				
+				if (blockBreakData.fastBreakVL > 200){
+					plugin.removeBuildFor(player, Check.BLOCK_BREAK_FAST_BREAK);
+					playerData.blockBreakVL = blockBreakData.fastBreakVL;
+					return;
+				}
 			}
 		}
 	}
