@@ -24,14 +24,13 @@ import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.baseplugin.storage.DataStore;
 import uk.co.jacekk.bukkit.baseplugin.storage.ListStore;
 
-import cc.co.evenprime.bukkit.nocheat.NoCheat;
-
 import de.diddiz.LogBlock.LogBlock;
+import fr.neatmonster.nocheatplus.NoCheatPlus;
 
 public class AutoMod extends BasePlugin {
 	
 	public LogBlock logblock;
-	public NoCheat nocheat;
+	public NoCheatPlus nocheat;
 	
 	public PlayerDataManager playerDataManager;
 	public VoteDataManager voteDataManager;
@@ -48,10 +47,10 @@ public class AutoMod extends BasePlugin {
 			this.log.warn("LogBlock is not available, some checks will be skipped.");
 		}
 		
-		if (this.pluginManager.isPluginEnabled("NoCheat")){
-			this.nocheat = (NoCheat) this.pluginManager.getPlugin("NoCheat");
+		if (this.pluginManager.isPluginEnabled("NoCheatPlus")){
+			this.nocheat = (NoCheatPlus) this.pluginManager.getPlugin("NoCheatPlus");
 		}else{
-			this.log.warn("NoCheat is not available, some checks will be skipped.");
+			this.log.warn("NoCheatPlus is not available, some checks will be skipped.");
 		}
 		
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.values(), this.log);

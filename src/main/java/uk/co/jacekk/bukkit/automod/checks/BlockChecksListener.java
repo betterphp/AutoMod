@@ -8,6 +8,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import fr.neatmonster.nocheatplus.checks.blockbreak.BlockBreakData;
+import fr.neatmonster.nocheatplus.checks.blockplace.BlockPlaceData;
+
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
@@ -46,25 +49,23 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 			}
 			
 			if (Permission.WATCH_NOCHEAT.hasPermission(player) && plugin.nocheat != null){
-				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
+				BlockBreakData blockBreakData = BlockBreakData.getData(player);
 				
-				int violationLevel;
-				
-				if ((violationLevel = (Integer) noCheatData.get("blockbreak.direction.vl")) > 200){
+				if (blockBreakData.directionVL > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_DIRECTION);
-					playerData.violationLevel = violationLevel;
+					playerData.blockBreakVL = blockBreakData.directionVL;
 					return;
 				}
 				
-				if ((violationLevel = (Integer) noCheatData.get("blockbreak.reach.vl")) > 200){
+				if (blockBreakData.reachVL > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_REACH);
-					playerData.violationLevel = violationLevel;
+					playerData.blockBreakVL = blockBreakData.reachVL;
 					return;
 				}
 				
-				if ((violationLevel = (Integer) noCheatData.get("blockbreak.noswing.vl")) > 200){
+				if (blockBreakData.noSwingVL > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_NO_SWING);
-					playerData.violationLevel = violationLevel;
+					playerData.blockBreakVL = blockBreakData.noSwingVL;
 					return;
 				}
 			}
@@ -79,19 +80,17 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 		if (!plugin.trustedPlayers.contains(playerName) && !plugin.blockedPlayers.contains(playerName) && plugin.playerDataManager.gotDataFor(playerName)){
 			if (plugin.nocheat != null){
 				PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
-				Map<String, Object> noCheatData = plugin.nocheat.getPlayerData(playerName);
+				BlockPlaceData blockPlaceData = BlockPlaceData.getData(player);
 				
-				int violationLevel;
-				
-				if ((violationLevel = (Integer) noCheatData.get("blockplace.direction.vl")) > 200){
+				if (blockPlaceData.directionVL > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_PLACE_DIRECTION);
-					playerData.violationLevel = violationLevel;
+					playerData.blockPlaceVL = blockPlaceData.directionVL;
 					return;
 				}
 				
-				if ((violationLevel = (Integer) noCheatData.get("blockplace.reach.vl")) > 200){
+				if (blockPlaceData.reachVL > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_PLACE_REACH);
-					playerData.violationLevel = violationLevel;
+					playerData.blockPlaceVL = blockPlaceData.reachVL;
 					return;
 				}
 			}

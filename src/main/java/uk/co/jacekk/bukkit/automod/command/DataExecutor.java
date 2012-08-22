@@ -71,10 +71,13 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 				
 				case BLOCK_BREAK_DIRECTION:
 				case BLOCK_BREAK_REACH:
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "NoCheatPlus violation level of " + data.blockBreakVL));
+				break;
+				
 				case BLOCK_BREAK_NO_SWING:
 				case BLOCK_PLACE_DIRECTION:
 				case BLOCK_PLACE_REACH:
-					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "NoCheat violation level of " + data.violationLevel));
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "NoCheatPlus violation level of " + data.blockPlaceVL));
 				break;
 				
 				case INVENTORY_THEFT:
@@ -83,6 +86,10 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 					for (Entry<Material, Integer> entry : data.inventoryTheftTypes.entrySet()){
 						sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + entry.getKey().name() + ": " + entry.getValue()));
 					}
+				break;
+				
+				default:
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "This player was manually blocked, no data is available."));
 				break;
 			}
 		}

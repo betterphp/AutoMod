@@ -55,9 +55,9 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>cc.co.evenprime.bukkit.nocheat</groupId>
-			<artifactId>NoCheat</artifactId>
-			<version>3.50</version>
+			<groupId>fr.neatmonster.nocheatplus</groupId>
+			<artifactId>NoCheatPlus</artifactId>
+			<version>3.7.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		
