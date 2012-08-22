@@ -13,6 +13,7 @@ public enum Check {
 	
 	BLOCK_PLACE_DIRECTION(6,		"Placing a block out of sight"),
 	BLOCK_PLACE_REACH(7,			"Placing a block out of the normal reach"),
+	BLOCK_PLACE_NO_SWING(9,			"Placing a block without arm swing"),
 	
 	INVENTORY_THEFT(8,				"Taking items from a container"),
 	

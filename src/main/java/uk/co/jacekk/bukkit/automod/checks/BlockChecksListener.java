@@ -68,6 +68,7 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 					playerData.blockBreakVL = blockBreakData.noSwingVL;
 					return;
 				}
+				
 			}
 		}
 	}
@@ -91,6 +92,12 @@ public class BlockChecksListener extends BaseListener<AutoMod> {
 				if (blockPlaceData.reachVL > 200){
 					plugin.removeBuildFor(player, Check.BLOCK_PLACE_REACH);
 					playerData.blockPlaceVL = blockPlaceData.reachVL;
+					return;
+				}
+				
+				if (blockPlaceData.noSwingVL > 200){
+					plugin.removeBuildFor(player, Check.BLOCK_PLACE_NO_SWING);
+					playerData.blockPlaceVL = blockPlaceData.noSwingVL;
 					return;
 				}
 			}
