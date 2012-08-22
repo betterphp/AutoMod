@@ -90,6 +90,21 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 					}
 				break;
 				
+				case INVENTORY_INSTANT_EAT:
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "NoCheatPlus violation level of " + data.inventoryVL));
+				break;
+				
+				case PVP_DIRECTION:
+				case PVP_CRITICAL:
+				case PVP_KNOCKBACK:
+				case PVP_SPEED:
+				case PVP_GODMODE:
+				case PVP_NO_SWING:
+				case PVP_INSTANT_HEAL:
+				case PVP_INSTANT_BOW:
+					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "NoCheatPlus violation level of " + data.pvpVL));
+				break;
+				
 				default:
 					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "This player was manually blocked, no data is available."));
 				break;

@@ -28,6 +28,12 @@ public class PlayerData {
 	// The NoCheat violation level for the last block place offence
 	public double blockPlaceVL;
 	
+	// The NoCheat violation level for the last PVP offence
+	public double pvpVL;
+	
+	// The NoCheat violation level for the last inventory offence
+	public double inventoryVL;
+	
 	// Some useful totals, avoid doing lots of adding.
 	public int totalBlocksBroken;
 	public int totalBlocksPlaced;
@@ -58,6 +64,8 @@ public class PlayerData {
 		
 		this.blockBreakVL = 0.0d;
 		this.blockPlaceVL = 0.0d;
+		this.pvpVL = 0.0d;
+		this.inventoryVL = 0.0d;
 		
 		this.totalBlocksBroken = 0;
 		this.totalBlocksPlaced = 0;

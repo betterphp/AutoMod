@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import uk.co.jacekk.bukkit.automod.checks.BlockChecksListener;
 import uk.co.jacekk.bukkit.automod.checks.BuildDeniedListener;
 import uk.co.jacekk.bukkit.automod.checks.InventoryChecksListener;
+import uk.co.jacekk.bukkit.automod.checks.PVPChecksListener;
 import uk.co.jacekk.bukkit.automod.command.DataExecutor;
 import uk.co.jacekk.bukkit.automod.command.ListExecutor;
 import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
@@ -74,6 +75,7 @@ public class AutoMod extends BasePlugin {
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
 		this.pluginManager.registerEvents(new InventoryChecksListener(this), this);
 		this.pluginManager.registerEvents(new BlockChecksListener(this), this);
+		this.pluginManager.registerEvents(new PVPChecksListener(this), this);
 		
 		this.scheduler.scheduleSyncRepeatingTask(this, new DataCleanupTask(this), 36000, 36000); // 30 minutes
 		

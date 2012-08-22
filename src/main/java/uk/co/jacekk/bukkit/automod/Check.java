@@ -17,6 +17,16 @@ public enum Check {
 	BLOCK_PLACE_NO_SWING(9,			"Placing a block without arm swing"),
 	
 	INVENTORY_THEFT(8,				"Taking items from a container"),
+	INVENTORY_INSTANT_EAT(19,		"Eating food too quickly"),
+	
+	PVP_DIRECTION(11,				"Attacking a player out of the line of sight"),
+	PVP_CRITICAL(12,				"Performing critical hits when not possible"),
+	PVP_KNOCKBACK(13,				"Knocking back an enemy when not possible"),
+	PVP_SPEED(14,					"Swinging a sword faster than possible"),
+	PVP_GODMODE(15,					"Attempting a godmode exploit"),
+	PVP_NO_SWING(16,				"Attacking a player without arm swing"),
+	PVP_INSTANT_HEAL(17,			"Healing too quickly"),
+	PVP_INSTANT_BOW(18,				"Shooting a bow too quickly"),
 	
 	CUSTOM_ADDITION(100,			"Added manually");
 	
