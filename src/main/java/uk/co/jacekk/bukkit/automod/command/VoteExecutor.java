@@ -31,8 +31,8 @@ public class VoteExecutor extends BaseCommandExecutor<AutoMod> {
 		String playerName = args[0];
 		String voterName = sender.getName();
 		
-		if (plugin.blockedPlayers.contains(playerName)){
-			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
+		if (plugin.blockedPlayers.contains(voterName)){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot vote while blocked"));
 			return true;
 		}
 		
