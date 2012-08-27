@@ -38,15 +38,17 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		int totalVotesNeeded = 0;
 		
 		for (Player voter : Permission.ADMIN_VOTE.getPlayersWith()){
-			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + playerName + " is requesting build permissions"));
-			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Should they be allowed to build again ?"));
-			voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Type /vote " + playerName + " yes or /vote " + playerName + " no"));
-			
-			if (Permission.ADMIN_DATA.has(voter)){
-				voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "You can use /data to see their data"));
+			if (!plugin.blockedPlayers.contains(voter.getName())){
+				voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + playerName + " is requesting build permissions"));
+				voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Should they be allowed to build again ?"));
+				voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "Type /vote " + playerName + " yes or /vote " + playerName + " no"));
+				
+				if (Permission.ADMIN_DATA.has(voter)){
+					voter.sendMessage(plugin.formatMessage(ChatColor.AQUA + "You can use /data to see their data"));
+				}
+				
+				++totalVotesNeeded;
 			}
-			
-			++totalVotesNeeded;
 		}
 		
 		if (totalVotesNeeded == 0){

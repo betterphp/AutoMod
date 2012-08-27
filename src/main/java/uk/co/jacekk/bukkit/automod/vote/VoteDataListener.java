@@ -20,10 +20,9 @@ public class VoteDataListener extends BaseListener<AutoMod> {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerQuit(PlayerQuitEvent event){
 		Player player = event.getPlayer();
+		String playerName = player.getName();
 		
-		if (Permission.ADMIN_VOTE.has(player)){
-			String playerName = player.getName();
-			
+		if (Permission.ADMIN_VOTE.has(player) && !plugin.blockedPlayers.contains(playerName)){
 			for (Entry<String, VoteData> entry : plugin.voteDataManager.getAll()){
 				VoteData voteData = entry.getValue();
 				
