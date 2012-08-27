@@ -1,7 +1,7 @@
 name: AutoMod
 version: 0.12.2
 main: uk.co.jacekk.bukkit.automod.AutoMod
-softdepend: [LogBlock, NoCheat, MineBans]
+softdepend: [LogBlock, NoCheatPlus, MineBans]
 commands:
     build:
         description: Requests build permissions to be restored
