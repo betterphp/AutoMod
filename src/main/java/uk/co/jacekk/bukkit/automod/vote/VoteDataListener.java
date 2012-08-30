@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Permission;
-import uk.co.jacekk.bukkit.baseplugin.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 
 public class VoteDataListener extends BaseListener<AutoMod> {
 	

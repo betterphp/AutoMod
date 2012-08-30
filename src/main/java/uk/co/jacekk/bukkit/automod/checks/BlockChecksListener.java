@@ -13,7 +13,7 @@ import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
-import uk.co.jacekk.bukkit.baseplugin.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 
 public class BlockChecksListener extends BaseListener<AutoMod> {
 	

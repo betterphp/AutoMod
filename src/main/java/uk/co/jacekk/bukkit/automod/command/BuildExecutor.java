@@ -1,14 +1,14 @@
 package uk.co.jacekk.bukkit.automod.command;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.vote.VoteData;
-import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 
 public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 	
@@ -16,10 +16,11 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+	@CommandHandler(names = {"build"}, description = "Requests build permissions to be restored", usage = "/build")
+	public void execute(CommandSender sender, String label, String[] args){
 		if (sender instanceof Player == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Sorry the /build command can only be used in game"));
-			return true;
+			return;
 		}
 		
 		Player player = (Player) sender;
@@ -27,12 +28,12 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		
 		if (!plugin.blockedPlayers.contains(playerName)){
 			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You already have build permission"));
-			return true;
+			return;
 		}
 		
 		if (plugin.voteDataManager.gotDataFor(playerName)){
 			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You already have an open request"));
-			return true;
+			return;
 		}
 		
 		int totalVotesNeeded = 0;
@@ -53,7 +54,7 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		
 		if (totalVotesNeeded == 0){
 			player.sendMessage(plugin.formatMessage(ChatColor.RED + "Sorry, at least 1 other player needs to be online."));
-			return true;
+			return;
 		}
 		
 		plugin.voteDataManager.registerPlayer(playerName);
@@ -63,8 +64,6 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		voteData.totalNeeded = totalVotesNeeded;
 		
 		player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Your request has been sent."));
-		
-		return true;
 	}
 	
 }

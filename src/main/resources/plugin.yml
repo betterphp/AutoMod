@@ -3,18 +3,9 @@ version: 0.12.2
 main: uk.co.jacekk.bukkit.automod.AutoMod
 softdepend: [LogBlock, NoCheatPlus, MineBans]
 commands:
-    build:
-        description: Requests build permissions to be restored
-        usage: /<command>
     vote:
         description: Used to vote on a players build request
         usage: /<command> [player_name] [yes/no]
-    list:
-        description: Manage the block and trusted player lists
-        usage: /<command>
-    data:
-        description: Prints the data that caused a player to be placed on the block list
-        usage: /<command> [player_name]
     trustallplayers:
         description: Adds all of the players that have ever been on the server to the trusted list.
         usage: /<command>

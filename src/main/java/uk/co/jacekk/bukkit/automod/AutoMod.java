@@ -11,7 +11,6 @@ import uk.co.jacekk.bukkit.automod.checks.InventoryChecksListener;
 import uk.co.jacekk.bukkit.automod.checks.PVPChecksListener;
 import uk.co.jacekk.bukkit.automod.command.DataExecutor;
 import uk.co.jacekk.bukkit.automod.command.ListExecutor;
-import uk.co.jacekk.bukkit.automod.command.TrustAllPlayersExecutor;
 import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.VoteExecutor;
 import uk.co.jacekk.bukkit.automod.data.BanListener;
@@ -83,11 +82,10 @@ public class AutoMod extends BasePlugin {
 			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
 		}
 		
-		this.getCommand("build").setExecutor(new BuildExecutor(this));
-		this.getCommand("vote").setExecutor(new VoteExecutor(this));
-		this.getCommand("list").setExecutor(new ListExecutor(this));
-		this.getCommand("data").setExecutor(new DataExecutor(this));
-		this.getCommand("trustallplayers").setExecutor(new TrustAllPlayersExecutor(this));
+		this.commandManager.registerCommandExecutor(new BuildExecutor(this));
+		this.commandManager.registerCommandExecutor(new VoteExecutor(this));
+		this.commandManager.registerCommandExecutor(new ListExecutor(this));
+		this.commandManager.registerCommandExecutor(new DataExecutor(this));
 	}
 	
 	public void onDisable(){

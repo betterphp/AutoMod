@@ -1,13 +1,13 @@
 package uk.co.jacekk.bukkit.automod.command;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.vote.VoteData;
-import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 
 public class VoteExecutor extends BaseCommandExecutor<AutoMod> {
 	
@@ -15,17 +15,18 @@ public class VoteExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+	@CommandHandler(names = {"vote"}, description = "Used to vote on a players build request", usage = "/vote [player_name] [yes/no]")
+	public void execute(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_VOTE.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
-			return true;
+			return;
 		}
 		
 		if (args.length != 2){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " [player_name] [yes/no]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load yes"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " jarifle no"));
-			return true;
+			return;
 		}
 		
 		String playerName = args[0];
@@ -33,19 +34,19 @@ public class VoteExecutor extends BaseCommandExecutor<AutoMod> {
 		
 		if (plugin.blockedPlayers.contains(voterName)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot vote while blocked"));
-			return true;
+			return;
 		}
 		
 		if (!plugin.voteDataManager.gotDataFor(playerName)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "There is no open vote for " + playerName));
-			return true;
+			return;
 		}
 		
 		VoteData voteData = plugin.voteDataManager.getPlayerVoteData(playerName);
 		
 		if (voteData.voted.contains(voterName)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You have already voted for " + playerName));
-			return true;
+			return;
 		}
 		
 		if (args[1].equalsIgnoreCase("yes") || args[1].equalsIgnoreCase("true")){
@@ -60,8 +61,6 @@ public class VoteExecutor extends BaseCommandExecutor<AutoMod> {
 		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Your vote has been cast"));
 		
 		plugin.processVoteData(playerName, voteData);
-		
-		return true;
 	}
 	
 }

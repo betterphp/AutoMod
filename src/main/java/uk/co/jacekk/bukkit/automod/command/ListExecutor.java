@@ -3,14 +3,15 @@ package uk.co.jacekk.bukkit.automod.command;
 import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
-import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 
 public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 	
@@ -18,7 +19,8 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+	@CommandHandler(names = {"list"}, description = "Manage the block and trusted player lists", usage = "/list [list_name] [action] [player_name]")
+	public void list(CommandSender sender, String label, String[] args){
 		if (args.length != 1 && args.length != 3){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <list_name> [action] [player_name]"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " trusted"));
@@ -29,7 +31,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " trusted removed wide_load"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " blocked add wide_load"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " blocked removed wide_load"));
-			return true;
+			return;
 		}
 		
 		String listName = args[0];
@@ -40,7 +42,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 		if (listName.equalsIgnoreCase("blocked") || listName.equalsIgnoreCase("b")){
 			if (!Permission.ADMIN_LIST_ALL.has(sender) && !Permission.ADMIN_LIST_BLOCKED.has(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
-				return true;
+				return;
 			}
 			
 			if (option.equalsIgnoreCase("add") || option.equalsIgnoreCase("a")){
@@ -74,7 +76,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 		}else if (listName.equalsIgnoreCase("trusted") || listName.equalsIgnoreCase("t")){
 			if (!Permission.ADMIN_LIST_ALL.has(sender) && !Permission.ADMIN_LIST_TRUSTED.has(sender)){
 				sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
-				return true;
+				return;
 			}
 			
 			if (option.equalsIgnoreCase("add") || option.equalsIgnoreCase("a")){
@@ -108,8 +110,30 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 		}else{
 			sender.sendMessage(ChatColor.RED + listName + " is a not a valid list");
 		}
+	}
+	
+	@CommandHandler(names = {"trustallplayers"}, description = "Adds all of the players that have ever been on the server to the trusted list.", usage = "/trustallplayers")
+	public void trustallplayers(CommandSender sender, String label, String[] args){
+		if (!Permission.ADMIN_LIST_ALL.has(sender) && !Permission.ADMIN_LIST_TRUSTED.has(sender)){
+			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command."));
+			return;
+		}
 		
-		return true;
+		OfflinePlayer[] playerList = plugin.server.getOfflinePlayers();
+		
+		String trustedName;
+		
+		for (OfflinePlayer trustedPlayer : playerList){
+			trustedName = trustedPlayer.getName();
+			
+			plugin.blockedPlayers.remove(trustedName);
+			
+			if (plugin.trustedPlayers.contains(trustedName) == false){
+				plugin.trustedPlayers.add(trustedName);
+			}
+		}
+		
+		sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + String.valueOf(playerList.length) + " players have been added to the trusted list."));
 	}
 	
 }

@@ -4,14 +4,14 @@ import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
-import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 
 public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 	
@@ -19,23 +19,24 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+	@CommandHandler(names = {"data"}, description = "Prints the data that caused a player to be placed on the block list", usage = "/data [player_name]")
+	public void execute(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_DATA.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
-			return true;
+			return;
 		}
 		
 		if (args.length != 1){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <player_name>"));
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Example: /" + label + " wide_load"));
-			return true;
+			return;
 		}
 		
 		String playerName = args[0];
 		
 		if (!plugin.blockedPlayers.contains(playerName)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + playerName + " was not found on the block list"));
-			return true;
+			return;
 		}
 		
 		Check checkFailed = Check.fromId(Integer.parseInt(plugin.blockedPlayers.getData(playerName)));
@@ -110,8 +111,6 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 				break;
 			}
 		}
-		
-		return true;
 	}
 	
 }

@@ -6,7 +6,7 @@ import org.bukkit.event.EventPriority;
 import com.minebans.events.PlayerBanEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
-import uk.co.jacekk.bukkit.baseplugin.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 
 public class BanListener extends BaseListener<AutoMod> {
 	
