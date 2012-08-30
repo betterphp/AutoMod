@@ -19,7 +19,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"data"}, description = "Prints the data that caused a player to be placed on the block list", usage = "/data [player_name]")
+	@CommandHandler(names = {"data"}, description = "Prints the data that caused a player to be placed on the block list", usage = "[player_name]")
 	public void execute(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_DATA.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));

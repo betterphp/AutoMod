@@ -19,7 +19,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"list"}, description = "Manage the block and trusted player lists", usage = "/list [list_name] [action] [player_name]")
+	@CommandHandler(names = {"list"}, description = "Manage the block and trusted player lists", usage = "[list_name] [action] [player_name]")
 	public void list(CommandSender sender, String label, String[] args){
 		if (args.length != 1 && args.length != 3){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Usage: /" + label + " <list_name> [action] [player_name]"));

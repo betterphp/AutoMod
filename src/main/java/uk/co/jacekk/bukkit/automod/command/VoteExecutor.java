@@ -15,7 +15,7 @@ public class VoteExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"vote"}, description = "Used to vote on a players build request", usage = "/vote [player_name] [yes/no]")
+	@CommandHandler(names = {"vote"}, description = "Used to vote on a players build request", usage = "[player_name] [yes/no]")
 	public void execute(CommandSender sender, String label, String[] args){
 		if (!Permission.ADMIN_VOTE.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));

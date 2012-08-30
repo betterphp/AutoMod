@@ -16,7 +16,7 @@ public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"build"}, description = "Requests build permissions to be restored", usage = "/build")
+	@CommandHandler(names = {"build"}, description = "Requests build permissions to be restored")
 	public void execute(CommandSender sender, String label, String[] args){
 		if (sender instanceof Player == false){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "Sorry the /build command can only be used in game"));
