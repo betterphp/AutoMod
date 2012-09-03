@@ -19,10 +19,10 @@ import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataManager;
 import uk.co.jacekk.bukkit.automod.vote.VoteData;
 import uk.co.jacekk.bukkit.automod.vote.VoteDataManager;
-import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.storage.DataStore;
-import uk.co.jacekk.bukkit.baseplugin.storage.ListStore;
+import uk.co.jacekk.bukkit.baseplugin.v1.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v1.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v1.storage.DataStore;
+import uk.co.jacekk.bukkit.baseplugin.v1.storage.ListStore;
 
 import de.diddiz.LogBlock.LogBlock;
 import fr.neatmonster.nocheatplus.NoCheatPlus;
