@@ -2,10 +2,3 @@ name: AutoMod
 version: 0.12.3
 main: uk.co.jacekk.bukkit.automod.AutoMod
 softdepend: [LogBlock, NoCheatPlus, MineBans]
-commands:
-    vote:
-        description: Used to vote on a players build request
-        usage: /<command> [player_name] [yes/no]
-    trustallplayers:
-        description: Adds all of the players that have ever been on the server to the trusted list.
-        usage: /<command>
