@@ -15,7 +15,7 @@ import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
-import uk.co.jacekk.bukkit.baseplugin.v1.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v5.event.BaseListener;
 
 public class PVPChecksListener extends BaseListener<AutoMod> {
 	
@@ -69,12 +69,6 @@ public class PVPChecksListener extends BaseListener<AutoMod> {
 					if (fightData.noSwingVL > 200){
 						plugin.removeBuildFor(player, Check.PVP_NO_SWING);
 						playerData.pvpVL = fightData.noSwingVL;
-						return;
-					}
-					
-					if (fightData.instantHealVL > 200){
-						plugin.removeBuildFor(player, Check.PVP_INSTANT_HEAL);
-						playerData.pvpVL = fightData.instantHealVL;
 						return;
 					}
 				}

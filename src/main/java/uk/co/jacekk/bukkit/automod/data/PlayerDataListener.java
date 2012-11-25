@@ -24,7 +24,7 @@ import de.diddiz.LogBlock.QueryParams.Order;
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.Permission;
-import uk.co.jacekk.bukkit.baseplugin.v1.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v5.event.BaseListener;
 
 public class PlayerDataListener extends BaseListener<AutoMod> {
 	

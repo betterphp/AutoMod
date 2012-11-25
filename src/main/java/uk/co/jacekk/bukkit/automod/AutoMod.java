@@ -19,10 +19,10 @@ import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataManager;
 import uk.co.jacekk.bukkit.automod.vote.VoteData;
 import uk.co.jacekk.bukkit.automod.vote.VoteDataManager;
-import uk.co.jacekk.bukkit.baseplugin.v1.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v1.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v1.storage.DataStore;
-import uk.co.jacekk.bukkit.baseplugin.v1.storage.ListStore;
+import uk.co.jacekk.bukkit.baseplugin.v5.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v5.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v5.storage.DataStore;
+import uk.co.jacekk.bukkit.baseplugin.v5.storage.ListStore;
 
 import de.diddiz.LogBlock.LogBlock;
 import fr.neatmonster.nocheatplus.NoCheatPlus;
@@ -53,7 +53,7 @@ public class AutoMod extends BasePlugin {
 			this.log.warn("NoCheatPlus is not available, some checks will be skipped.");
 		}
 		
-		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.values(), this.log);
+		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
 		this.playerDataManager = new PlayerDataManager();
 		this.voteDataManager = new VoteDataManager();
@@ -78,9 +78,7 @@ public class AutoMod extends BasePlugin {
 		
 		this.scheduler.scheduleSyncRepeatingTask(this, new DataCleanupTask(this), 36000, 36000); // 30 minutes
 		
-		for (Permission permission : Permission.values()){
-			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
-		}
+		this.permissionManager.registerPermissions(Permission.class);
 		
 		this.commandManager.registerCommandExecutor(new BuildExecutor(this));
 		this.commandManager.registerCommandExecutor(new VoteExecutor(this));
