@@ -1,7 +1,9 @@
 package uk.co.jacekk.bukkit.automod.data;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import com.minebans.events.PlayerBanEvent;
 
@@ -21,6 +23,17 @@ public class BanListener extends BaseListener<AutoMod> {
 		plugin.blockedPlayers.remove(playerName);
 		plugin.trustedPlayers.remove(playerName);
 		plugin.playerDataManager.unregisterPlayer(playerName);
+	}
+	
+	public void onPlayerKick(PlayerKickEvent event){
+		Player player = event.getPlayer();
+		String playerName = player.getName();
+		
+		if (player.isBanned()){
+			plugin.blockedPlayers.remove(playerName);
+			plugin.trustedPlayers.remove(playerName);
+			plugin.playerDataManager.unregisterPlayer(playerName);
+		}
 	}
 	
 }
