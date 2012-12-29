@@ -3,7 +3,7 @@ package uk.co.jacekk.bukkit.automod.data;
 import java.util.Map.Entry;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
-import uk.co.jacekk.bukkit.baseplugin.v5.scheduler.BaseTask;
+import uk.co.jacekk.bukkit.baseplugin.v7.scheduler.BaseTask;
 
 public class DataCleanupTask extends BaseTask<AutoMod> {
 	

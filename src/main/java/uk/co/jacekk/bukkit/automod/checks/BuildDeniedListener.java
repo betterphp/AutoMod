@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
-import uk.co.jacekk.bukkit.baseplugin.v5.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v7.event.BaseListener;
 
 public class BuildDeniedListener extends BaseListener<AutoMod> {
 	
