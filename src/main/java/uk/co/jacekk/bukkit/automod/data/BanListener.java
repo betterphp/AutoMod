@@ -5,10 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerKickEvent;
 
-import com.minebans.events.PlayerBanEvent;
+import com.minebans.minebans.events.PlayerBanEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
-import uk.co.jacekk.bukkit.baseplugin.v7.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v8.event.BaseListener;
 
 public class BanListener extends BaseListener<AutoMod> {
 	

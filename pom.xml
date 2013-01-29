@@ -30,42 +30,42 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>uk.co.jacekk.bukkit</groupId>
 			<artifactId>baseplugin</artifactId>
-			<version>7.0</version>
+			<version>8.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.6-R0.3</version>
+			<version>1.4.7-R0.1</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>de.diddiz.LogBlock</groupId>
-			<artifactId>LogBlock</artifactId>
-			<version>1.60</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>logblock</artifactId>
+			<version>1.70</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>fr.neatmonster.nocheatplus</groupId>
-			<artifactId>NoCheatPlus</artifactId>
-			<version>3.8.1-259</version>
+			<groupId>dev.bukkit.org.server-mods</groupId>
+			<artifactId>nocheatplus</artifactId>
+			<version>3.8.8-b301</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.minebans</groupId>
-			<artifactId>MineBans</artifactId>
-			<version>0.15-SNAPSHOT</version>
+			<artifactId>minebans</artifactId>
+			<version>0.15.2</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

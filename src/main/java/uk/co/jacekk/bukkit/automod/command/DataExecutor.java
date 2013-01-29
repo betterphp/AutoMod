@@ -10,8 +10,8 @@ import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
-import uk.co.jacekk.bukkit.baseplugin.v7.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v7.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v8.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v8.command.CommandHandler;
 
 public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 	
