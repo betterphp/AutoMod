@@ -2,7 +2,7 @@ package uk.co.jacekk.bukkit.automod;
 
 import java.util.Arrays;
 
-import uk.co.jacekk.bukkit.baseplugin.v8.config.PluginConfigKey;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.config.PluginConfigKey;
 
 public class Config {
 	

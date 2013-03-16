@@ -15,7 +15,7 @@ import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
-import uk.co.jacekk.bukkit.baseplugin.v8.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 
 public class PVPChecksListener extends BaseListener<AutoMod> {
 	

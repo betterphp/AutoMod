@@ -37,14 +37,14 @@
 		<dependency>
 			<groupId>uk.co.jacekk.bukkit</groupId>
 			<artifactId>baseplugin</artifactId>
-			<version>8.0</version>
+			<version>9.1</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.7-R0.1</version>
+			<version>1.4.7-R1.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>com.minebans</groupId>
 			<artifactId>minebans</artifactId>
-			<version>0.15.2</version>
+			<version>0.16-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
