@@ -25,6 +25,7 @@ public class BanListener extends BaseListener<AutoMod> {
 		plugin.playerDataManager.unregisterPlayer(playerName);
 	}
 	
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerKick(PlayerKickEvent event){
 		Player player = event.getPlayer();
 		String playerName = player.getName();

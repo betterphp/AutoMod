@@ -38,6 +38,7 @@ public class AutoMod extends BasePlugin {
 	public ListStore trustedPlayers;
 	public DataStore blockedPlayers;
 	
+	@Override
 	public void onEnable(){
 		super.onEnable(true);
 		
@@ -86,6 +87,7 @@ public class AutoMod extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new DataExecutor(this));
 	}
 	
+	@Override
 	public void onDisable(){
 		this.blockedPlayers.save();
 		this.trustedPlayers.save();
