@@ -1,8 +1,8 @@
 package uk.co.jacekk.bukkit.automod.data;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class PlayerDataManager {
 	
@@ -12,24 +12,18 @@ public class PlayerDataManager {
 		this.playerData = new HashMap<String, PlayerData>();
 	}
 	
-	public void registerPlayer(String playerName){
-		this.playerData.put(playerName.toLowerCase(), new PlayerData());
-	}
-	
-	public void resetPlayer(String playerName){
-		this.registerPlayer(playerName);
-	}
-	
 	public void unregisterPlayer(String playerName){
 		this.playerData.remove(playerName.toLowerCase());
 	}
 	
-	public boolean gotDataFor(String playerName){
-		return this.playerData.containsKey(playerName.toLowerCase());
-	}
-	
 	public PlayerData getPlayerData(String playerName){
-		return this.playerData.get(playerName.toLowerCase());
+		playerName = playerName.toLowerCase();
+		
+		if (!this.playerData.containsKey(playerName)){
+			this.playerData.put(playerName, new PlayerData());
+		}
+		
+		return this.playerData.get(playerName);
 	}
 	
 	@SuppressWarnings("unchecked")

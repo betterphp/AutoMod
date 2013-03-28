@@ -1,4 +1,4 @@
-package uk.co.jacekk.bukkit.automod.checks;
+package uk.co.jacekk.bukkit.automod.check;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

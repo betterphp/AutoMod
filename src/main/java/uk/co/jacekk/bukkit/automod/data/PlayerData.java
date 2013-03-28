@@ -9,10 +9,13 @@ import org.bukkit.Material;
 public class PlayerData {
 	
 	// The number of blocks a player has broken.
-	public int naturalBlocksBroken;
 	public int unnaturalBlocksBroken;
 	public int ownedBlocksBroken;
 	public int unbreakableBlocksBroken;
+	
+	// Totals
+	public int totalBlocksBroken;
+	public int totalBlocksPlaced;
 	
 	// Specific block types that the player has broken.
 	public HashMap<Material, Integer> unnaturalTypesBroken;
@@ -34,11 +37,6 @@ public class PlayerData {
 	// The NoCheat violation level for the last inventory offence
 	public double inventoryVL;
 	
-	// Some useful totals, avoid doing lots of adding.
-	public int totalBlocksBroken;
-	public int totalBlocksPlaced;
-	public int totalBlockEvents;
-	
 	// The time the player last joined or left.
 	public long lastJoinTime;
 	public long lastQuitTime;
@@ -51,10 +49,12 @@ public class PlayerData {
 	}
 	
 	public void resetAll(){
-		this.naturalBlocksBroken = 0;
 		this.unnaturalBlocksBroken = 0;
 		this.ownedBlocksBroken = 0;
 		this.unnaturalBlocksBroken = 0;
+		
+		this.totalBlocksBroken = 0;
+		this.totalBlocksPlaced = 0;
 		
 		this.unnaturalTypesBroken = new HashMap<Material, Integer>();
 		this.ownedTypesBroken = new HashMap<Material, Integer>();
@@ -67,18 +67,10 @@ public class PlayerData {
 		this.pvpVL = 0.0d;
 		this.inventoryVL = 0.0d;
 		
-		this.totalBlocksBroken = 0;
-		this.totalBlocksPlaced = 0;
-		this.totalBlockEvents = 0;
-		
 		this.lastJoinTime = 0L;
 		this.lastQuitTime = 0L;
 		
 		this.placedBlocks = new ArrayList<BlockLocation>();
-	}
-	
-	public void addNaturalBlockBreak(Material type){
-		++this.naturalBlocksBroken;
 	}
 	
 	public void addUnnaturalBlockBreak(Material type){

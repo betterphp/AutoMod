@@ -1,4 +1,4 @@
-package uk.co.jacekk.bukkit.automod.checks;
+package uk.co.jacekk.bukkit.automod.check.player;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,17 +17,15 @@ import org.bukkit.inventory.ItemStack;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
-import uk.co.jacekk.bukkit.automod.Config;
-import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.data.BlockLocation;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 
-public class InventoryChecksListener extends BaseListener<AutoMod> {
+public class InventoryTheftListener extends BaseListener<AutoMod> {
 	
 	private HashMap<String, HashMap<Material, Integer>> inventories;
 	
-	public InventoryChecksListener(AutoMod plugin){
+	public InventoryTheftListener(AutoMod plugin){
 		super(plugin);
 		
 		this.inventories = new HashMap<String, HashMap<Material, Integer>>();
@@ -70,56 +68,41 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onInventoryOpen(InventoryOpenEvent event){
-		HumanEntity human = event.getPlayer();
+		HumanEntity entity = event.getPlayer();
 		
-		if (human instanceof Player == false){
+		if (!(entity instanceof Player)){
 			return;
 		}
 		
-		Player player = (Player) human;
-		String playerName = player.getName();
+		Player player = (Player) entity;
 		
-		if (plugin.config.getStringList(Config.IGNORE_WORLDS).contains(player.getWorld().getName())){
-			return;
+		if (plugin.shouldCheck(player)){
+			PlayerData playerData = plugin.playerDataManager.getPlayerData(player.getName());
+			
+			InventoryView inventory = event.getView();
+			InventoryType type = inventory.getType();
+			
+			if (!Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
+				return;
+			}
+			
+			if (playerData.placedBlocks.contains(new BlockLocation(player.getTargetBlock(null, 10).getLocation()))){
+				return;
+			}
+			
+			this.inventories.put(player.getName(), this.combineItemStacks(inventory.getTopInventory().getContents()));
 		}
-		
-		if (!plugin.playerDataManager.gotDataFor(playerName)){
-			return;
-		}
-		
-		if (!Permission.WATCH_ALL.has(player) && !Permission.WATCH_CHESTS.has(player)){
-			return;
-		}
-		
-		if (plugin.trustedPlayers.contains(playerName) || plugin.blockedPlayers.contains(playerName)){
-			return;
-		}
-		
-		PlayerData playerData = plugin.playerDataManager.getPlayerData(playerName);
-		
-		InventoryView inventory = event.getView();
-		InventoryType type = inventory.getType();
-		
-		if (!Arrays.asList(InventoryType.CHEST, InventoryType.FURNACE, InventoryType.DISPENSER).contains(type)){
-			return;
-		}
-		
-		if (playerData.placedBlocks.contains(new BlockLocation(player.getTargetBlock(null, 10).getLocation()))){
-			return;
-		}
-		
-		this.inventories.put(playerName, this.combineItemStacks(inventory.getTopInventory().getContents()));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onInventoryClose(InventoryCloseEvent event){
-		HumanEntity human = event.getPlayer();
+		HumanEntity entity = event.getPlayer();
 		
-		if (human instanceof Player == false){
+		if (!(entity instanceof Player)){
 			return;
 		}
 		
-		Player player = (Player) human;
+		Player player = (Player) entity;
 		String playerName = player.getName();
 		
 		if (this.inventories.containsKey(playerName)){
@@ -133,7 +116,7 @@ public class InventoryChecksListener extends BaseListener<AutoMod> {
 			for (Entry<Material, Integer> item : diff.entrySet()){
 				if (item.getValue() < 0){
 					plugin.removeBuildFor(player, Check.INVENTORY_THEFT);
-					plugin.playerDataManager.getPlayerData(playerName).setInventoryTheftItems(diff);
+					plugin.playerDataManager.getPlayerData(player.getName()).setInventoryTheftItems(diff);
 					
 					return;
 				}

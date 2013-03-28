@@ -52,7 +52,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the block list"));
 			}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
 				plugin.blockedPlayers.remove(playerName);
-				plugin.playerDataManager.resetPlayer(playerName);
+				plugin.playerDataManager.unregisterPlayer(playerName);
 				
 				if (plugin.voteDataManager.gotDataFor(playerName)){
 					plugin.voteDataManager.unregisterPlayer(playerName);
@@ -81,7 +81,7 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 			
 			if (option.equalsIgnoreCase("add") || option.equalsIgnoreCase("a")){
 				plugin.blockedPlayers.remove(playerName);
-				plugin.playerDataManager.resetPlayer(playerName);
+				plugin.playerDataManager.unregisterPlayer(playerName);
 				plugin.trustedPlayers.add(playerName);
 				
 				if (plugin.voteDataManager.gotDataFor(playerName)){

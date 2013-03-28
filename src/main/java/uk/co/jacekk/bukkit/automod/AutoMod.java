@@ -5,15 +5,11 @@ import java.io.File;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.automod.checks.BlockChecksListener;
-import uk.co.jacekk.bukkit.automod.checks.BuildDeniedListener;
-import uk.co.jacekk.bukkit.automod.checks.InventoryChecksListener;
-import uk.co.jacekk.bukkit.automod.checks.PVPChecksListener;
+import uk.co.jacekk.bukkit.automod.check.BuildDeniedListener;
+import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.DataExecutor;
 import uk.co.jacekk.bukkit.automod.command.ListExecutor;
-import uk.co.jacekk.bukkit.automod.command.BuildExecutor;
 import uk.co.jacekk.bukkit.automod.command.VoteExecutor;
-import uk.co.jacekk.bukkit.automod.data.BanListener;
 import uk.co.jacekk.bukkit.automod.data.DataCleanupTask;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataListener;
 import uk.co.jacekk.bukkit.automod.data.PlayerDataManager;
@@ -24,13 +20,7 @@ import uk.co.jacekk.bukkit.baseplugin.v9_1.config.PluginConfig;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.storage.DataStore;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.storage.ListStore;
 
-import de.diddiz.LogBlock.LogBlock;
-import fr.neatmonster.nocheatplus.NoCheatPlus;
-
 public class AutoMod extends BasePlugin {
-	
-	public LogBlock logblock;
-	public NoCheatPlus nocheat;
 	
 	public PlayerDataManager playerDataManager;
 	public VoteDataManager voteDataManager;
@@ -41,18 +31,6 @@ public class AutoMod extends BasePlugin {
 	@Override
 	public void onEnable(){
 		super.onEnable(true);
-		
-		if (this.pluginManager.isPluginEnabled("LogBlock")){
-			this.logblock = (LogBlock) this.pluginManager.getPlugin("LogBlock");
-		}else{
-			this.log.warn("LogBlock is not available, some checks will be skipped.");
-		}
-		
-		if (this.pluginManager.isPluginEnabled("NoCheatPlus")){
-			this.nocheat = (NoCheatPlus) this.pluginManager.getPlugin("NoCheatPlus");
-		}else{
-			this.log.warn("NoCheatPlus is not available, some checks will be skipped.");
-		}
 		
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
@@ -65,21 +43,29 @@ public class AutoMod extends BasePlugin {
 		this.trustedPlayers.load();
 		this.blockedPlayers.load();
 		
-		if (this.pluginManager.isPluginEnabled("MineBans")){
-			this.pluginManager.registerEvents(new BanListener(this), this);
-		}else{
-			this.log.warn("MineBans is not available, players will not be removed from the block list when banned.");
-		}
+		this.permissionManager.registerPermissions(Permission.class);
 		
 		this.pluginManager.registerEvents(new PlayerDataListener(this), this);
 		this.pluginManager.registerEvents(new BuildDeniedListener(this), this);
-		this.pluginManager.registerEvents(new InventoryChecksListener(this), this);
-		this.pluginManager.registerEvents(new BlockChecksListener(this), this);
-		this.pluginManager.registerEvents(new PVPChecksListener(this), this);
+		
+		check: for (Check check : Check.values()){
+			if (!check.isVirtual() && this.config.getBoolean(check.getEnabledConfigKey())){
+				for (String pluginName : check.getRequiredPlugins()){
+					if (!this.pluginManager.isPluginEnabled(pluginName)){
+						this.log.warn("The check '" + check.name() + "' could not be enabled, " + pluginName + " was not found.");
+						continue check;
+					}
+				}
+				
+				try{
+					this.pluginManager.registerEvents(check.getListenerClass().getConstructor(AutoMod.class).newInstance(this), this);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		this.scheduler.scheduleSyncRepeatingTask(this, new DataCleanupTask(this), 36000, 36000); // 30 minutes
-		
-		this.permissionManager.registerPermissions(Permission.class);
 		
 		this.commandManager.registerCommandExecutor(new BuildExecutor(this));
 		this.commandManager.registerCommandExecutor(new VoteExecutor(this));
@@ -91,6 +77,28 @@ public class AutoMod extends BasePlugin {
 	public void onDisable(){
 		this.blockedPlayers.save();
 		this.trustedPlayers.save();
+	}
+	
+	public boolean shouldCheck(Player player){
+		String playerName = player.getName();
+		
+		if (Permission.CHECK_EXEMPT.has(player)){
+			return false;
+		}
+		
+		if (this.trustedPlayers.contains(playerName)){
+			return false;
+		}
+		
+		if (this.blockedPlayers.contains(playerName)){
+			return false;
+		}
+		
+		if (this.config.getStringList(Config.IGNORE_WORLDS).contains(player.getWorld().getName())){
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public void notifyPlayer(Player player, String reason){
@@ -129,7 +137,7 @@ public class AutoMod extends BasePlugin {
 		}else if (voteData.totalVotes >= voteData.totalNeeded){
 			if (voteData.totalYesVotes / voteData.totalVotes >= voteData.percentageNeeded){
 				this.blockedPlayers.remove(playerName);
-				this.playerDataManager.resetPlayer(playerName);
+				this.playerDataManager.unregisterPlayer(playerName);
 				
 				if (player != null){
 					player.sendMessage(this.formatMessage(ChatColor.GREEN + "Your build permissions have been restored"));

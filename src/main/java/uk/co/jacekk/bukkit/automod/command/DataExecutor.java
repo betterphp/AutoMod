@@ -46,7 +46,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 		
 		if (data != null && checkFailed != Check.CUSTOM_ADDITION){
 			switch (checkFailed){
-				case BLOCK_BREAK_OWNED_BLOCKS:
+				case BLOCK_BREAK_OWNED:
 					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + String.valueOf(data.ownedBlocksBroken) + " of another player's blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.ownedTypesBroken.entrySet()){
@@ -54,7 +54,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 					}
 				break;
 				
-				case BLOCK_BREAK_UNNATURAL_BLOCKS:
+				case BLOCK_BREAK_UNNATURAL:
 					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + String.valueOf(data.unnaturalBlocksBroken) + " unnatural blocks were broken"));
 					
 					for (Entry<Material, Integer> entry : data.unnaturalTypesBroken.entrySet()){
@@ -101,7 +101,7 @@ public class DataExecutor extends BaseCommandExecutor<AutoMod> {
 				case PVP_SPEED:
 				case PVP_GODMODE:
 				case PVP_NO_SWING:
-				case PVP_INSTANT_HEAL:
+				case PVP_FAST_HEAL:
 				case PVP_INSTANT_BOW:
 					sender.sendMessage(plugin.formatMessage(ChatColor.AQUA + "NoCheatPlus violation level of " + data.pvpVL));
 				break;
