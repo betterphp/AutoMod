@@ -106,6 +106,10 @@ public class AutoMod extends BasePlugin {
 			onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " " + playerName + " just lost their build permissions");
 			onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " Reason: " + reason);
 		}
+		
+		for (String command : this.config.getStringList(Config.BUILD_REMOVED_COMMANDS)){
+			this.server.dispatchCommand(this.server.getConsoleSender(), command.replaceAll("%player_name%", playerName));
+		}
 	}
 	
 	public void removeBuildFor(Player player, Check checkFailed){
