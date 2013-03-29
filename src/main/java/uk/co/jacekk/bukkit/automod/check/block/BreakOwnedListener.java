@@ -16,6 +16,7 @@ import de.diddiz.LogBlock.QueryParams.Order;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.BlockLocation;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
@@ -65,7 +66,7 @@ public class BreakOwnedListener extends BaseListener<AutoMod> {
 					e.printStackTrace();
 				}
 				
-				if (playerData.ownedBlocksBroken > 5){
+				if (playerData.ownedBlocksBroken > plugin.config.getInt(Config.CHECK_BLOCK_BREAK_OWNED_LIMIT)){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_OWNED);
 				}
 			}

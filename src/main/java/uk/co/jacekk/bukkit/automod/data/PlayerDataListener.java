@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import com.minebans.minebans.events.PlayerBanEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 
 public class PlayerDataListener extends BaseListener<AutoMod> {
@@ -20,7 +21,7 @@ public class PlayerDataListener extends BaseListener<AutoMod> {
 	}
 	
 	private void checkTrust(Player player, PlayerData playerData){
-		if (playerData.totalBlocksBroken + playerData.totalBlocksPlaced > 40){
+		if (playerData.totalBlocksBroken + playerData.totalBlocksPlaced > plugin.config.getInt(Config.TRUSTED_LIMIT)){
 			plugin.trustedPlayers.add(player.getName());
 		}
 	}

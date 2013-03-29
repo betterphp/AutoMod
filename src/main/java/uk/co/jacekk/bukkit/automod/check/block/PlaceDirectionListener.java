@@ -7,6 +7,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 import fr.neatmonster.nocheatplus.checks.blockplace.BlockPlaceData;
@@ -25,7 +26,7 @@ public class PlaceDirectionListener extends BaseListener<AutoMod> {
 			BlockPlaceData blockPlaceData = BlockPlaceData.getData(player);
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(player.getName());
 			
-			if (blockPlaceData.directionVL > 200){
+			if (blockPlaceData.directionVL > plugin.config.getInt(Config.CHECK_BLOCK_PLACE_DIRECTION_LIMIT)){
 				plugin.removeBuildFor(player, Check.BLOCK_PLACE_DIRECTION);
 				playerData.blockPlaceVL = blockPlaceData.directionVL;
 			}

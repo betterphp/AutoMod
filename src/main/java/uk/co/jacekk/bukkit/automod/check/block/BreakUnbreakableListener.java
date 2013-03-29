@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.BlockLocation;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
@@ -41,7 +42,7 @@ public class BreakUnbreakableListener extends BaseListener<AutoMod> {
 			if (this.unbreakableTypes.contains(type) && !playerData.placedBlocks.contains(new BlockLocation(block.getX(), block.getY(), block.getZ()))){
 				playerData.addUnbreakableBlockBreak(type);
 				
-				if (playerData.unbreakableBlocksBroken > 2){
+				if (playerData.unbreakableBlocksBroken > plugin.config.getInt(Config.CHECK_BLOCK_BREAK_UNBREAKABLE_LIMIT)){
 					plugin.removeBuildFor(player, Check.BLOCK_BREAK_UNBREAKABLE);
 				}
 			}

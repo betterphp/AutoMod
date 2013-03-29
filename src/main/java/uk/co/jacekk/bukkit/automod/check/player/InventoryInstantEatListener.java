@@ -8,6 +8,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 import fr.neatmonster.nocheatplus.checks.inventory.InventoryData;
@@ -32,7 +33,7 @@ public class InventoryInstantEatListener extends BaseListener<AutoMod> {
 			InventoryData inventoryData = InventoryData.getData(player);
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(player.getName());
 			
-			if (inventoryData.instantEatVL > 200){
+			if (inventoryData.instantEatVL > plugin.config.getInt(Config.CHECK_INVENTORY_INSTANT_EAT_LIMIT)){
 				plugin.removeBuildFor(player, Check.INVENTORY_INSTANT_EAT);
 				playerData.pvpVL = inventoryData.instantEatVL;
 			}

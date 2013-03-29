@@ -10,6 +10,7 @@ import fr.neatmonster.nocheatplus.checks.fight.FightData;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 
@@ -33,7 +34,7 @@ public class PVPCriticalListener extends BaseListener<AutoMod> {
 			FightData fightData = FightData.getData(player);
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(player.getName());
 			
-			if (fightData.criticalVL > 200){
+			if (fightData.criticalVL > plugin.config.getInt(Config.CHECK_PVP_CRITICAL_LIMIT)){
 				plugin.removeBuildFor(player, Check.PVP_CRITICAL);
 				playerData.pvpVL = fightData.criticalVL;
 			}

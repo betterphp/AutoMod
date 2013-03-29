@@ -8,6 +8,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import fr.neatmonster.nocheatplus.checks.blockplace.BlockPlaceData;
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 
@@ -25,7 +26,7 @@ public class PlaceReachListener extends BaseListener<AutoMod> {
 			BlockPlaceData blockPlaceData = BlockPlaceData.getData(player);
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(player.getName());
 			
-			if (blockPlaceData.reachVL > 200){
+			if (blockPlaceData.reachVL > plugin.config.getInt(Config.CHECK_BLOCK_PLACE_REACH_LIMIT)){
 				plugin.removeBuildFor(player, Check.BLOCK_PLACE_REACH);
 				playerData.blockPlaceVL = blockPlaceData.reachVL;
 			}

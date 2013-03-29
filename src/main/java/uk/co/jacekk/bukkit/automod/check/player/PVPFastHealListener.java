@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 import fr.neatmonster.nocheatplus.checks.fight.FightData;
@@ -32,7 +33,7 @@ public class PVPFastHealListener extends BaseListener<AutoMod> {
 			FightData fightData = FightData.getData(player);
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(player.getName());
 			
-			if (fightData.fastHealVL > 200){
+			if (fightData.fastHealVL > plugin.config.getInt(Config.CHECK_PVP_FAST_HEAL_LIMIT)){
 				plugin.removeBuildFor(player, Check.PVP_CRITICAL);
 				playerData.pvpVL = fightData.fastHealVL;
 			}

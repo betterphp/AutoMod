@@ -8,6 +8,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import fr.neatmonster.nocheatplus.checks.blockbreak.BlockBreakData;
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
 import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
 
@@ -25,7 +26,7 @@ public class BreakFastBreakListener extends BaseListener<AutoMod> {
 			BlockBreakData blockBreakData = BlockBreakData.getData(player);
 			PlayerData playerData = plugin.playerDataManager.getPlayerData(player.getName());
 			
-			if (blockBreakData.fastBreakVL > 200){
+			if (blockBreakData.fastBreakVL > plugin.config.getInt(Config.CHECK_BLOCK_BREAK_FAST_BREAK_LIMIT)){
 				plugin.removeBuildFor(player, Check.BLOCK_BREAK_FAST_BREAK);
 				playerData.blockBreakVL = blockBreakData.fastBreakVL;
 			}
