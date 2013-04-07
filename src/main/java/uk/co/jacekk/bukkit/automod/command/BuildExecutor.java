@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.automod.vote.VoteData;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 
 public class BuildExecutor extends BaseCommandExecutor<AutoMod> {
 	

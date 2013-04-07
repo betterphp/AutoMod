@@ -12,7 +12,7 @@ import com.minebans.minebans.events.PlayerBanEvent;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Config;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 
 public class PlayerDataListener extends BaseListener<AutoMod> {
 	

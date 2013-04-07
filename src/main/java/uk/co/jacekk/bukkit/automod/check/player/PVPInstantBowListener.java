@@ -12,7 +12,7 @@ import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
 import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.data.PlayerData;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import fr.neatmonster.nocheatplus.checks.inventory.InventoryData;
 
 public class PVPInstantBowListener extends BaseListener<AutoMod> {

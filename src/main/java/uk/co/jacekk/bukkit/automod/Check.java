@@ -25,8 +25,8 @@ import uk.co.jacekk.bukkit.automod.check.player.PVPFastHealListener;
 import uk.co.jacekk.bukkit.automod.check.player.PVPKnockbackListener;
 import uk.co.jacekk.bukkit.automod.check.player.PVPNoSwingListener;
 import uk.co.jacekk.bukkit.automod.check.player.PVPSpeedListener;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.config.PluginConfigKey;
-import uk.co.jacekk.bukkit.baseplugin.v9_1.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.config.PluginConfigKey;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 
 public enum Check {
 	
