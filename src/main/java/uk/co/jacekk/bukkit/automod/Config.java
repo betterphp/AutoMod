@@ -6,9 +6,13 @@ import uk.co.jacekk.bukkit.baseplugin.config.PluginConfigKey;
 
 public class Config {
 	
-	public static final PluginConfigKey IGNORE_WORLDS			= new PluginConfigKey("ignore-worlds", Arrays.asList("world_nether", "world_the_end"));
-	public static final PluginConfigKey BUILD_REMOVED_COMMANDS	= new PluginConfigKey("build-removed-commands", Arrays.asList());
-	public static final PluginConfigKey TRUSTED_LIMIT			= new PluginConfigKey("trusted-limit", 40);
+	public static final PluginConfigKey IGNORE_WORLDS				= new PluginConfigKey("ignore-worlds", Arrays.asList("world_nether", "world_the_end"));
+	public static final PluginConfigKey TRUSTED_LIMIT				= new PluginConfigKey("trusted-limit", 40);
+	
+	public static final PluginConfigKey BLOCKED_ADDED_COMMANDS		= new PluginConfigKey("blocked-added-commands", Arrays.asList());
+	public static final PluginConfigKey BLOCKED_REMOVED_COMMANDS	= new PluginConfigKey("blocked-removed-commands", Arrays.asList());
+	public static final PluginConfigKey TRUSTED_ADDED_COMMANDS		= new PluginConfigKey("trusted-added-commands", Arrays.asList());
+	public static final PluginConfigKey TRUSTED_REMOVED_COMMANDS	= new PluginConfigKey("trusted-removed-commands", Arrays.asList());
 	
 	public static final PluginConfigKey CHECK_BLOCK_BREAK_OWNED_ENABLED			= new PluginConfigKey("check.block-break.owned.enabled",		true);
 	public static final PluginConfigKey CHECK_BLOCK_BREAK_OWNED_LIMIT			= new PluginConfigKey("check.block-break.owned.limit",			5);

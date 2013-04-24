@@ -122,7 +122,7 @@ public class AutoMod extends BasePlugin {
 		this.blockedPlayers.add(playerName, String.valueOf(checkFailed.getId()));
 		this.notifyPlayer(player, checkFailed.getDescription());
 		
-		for (String command : this.config.getStringList(Config.BUILD_REMOVED_COMMANDS)){
+		for (String command : this.config.getStringList(Config.BLOCKED_ADDED_COMMANDS)){
 			command = command.replaceAll("%player_name%", playerName);
 			command = command.replaceAll("%check_failed%", checkFailed.name());
 			command = command.replaceAll("%check_failed_description%", checkFailed.getDescription());
@@ -144,6 +144,12 @@ public class AutoMod extends BasePlugin {
 			if (voteData.totalYesVotes / voteData.totalVotes >= voteData.percentageNeeded){
 				this.blockedPlayers.remove(playerName);
 				this.playerDataManager.unregisterPlayer(playerName);
+				
+				for (String command : this.config.getStringList(Config.BLOCKED_REMOVED_COMMANDS)){
+					command = command.replaceAll("%player_name%", playerName);
+					
+					this.server.dispatchCommand(this.server.getConsoleSender(), command);
+				}
 				
 				if (player != null){
 					player.sendMessage(this.formatMessage(ChatColor.GREEN + "Your build permissions have been restored"));

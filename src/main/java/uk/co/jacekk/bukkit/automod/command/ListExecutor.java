@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.automod.AutoMod;
 import uk.co.jacekk.bukkit.automod.Check;
+import uk.co.jacekk.bukkit.automod.Config;
 import uk.co.jacekk.bukkit.automod.Permission;
 import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
@@ -49,10 +50,24 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				plugin.trustedPlayers.remove(playerName);
 				plugin.blockedPlayers.add(playerName, String.valueOf(Check.CUSTOM_ADDITION.getId()));
 				
+				for (String command : plugin.config.getStringList(Config.BLOCKED_ADDED_COMMANDS)){
+					command = command.replaceAll("%player_name%", playerName);
+					command = command.replaceAll("%check_failed%", Check.CUSTOM_ADDITION.name());
+					command = command.replaceAll("%check_failed_description%", Check.CUSTOM_ADDITION.getDescription());
+					
+					plugin.server.dispatchCommand(plugin.server.getConsoleSender(), command);
+				}
+				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the block list"));
 			}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
 				plugin.blockedPlayers.remove(playerName);
 				plugin.playerDataManager.unregisterPlayer(playerName);
+				
+				for (String command : plugin.config.getStringList(Config.BLOCKED_REMOVED_COMMANDS)){
+					command = command.replaceAll("%player_name%", playerName);
+					
+					plugin.server.dispatchCommand(plugin.server.getConsoleSender(), command);
+				}
 				
 				if (plugin.voteDataManager.gotDataFor(playerName)){
 					plugin.voteDataManager.unregisterPlayer(playerName);
@@ -84,6 +99,12 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				plugin.playerDataManager.unregisterPlayer(playerName);
 				plugin.trustedPlayers.add(playerName);
 				
+				for (String command : plugin.config.getStringList(Config.TRUSTED_ADDED_COMMANDS)){
+					command = command.replaceAll("%player_name%", playerName);
+					
+					plugin.server.dispatchCommand(plugin.server.getConsoleSender(), command);
+				}
+				
 				if (plugin.voteDataManager.gotDataFor(playerName)){
 					plugin.voteDataManager.unregisterPlayer(playerName);
 					
@@ -95,6 +116,12 @@ public class ListExecutor extends BaseCommandExecutor<AutoMod> {
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been added to the trusted list"));
 			}else if (option.equalsIgnoreCase("remove") || option.equalsIgnoreCase("r")){
 				plugin.trustedPlayers.remove(playerName);
+				
+				for (String command : plugin.config.getStringList(Config.TRUSTED_REMOVED_COMMANDS)){
+					command = command.replaceAll("%player_name%", playerName);
+					
+					plugin.server.dispatchCommand(plugin.server.getConsoleSender(), command);
+				}
 				
 				sender.sendMessage(plugin.formatMessage(ChatColor.GREEN + playerName + " has been removed from the trusted list"));
 			}else if (option.equalsIgnoreCase("clear") || option.equalsIgnoreCase("c")){
