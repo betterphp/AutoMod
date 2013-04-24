@@ -1,5 +1,6 @@
 package uk.co.jacekk.bukkit.automod.check.block;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,53 +28,47 @@ public class BreakUnnaturalListener extends BaseListener<AutoMod> {
 	public BreakUnnaturalListener(AutoMod plugin){
 		super(plugin);
 		
-		this.nauralTypesNormal = Arrays.asList(
-			Material.GRASS,
-			Material.DIRT,
-			Material.LOG,
-			Material.LEAVES,
-			Material.VINE,
-			Material.LONG_GRASS,
-			Material.RED_ROSE,
-			Material.YELLOW_FLOWER,
-			Material.SUGAR_CANE_BLOCK,
-			Material.RED_MUSHROOM,
-			Material.BROWN_MUSHROOM,
-			Material.SAND,
-			Material.CACTUS,
-			Material.STONE,
-			Material.GRAVEL,
-			Material.CROPS,
-			Material.CLAY,
-			Material.STONE,
-			Material.ICE,
-			Material.SNOW,
-			Material.COAL_ORE,
-			Material.IRON_ORE,
-			Material.GOLD_ORE,
-			Material.LAPIS_ORE,
-			Material.REDSTONE_ORE,
-			Material.DIAMOND_ORE,
-			Material.OBSIDIAN
-		);
+		this.nauralTypesNormal = new ArrayList<Material>();
+		this.nauralTypesNormal.add(Material.GRASS);
+		this.nauralTypesNormal.add(Material.DIRT);
+		this.nauralTypesNormal.add(Material.LOG);
+		this.nauralTypesNormal.add(Material.LEAVES);
+		this.nauralTypesNormal.add(Material.VINE);
+		this.nauralTypesNormal.add(Material.LONG_GRASS);
+		this.nauralTypesNormal.add(Material.RED_ROSE);
+		this.nauralTypesNormal.add(Material.YELLOW_FLOWER);
+		this.nauralTypesNormal.add(Material.SUGAR_CANE_BLOCK);
+		this.nauralTypesNormal.add(Material.RED_MUSHROOM);
+		this.nauralTypesNormal.add(Material.BROWN_MUSHROOM);
+		this.nauralTypesNormal.add(Material.SAND);
+		this.nauralTypesNormal.add(Material.CACTUS);
+		this.nauralTypesNormal.add(Material.STONE);
+		this.nauralTypesNormal.add(Material.GRAVEL);
+		this.nauralTypesNormal.add(Material.CROPS);
+		this.nauralTypesNormal.add(Material.CLAY);
+		this.nauralTypesNormal.add(Material.STONE);
+		this.nauralTypesNormal.add(Material.ICE);
+		this.nauralTypesNormal.add(Material.SNOW);
+		this.nauralTypesNormal.add(Material.COAL_ORE);
+		this.nauralTypesNormal.add(Material.IRON_ORE);
+		this.nauralTypesNormal.add(Material.GOLD_ORE);
+		this.nauralTypesNormal.add(Material.LAPIS_ORE);
+		this.nauralTypesNormal.add(Material.REDSTONE_ORE);
+		this.nauralTypesNormal.add(Material.DIAMOND_ORE);
+		this.nauralTypesNormal.add(Material.OBSIDIAN);
 		
-		this.nauralTypesNether = Arrays.asList(
-			Material.NETHERRACK,
-			Material.GLOWSTONE,
-			Material.NETHER_BRICK,
-			Material.NETHER_FENCE,
-			Material.NETHER_BRICK_STAIRS,
-			Material.NETHER_WARTS,
-			Material.SOUL_SAND,
-			Material.BROWN_MUSHROOM,
-			Material.RED_MUSHROOM
-		);
+		if (plugin.config.getBoolean(Config.CHECK_BLOCK_BREAK_UNNATURAL_INCLUDE_FARMS)){
+			this.nauralTypesNether.add(Material.CROPS);
+			this.nauralTypesNether.add(Material.MELON);
+			this.nauralTypesNether.add(Material.PUMPKIN);
+			this.nauralTypesNether.add(Material.SUGAR_CANE_BLOCK);
+			this.nauralTypesNether.add(Material.POTATO);
+			this.nauralTypesNether.add(Material.CARROT);
+		}
 		
-		this.nauralTypesTheEnd = Arrays.asList(
-			Material.ENDER_STONE,
-			Material.OBSIDIAN,
-			Material.DRAGON_EGG
-		);
+		this.nauralTypesNether = Arrays.asList(Material.NETHERRACK, Material.GLOWSTONE, Material.NETHER_BRICK, Material.NETHER_FENCE, Material.NETHER_BRICK_STAIRS, Material.NETHER_WARTS, Material.SOUL_SAND, Material.BROWN_MUSHROOM, Material.RED_MUSHROOM);
+		
+		this.nauralTypesTheEnd = Arrays.asList(Material.ENDER_STONE, Material.OBSIDIAN, Material.DRAGON_EGG);
 	}
 	
 	private boolean isNaturalType(Environment environment, Material type){
