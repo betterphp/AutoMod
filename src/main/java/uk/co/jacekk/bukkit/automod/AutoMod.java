@@ -114,15 +114,21 @@ public class AutoMod extends BasePlugin {
 			onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " " + playerName + " just lost their build permissions");
 			onlinePlayer.sendMessage(ChatColor.BLUE + "[AutoMod]" + ChatColor.AQUA + " Reason: " + reason);
 		}
-		
-		for (String command : this.config.getStringList(Config.BUILD_REMOVED_COMMANDS)){
-			this.server.dispatchCommand(this.server.getConsoleSender(), command.replaceAll("%player_name%", playerName));
-		}
 	}
 	
 	public void removeBuildFor(Player player, Check checkFailed){
-		this.blockedPlayers.add(player.getName(), String.valueOf(checkFailed.getId()));
+		String playerName = player.getName();
+		
+		this.blockedPlayers.add(playerName, String.valueOf(checkFailed.getId()));
 		this.notifyPlayer(player, checkFailed.getDescription());
+		
+		for (String command : this.config.getStringList(Config.BUILD_REMOVED_COMMANDS)){
+			command = command.replaceAll("%player_name%", playerName);
+			command = command.replaceAll("%check_failed%", checkFailed.name());
+			command = command.replaceAll("%check_failed_description%", checkFailed.getDescription());
+			
+			this.server.dispatchCommand(this.server.getConsoleSender(), command);
+		}
 	}
 	
 	public void processVoteData(String playerName, VoteData voteData){
