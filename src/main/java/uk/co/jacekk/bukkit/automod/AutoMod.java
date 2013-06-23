@@ -71,10 +71,6 @@ public class AutoMod extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new VoteExecutor(this));
 		this.commandManager.registerCommandExecutor(new ListExecutor(this));
 		this.commandManager.registerCommandExecutor(new DataExecutor(this));
-		
-		if (this.config.getBoolean(Config.ENABLE_PROFILER)){
-			this.enableProfiling();
-		}
 	}
 	
 	@Override
